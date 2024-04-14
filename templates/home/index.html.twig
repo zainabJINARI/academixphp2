@@ -1,0 +1,203 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+
+
+
+<div class='Hero'>
+
+    <div>
+        <img src="{{ asset('/images/person.png') }}" />
+    </div>
+    <div class='hero-text'>
+        <h2>It's Time to Amplify your <span>Online Career</span></h2>
+        <p> Our aim is to revolutionize online learning by providing accessible, engaging, and high-quality educational
+            resources. Join us on a journey of knowledge and skill enhancement, empowering you to thrive in the digital
+            age.</p>
+        <div class='btns'>
+            <a href='#'>Get Started</a>
+            <a href='#'>Learn More</a>
+        </div>
+    </div>
+</div>
+<div class='Features'>
+    <div class='Feature'>
+        <i class="fa-solid fa-chalkboard-user icon"></i>
+        <h3>Expert Instractor</h3>
+        <p> AcadeMix partners with industry-leading professionals and subject matter experts to deliver top-quality
+            instruction. Benefit from their wealth of experience and knowledge as they guide you through your learning
+            journey, providing invaluable insights and expertise.</p>
+    </div>
+    <div class='Feature'>
+        <i class="fa-solid fa-graduation-cap icon"></i>
+        <h3>Personalized Learning Paths</h3>
+        <p>AcadeMix crafts customized learning journeys, curating content to match your unique interests and proficiency
+            levels, ensuring effective and efficient skill development</p>
+    </div>
+    <div class='Feature'>
+        <i class="fa-solid fa-users icon"></i>
+        <h3>Community Collaboration</h3>
+        <p>Join a vibrant community on AcadeMix to exchange ideas, seek advice, and collaborate on projects, fostering a
+            supportive environment where learners can grow together and achieve their academic and professional goals.
+        </p>
+    </div>
+</div>
+<div class='About'>
+
+    <div>
+        <img src="{{ asset('/images/people.png') }}" />
+    </div>
+    <div class='hero-text'>
+        <h2>About</h2>
+        <p>At AcadeMix, we're passionate about democratizing education and empowering learners of all backgrounds to
+            achieve their full potential. Our platform offers a diverse range of courses curated by industry experts,
+            providing flexible learning pathways to suit every individual's needs. Whether you're a novice looking to
+            explore new interests or a seasoned professional seeking to enhance your skills, AcadeMix is your trusted
+            partner in lifelong learning. Join us on a transformative journey towards personal and professional growth,
+            where knowledge knows no bounds.</p>
+
+    </div>
+
+</div>
+<div class='Testimonials'>
+    <h2>Success Stories from Students</h2>
+    <p>Explore firsthand accounts of students who have thrived with AcadeMix, unlocking new opportunities and realizing
+        their potential. Join our community and start your own success story today!</p>
+    <div class='stories'>
+        <div class='Testimonial'>
+            <div class='info-person'>
+                <div class='img-container'>
+                    <img src="{{ asset('/images/image1.png')}}" />
+                </div>
+                <h3>Hana Sandra</h3>
+            </div>
+            <div class='story'>
+                <img src="{{ asset('/images/,,.png')}}" />
+                <p class='story-person'>AcadeMix helped me transition from a novice to a proficient web developer,
+                    paving the way for a fulfilling career change.</p>
+                <p class='level'>Novice</p>
+                <p class='course-name'>Web Development Bootcamp</p>
+            </div>
+        </div>
+        <div class='Testimonial'>
+            <div class='info-person'>
+                <div class='img-container'>
+                    <img src="{{ asset('/images/image2.png')}}" />
+                </div>
+                <h3>John Smith</h3>
+            </div>
+            <div class='story'>
+                <img src="{{ asset('/images/,,.png')}}" />
+                <p class='story-person'>Thanks to AcadeMix, I mastered data analysis techniques and landed a promotion
+                    in my current job within months.</p>
+                <p class='level'>Intermediate</p>
+                <p class='course-name'>Data Analysis Fundamentals</p>
+            </div>
+        </div>
+        <div class='Testimonial'>
+            <div class='info-person'>
+                <div class='img-container'>
+                    <img src="{{ asset('/images/image3.png')}}" />
+                </div>
+                <h3>Maria Rodriguez</h3>
+            </div>
+            <div class='story'>
+                <img src="{{ asset('/images/,,.png')}}" />
+                <p class='story-person'>Completing the Advanced Marketing Strategies course on AcadeMix boosted my
+                    marketing skills and helped me launch a successful freelance business.</p>
+                <p class='level'>Advanced</p>
+                <p class='course-name'>Advanced Marketing Strategies</p>
+            </div>
+        </div>
+        <div class='Testimonial'>
+            <div class='info-person'>
+                <div class='img-container'>
+                    <img src="{{ asset('/images/image4.png')}}" />
+                </div>
+                <h3>David Lee</h3>
+            </div>
+            <div class='story'>
+                <img src="{{ asset('/images/,,.png')}}" />
+                <p class='story-person'>I enrolled in the Python Programming course on AcadeMix and within weeks, I was
+                    able to develop my own software application.</p>
+                <p class='level'>Beginner</p>
+                <p class='course-name'>Python Programming</p>
+            </div>
+        </div>
+        <div class='Testimonial'>
+            <div class='info-person'>
+                <div class='img-container'>
+                    <img src="{{ asset('/images/image5.png')}}" />
+                </div>
+                <h3>Sara Johnson</h3>
+            </div>
+            <div class='story'>
+                <img src="{{ asset('/images/,,.png')}}" />
+                <p class='story-person'>AcadeMix's Project Management Essentials course equipped me with the tools and
+                    knowledge needed to lead successful projects at work.</p>
+                <p class='level'>Intermediate</p>
+                <p class='course-name'>Project Management Essentials</p>
+            </div>
+        </div>
+        <div class='Testimonial'>
+            <div class='info-person'>
+                <div class='img-container'>
+                    <img src="{{ asset('/images/image6.png')}}" />
+                </div>
+                <h3>Ahmed Khan</h3>
+            </div>
+            <div class='story'>
+                <img src="{{ asset('/images/,,.png')}}" />
+                <p class='story-person'>After completing the Finance for Non-Finance Professionals course on AcadeMix, I
+                    gained a deeper understanding of financial concepts, enabling me to make informed business
+                    decisions.</p>
+                <p class='level'>Intermediate</p>
+                <p class='course-name'>Finance for Non-Finance Professionals</p>
+            </div>
+        </div>
+        <div class='Testimonial'>
+            <div class='info-person'>
+                <div class='img-container'>
+                    <img src="{{ asset('/images/image7.png')}}" />
+                </div>
+                <h3>Emily Brown</h3>
+            </div>
+            <div class='story'>
+                <img src="{{ asset('/images/,,.png')}}" />
+                <p class='story-person'>The Digital Marketing Fundamentals course on AcadeMix helped me kickstart my
+                    career in digital marketing, leading to exciting opportunities in the industry.</p>
+                <p class='level'>Beginner</p>
+                <p class='course-name'>Digital Marketing Fundamentals</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class='Acheivements'>
+
+    <h2>Our Acheivements</h2>
+    <p>Throughout our journey, AcadeMix has proudly empowered thousands of learners worldwide to reach their educational
+        and professional goals. From certifications earned to skills mastered, our achievements reflect our commitment
+        to excellence and the transformative impact of lifelong learning.</p>
+    <div class='achievement-list'>
+        <div key={a.id} class='achievement'>
+            <h3>50K+</h3>
+            <p>Students</p>
+        </div>
+        <div key={a.id} class='achievement'>
+            <h3>50+</h3>
+            <p>Courses</p>
+        </div>
+        <div key={a.id} class='achievement'>
+            <h3>4K+</h3>
+            <p>Classes</p>
+        </div>
+        <div key={a.id} class='achievement'>
+            <h3>10K+</h3>
+            <p>Certifications</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
