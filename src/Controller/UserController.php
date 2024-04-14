@@ -10,6 +10,7 @@ use App\Repository\ProductRepository ;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User; 
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 
 class UserController extends AbstractController
@@ -18,23 +19,24 @@ class UserController extends AbstractController
     public function index(Request $request , EntityManagerInterface $entityManager): Response
     {
         if($request->getMethod() === 'POST') {
-
             $fullname = $request->request->get('fullname');
             $email = $request->request->get('email');
             $password = $request->request->get('password');
             $role = $request->request->get('role');
-        
+            if($entityManager->getRepository(User::class)->find($email)) {
+                throw $this->createNotFoundException('Utilisateur  avec  cet email est deja existe');
+            }
             $user = new User();
             $user->setFullname($fullname);
             $user->setEmail($email);
             $user->setPassword($password);
             $user->setRole($role);
+            
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('signup');
-    
-            // return $this->redirectToRoute('courses');
+            return new RedirectResponse($this->generateUrl('all_courses'));
+
         }
         return $this->render('user/signup.html.twig', [
             'controller_name' => 'UserController',
@@ -57,11 +59,7 @@ class UserController extends AbstractController
            if (!password_verify($password, $user->getPassword())) {
                     throw new BadCredentialsException('Mot de passe incorrect');
            }
-
             return $this->redirectToRoute('dashboard');
-
-        
-        
         }
 
         return $this->render('user/login.html.twig', [
