@@ -1,0 +1,125 @@
+.courses{
+    display: flex;
+    flex-direction: column;
+    background: url('../images/backC.png');
+    text-align: center;
+    border-top-left-radius: 100px;
+    background-position:center;
+    border-top-right-radius: 100px;
+
+}
+.courses h2{
+    color: #868383;
+    font-size: 2.5rem;
+    margin: 1em 0 3em;
+    
+}
+.courses h2 span{
+    color: #A020F0;
+    position: relative;
+}
+
+.courses h2 span::after{
+    content: '';
+     width: 100%;
+     height: 90px;
+     border: solid 4px #39045A ;
+     position: absolute;
+     bottom: -90px;
+     border-color: #39045A transparent transparent transparent;
+     border-radius: 100%/50px 20px  10% 5px;
+     left: 0;
+ }
+.courses .courses-items{
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.5em;
+    padding: 1em;
+
+}
+
+.courses .courses-items > *{
+    flex: 1;
+   
+    background-color: #f5F5F5;
+    border-radius: 10px;
+    margin: auto;
+    border: 2px solid #A020F0;
+    display: flex;
+    flex-direction: column;
+   
+    flex-basis: 310px;
+    max-width: 310px;
+
+}
+.courses .courses-items > * img{
+    width: 100%;
+    height: 230px;
+    min-width: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.courses .courses-items > * > *:first-child{
+    position: relative;
+    display: flex;
+}
+
+.courses  .courses-items > * > *:first-child  > div  {
+    background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: flex;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.courses  .courses-items > * > *:first-child  > div h3{
+    margin: auto;
+    color: white;
+    text-shadow: 2px 2px 2px black;
+}
+
+.courses .course-info > *:first-child{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.3em 1em;
+}
+.courses .course-info > *:first-child > img{
+    border-radius: 300px;
+    width: 40px;
+    height: 40px;
+}
+.courses .course-info > *:first-child > div{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    font-size: 0.8rem;
+    color: #868383;
+}
+.courses .course-info > *:first-child .tutor{
+    color: darkorange;
+    font-weight: bold;
+}
+.courses .course-info > *:first-child > div > *{
+    margin: 0.1em 0;
+}
+
+.courses .course-info .detail{
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 0.8rem ;
+    font-weight: bold;
+    padding: 0.5em 1em 0;
+    color: #2D2D2D;
+}
