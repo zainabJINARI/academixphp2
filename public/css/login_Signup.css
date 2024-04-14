@@ -1,0 +1,116 @@
+.signupWrapper{
+    background-color: red;
+    display: flex;
+    height: 100%;
+    background: url('../images/back2.png');
+    padding:  0.2em 2em;
+}
+
+.loginwrapper{
+
+    height: 100vh;
+   
+}
+.signupcontainer{
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    width: 100%;
+    background-color: #ECE6F6;
+    margin: auto;
+    padding:  1em 2em ;
+    border-radius: 5px;
+position: relative;
+}
+.close{
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    
+
+}
+.closeLink{
+    background-color: transparent !important;
+    width: max-content !important;
+}
+.signupcontainer h2{
+    color: #2D2D2D;
+    font-weight: 600;
+    font-size: 1.7rem;
+    text-align: center;
+    margin: 0 auto 0.5em;
+}
+.signupcontainer form {
+    display: flex;
+    flex-direction: column;
+}
+.signupcontainer form > label{
+    color: #2D2D2D;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0.6em 0;
+}
+.signupcontainer form > input,.signupcontainer form > select{
+    background-color: white;
+    padding: 0.7em;
+    border-radius: 5px;
+    border: none;
+}
+.signupcontainer form > button{
+    color: white;
+    background-color: #A020F0;
+    padding: 0.7em;
+    border: none;
+    border-radius: 5px ;
+    margin-top: 0.8em;
+}
+.signupcontainer .or{
+    text-align: center;
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: #868383;
+    position: relative;
+    gap: 0.3em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+}
+.signupcontainer .or > span{
+flex: 1;
+height: 1px;
+background-color: #bbbbbb;
+width: 50%;
+border-radius: 10px;
+
+}
+
+.signupcontainer  > a {
+    padding: 0.7em;
+    border: none;
+    border-radius: 5px ;
+    width: 100%;
+    background-color: white;
+    text-decoration: none;
+    color: #2D2D2D;
+    margin: 0.7em 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.icon-social{
+    font-size: 1.5rem;
+}
+.facebook{
+    color: #A020F0;
+}
+
+
+.redirect{
+    color: #868383;
+    font-size: 0.8rem;
+    margin: 0.3em auto;
+    text-align: center;
+}

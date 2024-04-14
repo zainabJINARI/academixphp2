@@ -16,9 +16,11 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/login_Signup.css') }}" />
 
     </head>
     <body>
+        {% block header %}
         <header>
             <nav class="navbar navbar-expand-lg navbar-light">
                 <a class="navbar-brand d-flex flex-row align-items-center" href="#">
@@ -68,10 +70,13 @@
                 </div>
               </nav>
         </header>
+        {% endblock %}
         {% block body %}{% endblock %}
+        {% block footer %}
         <footer class="footer">
             <img src="{{ asset('images/logo.png') }}" width="60px" />
             <p>CopyRight 2024| Acedemix All Rights Are Reserved</p>
-          </footer>
+        </footer>
+        {% endblock %}
     </body>
 </html>

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+{% block header %}
+
+{% endblock %}
+{% block body %}
+<div class='signupWrapper'>
+    <div class='signupcontainer'>
+        <a href='/' class='closeLink'><i class="fa-solid fa-xmark close"></i></a>
+      
+        <h2>Sign Up</h2>
+        <form>
+            <label for='role'>Sign up as</label>
+            <select id='role' name='role'>
+                <option value='student'>
+                    Student
+                </option>
+                <option value='tutor'>
+                    Tutor
+                </option>
+            </select>
+            <label for='fullname'>Full Name</label>
+            <input type='text' id='fullname' name='fullname' placeholder='Joe Shmoe' />
+            <label for='email'>Email</label>
+            <input type='email' placeholder='JoeShmoe@gamil.com' id='email' name='email' />
+            <label for='password'>Password</label>
+            <input id='password' name='password'  placeholder='*******'/>
+            <button>Sign Up</button>
+        </form>
+        <p class='or'><span></span>OR<span></span></p>
+        <a><i class="fa-brands fa-google icon-social facebook"></i> Continue with Google</a>
+        <a><i class="fa-brands fa-facebook icon-social facebook"></i>  Continue with Facebook</a>
+        <p class='redirect'>Already Have an account ?<a to='/login' end>Log In</a></p>
+    </div>
+
+</div>
+{% endblock %}
+{% block footer %}
+{% endblock %}
