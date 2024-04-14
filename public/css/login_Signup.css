@@ -20,19 +20,18 @@
     margin: auto;
     padding:  1em 2em ;
     border-radius: 5px;
-position: relative;
+    position: relative;
 }
-.close{
-    position: absolute;
-    top: 5%;
-    right: 5%;
-    
 
+
+.signupcontainer >a.closeLink{
+    background-color: transparent;
+    color: #2D2D2D;
+    align-items: flex-end;
+    justify-content: flex-end;
+    
 }
-.closeLink{
-    background-color: transparent !important;
-    width: max-content !important;
-}
+
 .signupcontainer h2{
     color: #2D2D2D;
     font-weight: 600;

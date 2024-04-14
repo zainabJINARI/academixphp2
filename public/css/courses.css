@@ -11,8 +11,43 @@
 .courses h2{
     color: #868383;
     font-size: 2.5rem;
-    margin: 1em 0 3em;
+    margin: 1em 0 1em;
     
+}
+
+.courses ul.categories-filter{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 1300px;
+    margin: auto;
+    padding: 0;
+    gap: 2em;
+    margin-bottom: 2em;
+
+}
+.courses .categories-filter > *{
+    padding: 0.5em 1em;
+    color: #f5F5F5;
+    background-color: transparent;
+    border: 2px solid #f5F5F5;
+    background-color:  rgb(241, 189, 126);
+    
+    border-radius: 10px;
+    font-weight: bold;
+    
+    
+    
+    flex:1;
+    flex-basis: 100px;
+    width: 150px
+
+}
+.courses .categories-filter > * > a{
+    color: #f5F5F5;
+}
+.courses .categories-filter > * > a:hover{
+    text-decoration: none;
 }
 .courses h2 span{
     color: #A020F0;

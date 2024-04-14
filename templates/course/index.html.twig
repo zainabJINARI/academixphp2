@@ -9,196 +9,48 @@
     
     <div class='courses'>
         <h2>Welcome to <span> Academix Courses </span>Library</h2>
-        <ul class='categories'>
-            <li><a href='#'></a></li>
+        <ul class='categories-filter'>
+            <li><a class="categorie-filter" href="#">Tech_Industry</a></li>
+            <li><a class="categorie-filter" href="#">Languages</a></li>
+            <li><a class="categorie-filter" href="#">Medecine</a></li>
+            <li><a class="categorie-filter" href="#">History</a></li>
+            <li><a class="categorie-filter" href="#">Life_Lessons</a></li>
+            <li><a class="categorie-filter" href="#">Divers</a></li>
+
         </ul>
         <div class="courses-items">
-              
-                <div class="course-item">
+              {% for course in  courses %}
 
+              <div class="course-item">
+
+                <div>
+                    <img  src='{{ course.thumbnail }}'/>
                     <div>
-                        <img  src="{{ asset('images/courses/image4.png') }}"/>
-                        <div>
-                            <h3>Front end Career Path</h3>
-                        </div>
-                    </div>
-                    
-                    <div class="course-info">
-                            <div>
-                                <div>
-                                    <p><span>1106 Lessons</span> | <span><span>70</span>hours</span><span>30</span>mins</p>
-                                    <p>With <span class="tutor">Per Harold Borgen</span></p>
-                                </div>
-                                <img  src="{{ asset('images/image4.png') }}"/>
-
-                            </div>
-                            
-                           
-                           <div class='detail'>
-                            <p>Beginner</p>
-                            <p>Free</p>
-                           </div>
+                        <h3>{{ course.title }}</h3>
                     </div>
                 </div>
-                <div class="course-item">
-
-                    <div>
-                        <img  src="{{ asset('images/courses/image 9.png') }}"/>
-                        <div>
-                            <h3>Front end Career Path</h3>
-                        </div>
-                    </div>
-                    
-                    <div class="course-info">
+                
+                <div class="course-info">
                         <div>
                             <div>
-                                <p><span>1106 Lessons</span> | <span><span>70</span>hours</span><span>30</span>mins</p>
-                                <p>With <span class="tutor">Per Harold Borgen</span></p>
+                                <p><span>{{ course.nbrLessons }} Lessons</span> | <span><span>{{ course.nbrHours }}</span>hours</span></p>
+                                <p>With <span class="tutor">{{ course.tutor_name }}</span></p>
                             </div>
-                            <img  src="{{ asset('images/image4.png') }}"/>
+                            <img  src='{{ course.tutor_photo }}'/>
 
                         </div>
                         
                        
                        <div class='detail'>
-                        <p>Beginner</p>
+                        <p>{{ course.level }}</p>
                         <p>Free</p>
                        </div>
                 </div>
-                </div>
-                <div class="course-item">
-
-                    <div>
-                        <img  src="{{ asset('images/courses/image 10.png') }}"/>
-                        <div>
-                            <h3>Front end Career Path</h3>
-                        </div>
-                    </div>
-                    
-                    <div class="course-info">
-                        <div>
-                            <div>
-                                <p><span>1106 Lessons</span> | <span><span>70</span>hours</span><span>30</span>mins</p>
-                                <p>With <span class="tutor">Per Harold Borgen</span></p>
-                            </div>
-                            <img  src="{{ asset('images/image4.png') }}"/>
-
-                        </div>
-                        
-                       
-                       <div class='detail'>
-                        <p>Beginner</p>
-                        <p>Free</p>
-                       </div>
-                </div>
-                </div>
-                <div class="course-item">
-
-                    <div>
-                        <img  src="{{ asset('images/courses/image 11.png') }}"/>
-                        <div>
-                            <h3>Front end Career Path</h3>
-                        </div>
-                    </div>
-                    
-                    <div class="course-info">
-                        <div>
-                            <div>
-                                <p><span>1106 Lessons</span> | <span><span>70</span>hours</span><span>30</span>mins</p>
-                                <p>With <span class="tutor">Per Harold Borgen</span></p>
-                            </div>
-                            <img  src="{{ asset('images/image4.png') }}"/>
-
-                        </div>
-                        
-                       
-                       <div class='detail'>
-                        <p>Beginner</p>
-                        <p>Free</p>
-                       </div>
-                </div>
-                </div>
-                <div class="course-item">
-
-                    <div>
-                        <img  src="{{ asset('images/courses/image 12.png') }}"/>
-                        <div>
-                            <h3>Front end Career Path</h3>
-                        </div>
-                    </div>
-                    
-                    <div class="course-info">
-                        <div>
-                            <div>
-                                <p><span>1106 Lessons</span> | <span><span>70</span>hours</span><span>30</span>mins</p>
-                                <p>With <span class="tutor">Per Harold Borgen</span></p>
-                            </div>
-                            <img  src="{{ asset('images/image4.png') }}"/>
-
-                        </div>
-                        
-                       
-                       <div class='detail'>
-                        <p>Beginner</p>
-                        <p>Free</p>
-                       </div>
-                </div>
-                </div>
-                <div class="course-item">
-
-                    <div>
-                        <img  src="{{ asset('images/courses/image 13.png') }}"/>
-                        <div>
-                            <h3>Front end Career Path</h3>
-                        </div>
-                    </div>
-                    
-                    <div class="course-info">
-                        <div>
-                            <div>
-                                <p><span>1106 Lessons</span> | <span><span>70</span>hours</span><span>30</span>mins</p>
-                                <p>With <span class="tutor">Per Harold Borgen</span></p>
-                            </div>
-                            <img  src="{{ asset('images/image4.png') }}"/>
-
-                        </div>
-                        
-                       
-                       <div class='detail'>
-                        <p>Beginner</p>
-                        <p>Free</p>
-                       </div>
-                </div>
-                </div>
-                <div class="course-item">
-
-                    <div>
-                        <img  src="{{ asset('images/courses/image 14.png') }}"  class="background-image" />
-                        <div>
-                            <h3>Front end Career Path</h3>
-                        </div>
-                        
-                    </div>
-                    
-                    <div class="course-info">
-                            <div>
-                                <div>
-                                    <p><span>1106 Lessons</span> | <span><span>70</span>hours</span><span>30</span>mins</p>
-                                    <p>With <span class="tutor">Per Harold Borgen</span></p>
-                                </div>
-                                <img  src="{{ asset('images/image4.png') }}"/>
-
-                            </div>
-                            
-                           
-                           <div class='detail'>
-                            <p>Beginner</p>
-                            <p>Free</p>
-                           </div>
-                    </div>
-                </div>
-        
             </div>
+
+              {% endfor %}
+                
+        </div>
             
          
     </div>
