@@ -1,32 +1,38 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello UserController!{% endblock %}
+{% block head %}
+<script src="{{ asset('js/main.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('css/login_Signup.css') }}" />
+{% endblock %}
 {% block header %}
 
 {% endblock %}
+
+
 {% block body %}
 <div class='signupWrapper'>
     <div class='signupcontainer'>
         <a href='/' class='closeLink'><i class="fa-solid fa-xmark close"></i></a>
       
         <h2>Sign Up</h2>
-        <form>
+        <form id="signup-form">
             <label for='role'>Sign up as</label>
             <select id='role' name='role'>
                 <option value='student'>
                     Student
                 </option>
-                <option value='tutor'>
-                    Tutor
+                <option value='instructor'>
+                    Instructor
                 </option>
             </select>
             <label for='fullname'>Full Name</label>
-            <input type='text' id='fullname' name='fullname' placeholder='Joe Shmoe' />
+            <input type='text' id='fullname' name='fullname' placeholder='Joe Shmoe'  required/>
             <label for='email'>Email</label>
-            <input type='email' placeholder='JoeShmoe@gamil.com' id='email' name='email' />
+            <input type='email' placeholder='JoeShmoe@gamil.com' id='email' name='email' required/>
             <label for='password'>Password</label>
-            <input id='password' name='password'  placeholder='*******'/>
-            <button>Sign Up</button>
+            <input id='password' name='password'  placeholder='*******' required/>
+            <button type="submit">Sign Up</button>
         </form>
         <p class='or'><span></span>OR<span></span></p>
         <a><i class="fa-brands fa-google icon-social facebook"></i> Continue with Google</a>

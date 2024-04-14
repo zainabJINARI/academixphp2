@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello UserController!{% endblock %}
+{% block head %}
+    <script src="{{ asset('js/main.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/login_Signup.css') }}" />
+    {% endblock %}
 {% block header %}
 
 {% endblock %}
@@ -10,14 +14,13 @@
         <a href='/' class='closeLink'><i class="fa-solid fa-xmark close"></i></a>
       
         <h2>Welcome Back!</h2>
-        <form>
-           
-            
+        <form class="login-form">
+
             <label for='email'>Email</label>
             <input type='email' placeholder='JoeShmoe@gamil.com' id='email' name='email' />
             <label for='password'>Password</label>
             <input id='password' name='password'  placeholder='*******'/>
-            <button>LogIn</button>
+            <button type="submit">LogIn</button>
         </form>
         <p class='or'><span></span>OR<span></span></p>
         <a><i class="fa-brands fa-google icon-social facebook"></i> Continue with Google</a>
