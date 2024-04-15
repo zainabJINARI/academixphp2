@@ -46,24 +46,24 @@ class UserController extends AbstractController
     #[Route('/login', name: 'login' , methods:['GET' , 'POST'])]
     public function login(Request $request , EntityManagerInterface $entityManager): Response
     {
-
         if($request->getMethod() === 'POST' ) {
-           $email = $request->request ->get('email');
-           $password = $request->request ->get('password');
-           $user = $entityManager->getRepository(User::class)->find($email);
-
-           if (!$user) {
-            throw $this->createNotFoundException('Utilisateur non trouvé avec l\'email : ' . $email);
-           }
-
-           if (!password_verify($password, $user->getPassword())) {
-                    throw new BadCredentialsException('Mot de passe incorrect');
-           }
-            return $this->redirectToRoute('dashboard');
-        }
-
-        return $this->render('user/login.html.twig', [
-            'controller_name' => 'UserController',
-        ]);
+            $email = $request->request ->get('email');
+            $password = $request->request ->get('password');
+            $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+ 
+            if (!$user) {
+             throw $this->createNotFoundException('Utilisateur non trouvé avec l\'email : ' . $email);
+            }
+ 
+            if (!$password == $user->getPassword()) {
+                     throw new BadCredentialsException('Mot de passe incorrect');
+            }
+            return new RedirectResponse($this->generateUrl('all_courses'));
+             // return $this->redirectToRoute('dashboard');
+         }
+ 
+         return $this->render('user/login.html.twig', [
+             'controller_name' => 'UserController',
+         ]);
     }
 }
