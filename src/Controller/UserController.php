@@ -59,11 +59,13 @@ class UserController extends AbstractController
                      throw new BadCredentialsException('Mot de passe incorrect');
             }
             return new RedirectResponse($this->generateUrl('all_courses'));
-             // return $this->redirectToRoute('dashboard');
          }
  
          return $this->render('user/login.html.twig', [
              'controller_name' => 'UserController',
          ]);
+
     }
 }
+
+?>

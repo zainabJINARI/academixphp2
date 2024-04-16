@@ -47,4 +47,16 @@ class CourseController extends AbstractController
             'courses'=>$coursesData
         ]);
     }
+
+
+    #[Route('/course_details', name: 'course_details')]
+    public function details(EntityManagerInterface $entityManager,
+    CourseRepository $courseRepository): Response
+    {
+         return $this->render('course/course_details.html.twig');
+    }
 }
+
+
+
+

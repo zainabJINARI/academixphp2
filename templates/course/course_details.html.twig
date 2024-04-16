@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CourseDetailController!{% endblock %}
+
+{% block body %}
+    <section class="header-course-section">
+       <div class="right-container">
+         <h1>Learn react</h1>
+            <div class="course-info-container">
+                <img src="{{ asset('/images/image1.png') }}" width="70px">
+                <div class="course-info">
+                    <p>with <span>Bob Ziroll</span></p>
+                    <p>Course level: <span>Intermediate</span> <i class="fa-solid fa-arrow-up-short-wide"></i></p>
+                </div>
+           </div>
+           <p>The ultimate React 101 - the perfect starting point for any React beginner. 
+               Learn the basics of modern React by solving 140+ interactive coding 
+               challenges and building eight fun projects.</p>
+        </div>
+        
+        <a href="#" class="go-to-lesson-btn">Go to the Lesson</a>
+
+        <div class="left-card">
+            <p>Jump back In</p>
+            <a href="#">Go to the Lesson</a>
+            <p>Leaving course? <span>unenroll</span></p>
+            <h2>Your progress</h2>
+            <div class="progress-container">
+                <div class="progress"></div>
+            </div>
+            <p>You are <span>78%</span> on your way</p>
+        </div>    
+
+    </section>
+    <section class="modules-section">
+       <div class="right-container">
+         <h1>What's inside</h1>
+       <p>This course contains <span>177</span> lessons spread across <span>4</span> modules</p>
+        <div class="dropdown-modules">
+            <div class="select-module">
+                <div class="caret">
+                </div>
+                <h3 class="selected-lesson">Build a React info site <span>98%</span></h3>
+                <div class="module-infos">
+                   <p><span>35</span> lessons</p>
+                   <p><span>2</span> hours <span>35</span> navbarDropdownMenuLink </p>
+                </div>   
+            </div>
+
+            <ul class="menu-modules">
+                <li class="lesson">
+                   <i class="fa-solid fa-circle-play"></i>
+                   <h4>Introduction to React</h4>
+                </li>
+                
+            </ul>
+        </div>
+       </div>
+    
+    </section>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script>
+         $(window).scroll(function () {
+             if($(window).scrollTop()) {
+                 $('.header').addClass("white-header");
+             } else {
+                 $('.header').removeClass("white-header");
+             }
+         });
+    </script>
+
+    <script src=href="{{ asset('js/courses.js') }}"></script>
+    
+</html>
+
+{% endblock %}
