@@ -1,0 +1,300 @@
+.dashboard{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    background: url('../images/backD.png');
+    background-position: top;
+    
+}
+
+
+
+.dashboard > *:last-child{
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+  text-align: center;
+
+}
+
+.dashboard > *:last-child .mycourses{
+    display: flex;
+    flex-direction: row;
+    padding: 1em 2em;
+    flex-wrap: wrap;
+    text-align: start;
+}
+.dashboard > *:last-child .mycourses .progress-section{
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard > *:last-child .mycourses .progress-section > ul{
+    display: flex;
+    
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style: none;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+.dashboard h3{
+    font-weight: bold;
+    color: darkorange;
+    text-shadow: rgb(180, 180, 180) 1px 0 10px;
+}
+.dashboard > *:last-child .mycourses .progress-section > ul > *{
+    flex:1;
+    display: flex;
+    flex-direction: row;
+    /* flex-wrap: wrap; */
+    align-items: stretch;
+    justify-content: space-between;
+    flex-basis: 400px;
+    border: 2px solid rgb(145, 144, 144);
+    border-radius:  5px;
+    background-color: #ffffff;
+    flex-basis: 500px;
+    max-width: 500px;
+    
+    padding: 4px;
+}
+
+.dashboard > *:last-child .mycourses .progress-section > ul > *>*:first-child{
+    position: relative;
+    display: flex;
+    flex:1;
+    width: 100%;
+    max-width: 200px;
+}
+.dashboard > *:last-child .mycourses .progress-section > ul > *>*:first-child img{
+    max-width: 200px;
+}
+.dashboard > *:last-child .mycourses .progress-section > ul > *>*:first-child >*:last-child{
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0, 0.4); 
+    color: white;
+    display: flex;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.dashboard > *:last-child .mycourses .progress-section > ul > *>*:first-child >*:last-child h4{
+margin: auto;
+text-align: center;
+font-size: 1.5rem;
+}
+
+.dashboard > *:last-child .mycourses .progress-section > ul .progressinfo {
+   
+    flex: 2;
+    padding: 0.5em;
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    color: #2B2839;
+    
+}
+.dashboard > *:last-child .mycourses .progress-section > ul .progressinfo >*:first-child{
+    text-decoration: underline;
+    margin-bottom: 0;
+    color: #A020F0;
+    
+}
+.dashboard > *:last-child .mycourses .progress-section > ul .progressinfo >*:nth-child(2){
+    font-size: 0.7rem
+}
+.dashboard > *:last-child .mycourses .progress-section > ul .progressinfo >*:last-child{
+    width: 100%;
+    margin-top: auto;
+    border-top: 1px solid #868383;
+    margin-bottom: 0;
+    font-size: 0.7rem;
+}
+.dashboard > *:last-child .mycourses .progress-section > ul .progressinfo
+.dashboard > *:last-child .mycourses .progress-section > ul > *>*:first-child >*:first-child{
+    width: 100%;
+
+    
+
+    
+}
+
+.dashboard h2{
+    color: #868383;
+}
+.dashboard h2 span{
+    color: #A020F0;
+    position: relative;
+
+}
+.dashboard h2 span::after{
+   content: '';
+    width: 100%;
+    height: 90px;
+    border: solid 4px #39045A ;
+    position: absolute;
+    bottom: -90px;
+    border-color: #39045A transparent transparent transparent;
+    border-radius: 100%/50px 20px  10% 5px;
+    left: 0;
+}
+@media screen  and (min-width:500px) {
+    header{
+        position: absolute;
+        width: 100%;
+    }
+}
+
+
+.dashboard-options{
+    
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    justify-content: start;
+    padding: 1em 2em;
+    margin-top: 5em;
+}
+.dashboard-options li{
+    font-size: 1.2rem;
+    padding: 0.2em 0em;
+    border-radius: 5px;
+    /* border: 2px solid #A020F0; */
+    border-bottom: 4px solid #BB84E8;
+   
+    font-weight: bold;
+    background-color: #F5F5F5;
+    /* text-align: center; */
+    margin: 0.5em 0;
+    border-radius: 0;
+}
+
+.dashboard-options li a{
+    color: #BB84E8;
+}
+.dashboard-options li a:hover{
+    text-decoration: none;
+}
+
+
+.completed-courses{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    
+}
+
+.completed-courses ul{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1em;
+    justify-content: space-between;
+}
+.completed-courses ul li {
+    background-color: #fff;
+    color: #2B2839;
+    flex: 1;
+    max-width: 500px;
+    flex-basis: 500px;
+    min-width: 250px;
+    position: relative;
+    border: 2px solid #868383;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em;
+}
+
+.completed-courses ul li i{
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: larger;
+    transform: rotate(30deg);
+    color: darkorange;
+}
+
+.completed-courses ul li h4{
+    font-size: 1rem;
+    font-weight: bold;
+    color: #2B2839;
+}
+.completed-courses ul li p{
+    color: #868383;
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.completed-courses ul li p progress{
+    margin-left: auto;
+    accent-color: #A020F0;
+    
+}
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .photo-section {
+    text-align: center;
+    margin-right: 20px;
+  }
+  
+  .user-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+  }
+  
+  .photo-upload {
+    display: none;
+  }
+  
+  .upload-icon {
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .info-section {
+    color: white;
+  }
+  
+  .input-group {
+    margin-bottom: 10px;
+  }
+  
+  .input-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .input-group input {
+    width: 200px;
+    padding: 5px;
+  }
+  
+  .save-btn {
+    padding: 8px 20px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .save-btn:hover {
+    background-color: #45a049;
+  }

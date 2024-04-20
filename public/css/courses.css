@@ -1,7 +1,10 @@
+:root{
+    --ulrbackground:url('../images/backC.png');
+}
 .courses{
     display: flex;
     flex-direction: column;
-    background: url('../images/backC.png');
+    background: var(--ulrbackground);
     text-align: center;
     border-top-left-radius: 100px;
     background-position:center;
@@ -179,7 +182,7 @@ header {
     align-items: center;
     padding-top: 10px;
     height: 100vh; 
-    background-image: url('../images/backC.png');
+    background-image:  var(--ulrbackground);
     background-size: cover; 
     background-repeat: no-repeat;
 }

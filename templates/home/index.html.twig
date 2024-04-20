@@ -199,5 +199,106 @@
         </div>
     </div>
 </div>
+<div class="wrapper">
+    <h1>Fruenqtly Questions</h1>
+    <h3> General </h3>
+    <div class="faq">
+      <button class="accordion">What is Syuper-learning<i class="fa-solid fa-chevron-down"></i></button>
+      <div class="panel">
+        <p>Krushi est une association caritative publique conçue pour mener des activités agricoles à grande échelle selon des méthodes naturelles et durables.</p>
+      </div>
+    </div>
+  
+    <div class="faq">
+      <button class="accordion">Where can I watch<i class="fa-solid fa-chevron-down"></i></button>
+      <div class="panel">
+        <p>Krushi est engagé dans la promotion de pratiques agricoles respectueuses de l'environnement et axées sur la durabilité, offrant ainsi une alternative précieuse aux méthodes conventionnelles.</p>
+      </div>
+    </div>
+  
+    <div class="faq">
+      <button class="accordion">Which classes are right for me?<i class="fa-solid fa-chevron-down"></i></button>
+      <div class="panel">
+        <p>Vous pouvez soutenir Krushi en participant à nos programmes de bénévolat, en faisant des dons ou en partageant notre mission avec d'autres personnes.</p>
+      </div>
+    </div>
+  
+    <div class="faq">
+      <button class="accordion">what is included in a Super-learning membership ?<i class="fa-solid fa-chevron-down"></i></button>
+      <div class="panel">
+        <p>Vous pouvez soutenir Krushi en participant à nos programmes de bénévolat, en faisant des dons ou en partageant notre mission avec d'autres personnes.</p>
+      </div>
+    </div>
+  <h3> Pricing & Payment </h3>
+    <div class="faq">
+      <button class="accordion">What is Syuper-learning<i class="fa-solid fa-chevron-down"></i></button>
+      <div class="panel">
+        <p>Krushi est une association caritative publique conçue pour mener des activités agricoles à grande échelle selon des méthodes naturelles et durables.</p>
+      </div>
+    </div>
+  
+    <div class="faq">
+      <button class="accordion">Where can I watch<i class="fa-solid fa-chevron-down"></i></button>
+      <div class="panel">
+        <p>Krushi est engagé dans la promotion de pratiques agricoles respectueuses de l'environnement et axées sur la durabilité, offrant ainsi une alternative précieuse aux méthodes conventionnelles.</p>
+      </div>
+    </div>
+  
+    <div class="faq">
+      <button class="accordion">Which classes are right for me?<i class="fa-solid fa-chevron-down"></i></button>
+      <div class="panel">
+        <p>Vous pouvez soutenir Krushi en participant à nos programmes de bénévolat, en faisant des dons ou en partageant notre mission avec d'autres personnes.</p>
+      </div>
+    </div>
+  
+    <div class="faq">
+      <button class="accordion">what is included in a Super-learning membership ?<i class="fa-solid fa-chevron-down"></i></button>
+      <div class="panel">
+        <p>Vous pouvez soutenir Krushi en participant à nos programmes de bénévolat, en faisant des dons ou en partageant notre mission avec d'autres personnes.</p>
+      </div>
+    </div>
+    <h3>Sessions</h3>
+    <div class="faq">
+      <button class="accordion">What is Syuper-learning<i class="fa-solid fa-chevron-down"></i></button>
+      <div class="panel">
+        <p>Krushi est une association caritative publique conçue pour mener des activités agricoles à grande échelle selon des méthodes naturelles et durables.</p>
+      </div>
+    </div>
+  
+    <div class="faq">
+      <button class="accordion">Where can I watch<i class="fa-solid fa-chevron-down"></i></button>
+      <div class="panel">
+        <p>Krushi est engagé dans la promotion de pratiques agricoles respectueuses de l'environnement et axées sur la durabilité, offrant ainsi une alternative précieuse aux méthodes conventionnelles.</p>
+      </div>
+    </div>
+  
+    <div class="faq">
+      <button class="accordion">Which classes are right for me?<i class="fa-solid fa-chevron-down"></i></button>
+      <div class="panel">
+        <p>Vous pouvez soutenir Krushi en participant à nos programmes de bénévolat, en faisant des dons ou en partageant notre mission avec d'autres personnes.</p>
+      </div>
+    </div>
+  
+  </div>
+  
+  <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+  
+        for (i = 0; i < acc.length; i++) {
+          acc[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            this.parentElement.classList.toggle("active");
+  
+            var pannel = this.nextElementSibling;
+  
+            if (pannel.style.display === "block") {
+              pannel.style.display = "none";
+            } else {
+              pannel.style.display = "block";
+            }
+          });
+        }
+      </script>
 
 {% endblock %}
