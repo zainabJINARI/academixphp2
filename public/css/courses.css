@@ -1,10 +1,7 @@
-:root{
-    --ulrbackground:url('../images/backC.png');
-}
 .courses{
     display: flex;
     flex-direction: column;
-    background: var(--ulrbackground);
+    background: url('../images/backC.png');
     text-align: center;
     border-top-left-radius: 100px;
     background-position:center;
@@ -182,9 +179,11 @@ header {
     align-items: center;
     padding-top: 10px;
     height: 100vh; 
-    background-image:  var(--ulrbackground);
+    background-image: url('../images/backC.png');
     background-size: cover; 
     background-repeat: no-repeat;
+    /* border-bottom-left-radius: 50% 9%;
+    border-bottom-right-radius: 50% 9%; */
 }
 
 .header-course-section .right-container {
@@ -232,16 +231,19 @@ header {
     color: #A020F0;
     font-size: 1.5em;
 }
-
+.header-course-section  > a {
+    display: none;
+}
 .header-course-section .right-container> p{
     width: 100%;
     color: #868383;
-    font-size: 1em;
     text-align: end;
     letter-spacing: 1px;
     margin-top: 15px;
-    font-size: 1.2em;
+    padding: 5px;
+    font-size: 1.2em;  
 }
+
 
 .left-card {
     display: flex;
@@ -254,6 +256,7 @@ header {
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border-radius: 20px;
     background-color: white;
+    z-index: 4;
 }
 .left-card > p:first-child {
     font-size: 2em;
@@ -309,57 +312,89 @@ header {
 }
 
 /* Modules  */
+.modules-section {
+    height: 100vh;
+}
+.modules-section .right-container , .what-u-learn-section .right-container , .about-instructor-section .right-container {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+}
+.modules-section .right-container > h2  , .what-u-learn-section .right-container > h2 , .about-instructor-section .right-container > h2 {
+    font-size: 2rem;
+    margin: 0px 0px 20px 0;
+}
+.modules-section .right-container > h2  {
+    color: #39045A;
+
+}
+.modules-section .right-container > p
+{
+    font-size: 0.9em;
+    font-weight: 400;
+}
+.modules-section .right-container .module-infos {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+.right-container .dropdown-modules .select-module h3 {
+    margin: 0;
+}
+
 .dropdown-modules {
     min-width: 15em;
     position: relative;
-    margin: 2em;
+    margin-bottom: 10px;
 }
 .dropdown-modules * {
     box-sizing: border-box ;
 }
 
 .select-module {
-    background-color: #2a2f3b;
-    color: #fff;
+    background-color: #f5F5F5;
+    color:#727171;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 2px #2a2f3b solid;
-    border-radius:  0.5em;
-    padding: 1em;
+    border: none ;
+    border-radius:  0.3em;
+    padding: 0.5em 1em;
     cursor: pointer;
 }
-.select-clicked {
-    border:  2px #26489a solid ;
-    box-shadow:  0 0 0.8em #26489a;
+.select-module  h3 {
+    font-size: 1em;
 }
+.select-module .module-infos p{
+    font-size: 0.9em;
+    margin: 0px 0px 6px 0px;
+}
+
+
+
 .select-module:hover {
-    background-color: #323741;
+    background-color: #e8e6e6;
 }
 
 .caret {
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right:  5px solid transparent;
-    border-top: 6px solid #fff;
     transition: 0.3s;
+    font-size: 1.5em;
 }
 
 .caret-rotate {
-    transform: rotate(180deg);
+    transform: rotate(90deg);
 }
 
 .menu-modules {
     list-style: none;
     padding: 0.2em 0.5em;
-    background: #323741;
-    border: 1px #363a43 solid;
-    box-shadow: 0 0.5em 1em rgba(0,0,0,0.2);
-    border-radius: 0.5em; 
-    color: #9fa5b5;
+    background: #f5F5F5;
+    border-top:1px #727171 solid; ;
+    border-radius: 0.3em; 
+    color: #727171;
     position: absolute;
-    top: 3em;
+    top: 6emm;
     left: 50%;
     width: 100%;
     transform: translate(-50%);
@@ -367,25 +402,128 @@ header {
     display: none;
     transition: 0.2s;
     z-index: 1;
-
 }
 
-.menu li {
+
+.menu-modules li {
+     display: flex;
+     align-items: center;
      padding: 0.7em 0.5em ;
-     margin: 0.3em 0;
-     border-radius: 0.5em;
+     margin: 0.3em 0.2em;
      cursor: pointer;
+     border-bottom:0.5px solid #868383 ;
 }
-.menu li:hover {
-    background:  #2a2d35;
+
+.menu-modules li h4 {
+    font-size: 0.9em;
+    margin-left: 20%;
 }
-.active {
-    background: #23242a;
+.menu-modules li  i {
+    font-size: 1.2em;
 }
+
 .menu-open {
     display: block;
     opacity: 1;
 }
+
+
+
+/* What you will learn Section */
+.what-u-learn-section {
+    padding: 30px;
+    height: 100vh;
+    background-image: url('../images/back2.png');
+    background-size: cover; 
+    background-repeat: no-repeat;
+}
+.what-u-learn-section .right-container > h2 {
+    color: #f5F5F5;
+}
+
+.what-u-learn-section  ul {
+     display:flex;
+     flex-direction: row;
+     flex-wrap: wrap;
+     list-style: none;
+     padding: 0;
+     max-height: 100px;
+     width: 100%;
+     min-width: 250px;
+     
+}
+.what-u-learn-section  ul  li{
+    display: flex;
+    flex: 1;
+    flex-basis: 300px;
+    align-items: center;
+
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    font-size: 1.1rem;
+}
+
+.what-u-learn-section  ul  li i {
+    color: #f5F5F5;
+}
+.what-u-learn-section  ul  li p {
+    margin-bottom: 0;
+    margin-left: 3%;
+    color: #f5F5F5;
+}
+
+
+
+/* About instructor section  */
+.about-instructor-section {
+    padding-top: 30px;
+    height: 100vh;
+
+}
+.about-instructor-section .right-container .instructor-card {
+    display: flex;
+    align-items: center;
+    border-top-left-radius:30px ;
+    border-bottom-left-radius:30px ;
+    background-color:#eee7e7 ;
+    padding:30px
+}
+
+.instructor-card .instructor-infos-card {
+    max-width: 500px;
+    margin-left: 5%;
+    padding: 5px;
+}
+.right-container .instructor-card  img{
+    border:none ;
+   border-top-left-radius:30px ;
+    border-bottom-left-radius:30px ;
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+}
+
+.instructor-card .instructor-infos-card p:first-child {
+    color: #727171;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.instructor-card .instructor-infos-card p:last-child {
+    font-size: 0.9em;
+    font-weight: normal;
+    letter-spacing: 1px;
+    color: #2D2D2D;
+    padding: 2px;
+}
+
+.instructor-card .instructor-infos-card i {
+    font-size: 1.5em;
+    color: #A020F0;
+}
+
+.instructor-card .instructor-infos-card i:hover {
+    text-shadow: 3px 4px 7px #727171;
+}
+
 
 
 @media (max-width:879px) {
@@ -397,6 +535,9 @@ header {
         width: 100%;
         right: 0%;
         margin-right: 5%;
+    }
+    .header-course-section .right-container> p {
+        font-size: 0.8em;
     }
     
     .header-course-section .left-card  {
@@ -416,6 +557,24 @@ header {
         font-weight: bold;
         display: block;
     } 
+
+    /* About instructor section  */
+    .about-instructor-section .right-container .instructor-card {
+        position: relative;
+        flex-direction: column;
+    }
+
+    .about-instructor-section .right-container .instructor-card img {
+        width: 80px;
+        position: absolute ;
+        top: -5%;
+        left: -5%;
+        border-radius: 50%;
+    }
+    
+     .right-container .instructor-card  .instructor-infos-card {
+        margin-top: 40px;
+     }
 
 }
 
