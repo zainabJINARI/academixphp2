@@ -18,6 +18,9 @@ crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}" />
+    <script defer src="{{ asset('js/scripts.js') }}"></script> <script src="{{ asset('script.js') }}"></script>
+    <script defer src="{{ asset('js/script.js') }}"></script>
+
 {% endblock %}
 
 {% block header %}
@@ -68,10 +71,10 @@ crossorigin="anonymous"></script>
                 <a href="{{ path('signup') }}">My Acheivements</a>
             </li>
             <li class="nav-item">
-                <a  href="{{ path('signup') }}">Update Profile</a>
+                <a  href="">Update Profile</a>
             </li>
             <li class="nav-item">
-                <a  href="{{ path('signup') }}">Delete Profile</a>
+                <a   id="deleteBtn" href="">Delete Profile</a>
             </li>
         </ul>
         <div>
@@ -164,27 +167,41 @@ crossorigin="anonymous"></script>
             </div>
             <div class="update-profile">
                 <div class="container">
-                    <div class="photo-section">
-                      <img src="placeholder.jpg" alt="User Photo" class="user-photo">
-                      <input type="file" id="photo-upload" class="photo-upload">
-                      <label for="photo-upload" class="upload-icon">&#x1F4F7;</label>
+                    <h1>Update User</h1>
+            
+                    <div class="profile-picture">
+                        <img src="{{ asset('image.png') }}" alt="Image de profil">
+                        <label for="image-upload">
+                            <span>Changer l'image</span>
+                            <input type="file" id="image-upload" accept="image/*">
+                        </label>
                     </div>
-                    <div class="info-section">
-                      <div class="input-group">
-                        <label for="fullname">Full Name:</label>
-                        <input type="text" id="fullname" name="fullname" value="placeholder">
-                      </div>
-                      <div class="input-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" value="placeholder">
-                      </div>
-                      <div class="input-group">
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" value="placeholder">
-                      </div>
-                      <button class="save-btn">Save</button>
-                    </div>
-                  </div>
+            
+                    <form action="" method="post">
+                        <div class="form-group">
+                            <label for="username">Nom d'utilisateur</label>
+                            <input type="text" id="username" name="username" placeholder="nihad ELHMARI">
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="email">Adresse e-mail</label>
+                            <input type="email" id="email" name="email" placeholder="nihad@gmail.com">
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="phone-number">Numéro de téléphone</label>
+                            <input type="tel" id="phone-number" name="phone-number" placeholder="+212 6 33 44 55 66">
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="password">Mot de passe</label>
+                            <input type="password" id="password" name="password" placeholder="">
+                        </div>
+            
+                        <button type="submit">Mettre à jour</button>
+                    </form>
+                </div>
+            
             </div>
 
         </div>
@@ -193,6 +210,15 @@ crossorigin="anonymous"></script>
             
          
     </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Voulez-vous vraiment supprimer votre compte ?</p>
+            <button id="confirmBtn">Confirmer</button>
+            <button id="cancelBtn">Annuler</button>
+        </div>
+    </div>
+    
 
     
 {% endblock %}
