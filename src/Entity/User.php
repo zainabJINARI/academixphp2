@@ -3,75 +3,47 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Enum\UserRole ;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 40)]
-    private ?string $fullname = null;
-
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 10)]
-    private ?string $password = null;
-
-    #[ORM\Column(length: 20)]
-    private ?string $role = UserRole::STUDENT;
+    #[ORM\Column]
+    private array $roles = [];
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true, options={"default": "default_profile.jpg"})
+     * @var string The hashed password
      */
-    #[ORM\Column(length: 255)]
-    private $profilePhoto = 'https://stock.adobe.com/fr/images/default-avatar-profile-flat-icon-social-media-user-vector-portrait-of-unknown-a-human-image/353110097';
+    #[ORM\Column]
+    private ?string $password = null;
 
-    // Other properties and methods...
+    #[ORM\Column(nullable: true)]
+    private ?string $username = null;
 
-    public function getProfilePhoto(): ?string
-    {
-        return $this->profilePhoto;
-    }
+    #[ORM\Column(nullable: true)]
+    private ?string $profileImage = null;
 
-    public function setProfilePhoto(?string $profilePhoto): self
-    {
-        $this->profilePhoto = $profilePhoto;
+    #[ORM\Column(nullable: true)]
+    private ?string $bio = null;
 
-        return $this;
-    }
-
-    #[ORM\OneToMany(mappedBy: 'tutor', targetEntity: Course::class)]
-    private Collection $courses;
-
-
-    public function __construct()
-    {
-        $this->courses = new ArrayCollection();
-    }
+    #[ORM\Column(nullable: true)]
+    private ?string $socialLinks = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getFullname(): ?string
-    {
-        return $this->fullname;
-    }
-
-    public function setFullname(string $fullname): static
-    {
-        $this->fullname = $fullname;
-
-        return $this;
     }
 
     public function getEmail(): ?string
@@ -82,11 +54,115 @@ class User
     public function setEmail(string $email): static
     {
         $this->email = $email;
+        if($this->getUsername()==null){
+            $this->setUsernameFromEmail(); 
+        }
+        // Set username from email
+        $this->setDefaultProfileImage(); 
+        $this->setDefaultBio();// Set default profile image if not set
+        return $this;
+    }
+
+    private function setUsernameFromEmail(): void
+    {
+        // Extract username from email before '@' symbol
+        $username = explode('@', $this->email)[0];
+        $this->username = $username;
+    }
+
+    private function setDefaultProfileImage(): void
+    {
+        // Set default profile image URL if not set
+        if (!$this->profileImage) {
+            $this->profileImage = 'https://www.iprcenter.gov/image-repository/blank-profile-picture.png/@@images/image.png';
+        }
+    }
+    private function setDefaultBio(): void
+    {
+        
+        if (!$this->bio) {
+            $this->bio = 'This is a sample bio the tutor please edit it ';
+        }
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
+        return $this;
+    }
+    
+
+    public function getProfileImage(): ?string
+    {
+        return $this->profileImage;
+    }
+
+    public function setProfileImage(string $profileImage): static
+    {
+        $this->profileImage = $profileImage;
+        return $this;
+    }
+
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
+
+    public function setBio(?string $bio): static
+    {
+        $this->bio = $bio;
+        return $this;
+    }
+
+    public function getSocialLinks(): ?string
+    {
+        return $this->socialLinks;
+    }
+
+    public function setSocialLinks(?string $socialLinks): static
+    {
+        $this->socialLinks = $socialLinks;
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
 
         return $this;
     }
 
-    public function getPassword(): ?string
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -98,48 +174,12 @@ class User
         return $this;
     }
 
-    public function getRole(): ?string
-    {
-        return $this->role;
-    }
-    public function setRole(string $role): static
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, Course>
+     * @see UserInterface
      */
-    public function getCourses(): Collection
+    public function eraseCredentials(): void
     {
-        return $this->courses;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
-
-    public function addCourse(Course $course): static
-    {
-        if (!$this->courses->contains($course)) {
-            $this->courses->add($course);
-            $course->setTutor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCourse(Course $course): static
-    {
-        if ($this->courses->removeElement($course)) {
-            // set the owning side to null (unless already changed)
-            if ($course->getTutor() === $this) {
-                $course->setTutor(null);
-            }
-        }
-
-        return $this;
-    }
-
-    
-
- 
 }

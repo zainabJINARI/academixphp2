@@ -1,11 +1,20 @@
 .signupWrapper{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
     background-color: red;
     display: flex;
-    height: 100%;
     background: url('../images/back2.png');
-    padding:  0.2em 2em;
+    
 }
 
+body{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
 .loginwrapper{
 
     height: 100vh;
@@ -21,6 +30,10 @@
     padding:  1em 2em ;
     border-radius: 5px;
     position: relative;
+    top: 0;
+    bottom: 0;
+
+
 }
 
 
@@ -43,13 +56,26 @@
     display: flex;
     flex-direction: column;
 }
-.signupcontainer form > label{
+.signupcontainer form > div  label, .logincontainer form label{
     color: #2D2D2D;
     font-size: 0.9rem;
     font-weight: 500;
     margin: 0.6em 0;
 }
-.signupcontainer form > input,.signupcontainer form > select{
+.signupcontainer form > div{
+
+    display: flex;
+    flex-direction: column;
+}
+
+.signupcontainer form > *:nth-child(3){
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.signupcontainer form > div input,
+.signupcontainer form > div select, 
+.logincontainer form input{
     background-color: white;
     padding: 0.7em;
     border-radius: 5px;

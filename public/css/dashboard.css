@@ -4,6 +4,8 @@
     align-items: stretch;
     background: url('../images/backD.png');
     background-position: top;
+   
+   
     
 }
 
@@ -212,7 +214,7 @@ font-size: 1.5rem;
     padding: 0.5em;
 }
 
-.completed-courses ul li i{
+.completed-courses ul li > i{
     position: absolute;
     top: -10px;
     right: -10px;
@@ -300,30 +302,47 @@ font-size: 1.5rem;
   }
 
 /*  */
-
+.update-profile form{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 2em;
+}
+.update-profile {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: start;
+}
+.update-profile h3{
+    margin-right: auto;
+}
 
 .update-profile .container {
-    width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-}
-.update-profile .container h1{
+    
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+    padding: 2em 1em;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-around;
     width: 100%;
-    text-align: center;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    color: #a0268e;
-    font-style: italic;
 }
+
 .profile-picture {
     text-align: center;
     margin-bottom: 20px;
 }
 
 .profile-picture img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+    max-width: 200px;
+    width: 100%;
+    height: 200px;
+    border-radius: 5px;
 }
 
 .profile-picture label {
@@ -336,6 +355,8 @@ font-size: 1.5rem;
     display: none;
 }
 .form {
+    flex: 1;
+    max-width: 700px;
     display: flex;
     flex-direction: column; 
     align-items: center;
@@ -343,6 +364,7 @@ font-size: 1.5rem;
 
 
 .form-group {
+    width: 100%;
     margin-bottom: 15px;
 }
 
@@ -360,17 +382,18 @@ font-size: 1.5rem;
 }
 
 .update-profile button {
-    background-color: #a0268e;
+    background-color: #BB84E8;
     color: white;
     padding: 10px 20px;
     border: none;
-    border-radius: 20px;
+    border-radius: 5px;
     cursor: pointer;
+    width: 100%;
     margin: auto;
 }
 
 .update-profile button:hover {
-    background-color: #780770;
+    background-color: #BB84E8;
 }
 .form-grid {
     display: grid;
@@ -378,9 +401,12 @@ font-size: 1.5rem;
     gap: 20px;
 }
 .profile-picture span{
-    color: #a0268e;
+    color: #BB84E8;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-style: italic;
+    
+    font-size: 1rem;
+    border: 1px solid #BB84E8;
+    padding: 0.5em 1em;
 }
 @media (min-width: 768px) {
     .container {
@@ -422,16 +448,38 @@ font-size: 1.5rem;
     width: 80%;
     max-width: 400px;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 .modal-content p{
     color: #735ec9;
+    font-size: 1.1rem;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.modal-content > div{
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
+.modal-content > div a{
+    color: #735ec9;
+    border: 1px solid #735ec9;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    font-size: 1rem;
+
+}
+.modal-content > div a:hover{
+    text-decoration: none;
 }
 .close {
     color: #aaa;
     float: right;
-    font-size: 28px;
+    font-size: 1.4em;
     font-weight: bold;
+    margin-bottom: 0.5em;
+    margin-left: auto;
 }
 
 .close:hover,
@@ -439,4 +487,171 @@ font-size: 1.5rem;
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* style specififc to admin dhasboard */
+
+.mycourses .requests > ul > li > div{
+    margin: 0.2em 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.mycourses .requests > ul > li >*:last-child{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: #735ec9;
+}
+
+.mycourses .requests > ul > li >*:last-child > div{
+    display: flex;
+    flex-direction: row;
+    gap: 0.3em;
+
+}
+
+.mycourses .requests > ul > li >*:last-child > div a{
+    color: #BB84E8;
+    flex: 1;
+    padding: 0.3em 0.7em;
+    border: 1px solid #BB84E8;
+    border-radius: 3px;
+    
+}
+
+.delete{
+    color: red !important;
+}
+
+.create{
+    color: #A020F0 !important;
+}
+.bold{
+    font-weight: bold;
+}
+.hidden{
+    display: none !important;
+}
+.selected{
+    background-color: #39045A !important;
+}
+
+.manage-tutors-container{
+    padding-top: 2em;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: start;
+    height: 100%;
+}
+.manage-tutors-container > ul{
+    display: flex;
+    flex-direction: row;
+    gap: 1.5em;
+    flex-wrap: wrap;
+
+}
+/* .manage-tutors-container > ul>*{
+    flex:1;
+} */
+.manage-tutors-container > ul>*:first-child{
+    color: #BB84E8;
+    padding:  1em;
+    border: 2px dashed #BB84E8;
+    text-align: center;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    justify-content: center;
+
+}
+.manage-tutors-container > ul > .tutor{
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em;
+    max-width: 160px;
+    position: relative;
+    border: 2px dashed #BB84E8;
+    border-radius: 5px;
+    
+
+}
+.manage-tutors-container > ul > .tutor img{
+    width: 100%;
+    height: 50%;
+    
+    
+}
+.manage-tutors-container > ul > .tutor > div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 0;
+    margin-top: auto;
+}
+.manage-tutors-container > ul > .tutor h4{
+    font-size: 1rem;
+    
+}
+.manage-tutors-container > ul > .tutor  p{
+    font-size: 0.8rem;
+    margin: 1px 0 0.5em;
+}
+.manage-tutors-container > ul > .tutor > div > a{
+    padding: 0.3em 0.5em;
+    color: #BB84E8;
+    border: 1px solid #BB84E8;
+}
+
+/* form add tutor */
+.form-create-tutor{
+    border-radius: 5;
+    border: 1px solid #39045A;
+    text-align: center;
+    padding: 1em;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    position: absolute;
+    display: flex;
+    max-width: 700px;
+    max-height: 50%;
+    flex-direction: column;
+    background-color: #e5d8f0;
+
+}
+.form-create-tutor form > div{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+}
+
+.form-create-tutor h3{
+    font-size: 1.5rem;
+    color: #39045A;
+}
+.form-create-tutor form > button{
+    color: white;
+    background-color: #BB84E8;
+    padding: 0.7em;
+    border: none;
+    border-radius: 5px ;
+    width: 100%;
+    margin-top: 0.8em;
+}
+.form-create-tutor form > *:nth-child(3){
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.form-create-tutor  .closebtn{
+margin-left: auto;
+cursor: pointer;
+color: #2B2839;
+
 }

@@ -1,0 +1,47 @@
+
+
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+{% block head %}
+
+<link rel="stylesheet" href="{{ asset('css/login_Signup.css') }}" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
+{% block header %}
+
+{% endblock %}
+
+
+{% block body %}
+<div class='signupWrapper'>
+    <div class='signupcontainer'>
+        <a href='/' class='closeLink'><i class="fa-solid fa-xmark close"></i></a>
+
+        <h2>Sign Up</h2>
+        
+        {{ form_errors(registrationForm) }}
+
+        {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword, {
+        label: 'Password'
+        }) }}
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn">Sign Up</button>
+        {{ form_end(registrationForm) }}
+        <p class='or'><span></span>OR<span></span></p>
+        <a><i class="fa-brands fa-google icon-social facebook"></i> Continue with Google</a>
+        <a><i class="fa-brands fa-facebook icon-social facebook"></i> Continue with Facebook</a>
+        <p class='redirect'>Already Have an account ?<a href="{{ path('login') }}" end>Log In</a></p>
+    </div>
+
+</div>
+{% endblock %}
+{% block footer %}
+{% endblock %}

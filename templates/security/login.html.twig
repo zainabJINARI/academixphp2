@@ -1,0 +1,55 @@
+
+
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+{% block head %}
+    <script src="{{ asset('js/main.js') }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ asset('css/login_Signup.css') }}" />
+{% endblock %}
+{% block header %}
+
+{% endblock %}
+{% block body %}
+<div class='signupWrapper loginwrapper'>
+    <div class='signupcontainer logincontainer '>
+        <a href='/' class="closeLink"><i class="fa-solid fa-x"></i></a>
+      
+        <h2>Welcome Back!</h2>
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+        
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+        
+            
+            <label for="inputEmail">Email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+            <label for="inputPassword">Password</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+        
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+        
+            <button class="btn btn-lg btn-primary" type="submit">
+                Sign in
+            </button>
+        </form>
+        <p class='or'><span></span>OR<span></span></p>
+        <a><i class="fa-brands fa-google icon-social facebook"></i> Continue with Google</a>
+        <a><i class="fa-brands fa-facebook icon-social facebook"></i>  Continue with Facebook</a>
+        <p class='redirect'>New to AcadeMix ?<a href="{{ path('signup') }}" end>Sign Up</a></p>
+    </div>
+
+</div>
+{% endblock %}
+{% block footer %}
+{% endblock %}
