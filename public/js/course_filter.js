@@ -14,12 +14,14 @@ filterBtn.addEventListener('click' , ()=> {
 })
 
 resetBtn.addEventListener('click' , ()=> {
+    window.location.href = '/allcourses?topic=popular';
     hiddenSection.classList.add("hidden-section")
 })
 
+// string.charAt(0).toUpperCase() + string.slice(1);
 
 searchBtn.addEventListener('click', () => {
-    const selectedLevel = document.getElementById('level').value.toLowerCase(); 
+    const selectedLevel = document.getElementById('level').value.charAt(0).toUpperCase()+document.getElementById('level').value.slice(1); 
     const selectedTeacher = document.getElementById('teacher').value.toLowerCase(); 
     const selectedDuration = document.getElementById('duration').value.toLowerCase(); 
     let url = window.location.href;

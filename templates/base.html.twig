@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="{{ asset('css/login_Signup.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/courses.css') }}" />
 <script defer src="{{ asset('js/courses.js') }}" ></script>
-
+<script defer src="{{ asset('js/course_filter.js') }}" ></script>
 
     </head>
     {% endblock %}
@@ -46,11 +46,10 @@
                             Courses
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                          <a class="dropdown-item" href="#">Tech_Industry</a>
-                          <a class="dropdown-item" href="#">Languages</a>
-                          <a class="dropdown-item" href="#">Medecine</a>
-                          <a class="dropdown-item" href="#">History</a>
-                          <a class="dropdown-item" href="#">Life_Lessons</a>
+                          {% for cat in cats.getCategories %}
+                              <a class="dropdown-item" href="{{ path('all_courses', {'topic': cat.name}) }}">{{ cat.name }}</a>
+                          {% endfor %}
+                          
                           <a class="dropdown-item" href="#">Divers</a>
                         </div>
                       </li>
