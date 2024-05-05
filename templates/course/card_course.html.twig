@@ -1,0 +1,22 @@
+<div class="course-item">
+                <div>
+                    <img  src='{{ course.thumbnail }}'/>
+                    <div>
+                        <h3>{{ course.title }}</h3>
+                    </div>
+                </div>
+                <div class="course-info">
+                        <div>
+                            <div>
+                                <p><span>{{ course.nbrLessons }} Lessons</span> | <span><span>{{ course.nbrHours }}</span>hours</span></p>
+                                <p>With <span class="tutor">{{ course.tutor_name }}</span></p>
+                            </div>
+                            <img  src='{{ course.tutor_photo }}'/>
+
+                        </div>
+                        <div class='detail'>
+                            <p>{{ course.level }}</p>
+                            <p>Free</p>
+                        </div>
+                </div>
+</div>

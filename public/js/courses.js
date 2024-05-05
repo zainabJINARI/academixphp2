@@ -2,6 +2,8 @@
 const dropdowns = document.querySelectorAll('.dropdown-modules');
 
 
+
+
 dropdowns.forEach(dropdown => {
 
     const select = dropdown.querySelector(".select-module");
@@ -23,3 +25,4 @@ dropdowns.forEach(dropdown => {
         })
     })
 })
+

@@ -4,56 +4,61 @@
 
 {% block body %}
 
-
-
-    
     <div class='courses'>
         <h2>Welcome to <span> Academix Courses </span>Library</h2>
-        <ul class='categories-filter'>
-            <li><a class="categorie-filter" href="#">Tech_Industry</a></li>
-            <li><a class="categorie-filter" href="#">Languages</a></li>
-            <li><a class="categorie-filter" href="#">Medecine</a></li>
-            <li><a class="categorie-filter" href="#">History</a></li>
-            <li><a class="categorie-filter" href="#">Life_Lessons</a></li>
-            <li><a class="categorie-filter" href="#">Divers</a></li>
+        <div class ='items-filter-container'> 
+           <ul class='categories-filter' id="categories-filter">
+                {% for cat in cats.getCategories %}
+                    <li><a class="categorie-filter" href="{{ path('all_courses', {'topic': cat.name}) }}" data-category="{{ cat.name }}">{{ cat.name }}</a></li>
+                {% endfor %}
+                <li><a class="categorie-filter" href="#" data-category="Divers">Divers</a></li>
+            </ul>
+            
+            <img src="{{ asset('/images/filter.png') }}" width="40px"/>
+            <button class="filter" id="filter-btn">Filter</button>
+        </div>
+        
+        
+        <div class="filter-section hidden-section" >
+            <div class="hidden-filter-container" >
+            <div class="filter-item">
+                <label for="level">Level</label>
+                <select id="level">
+                    <option value="beginner" selected>Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <label for="teacher">Teacher</label>
+                <input type="text" id="teacher" placeholder="Joe Shemo"/>
+            </div>
+            <div class="filter-item">
+                <label for="duration">Duration</label>
+                <select id="duration">
+                <option value="short" selected>Short (<1hr)</option>
+                <option value="medium" >Medium (1-3hr)</option>
+                <option value="long" >Long (>3hr)</option>
+                </select>
+            </div>
+        </div>
 
-        </ul>
+        <div class="buttons-filter">
+            <i class="fa-solid fa-magnifying-glass search-course-btn"></i>
+            <button class="reset-btn" ><i class="fa-solid fa-xmark"></i>Reset</button>
+        </div>
+        </div>
+        
+
         <div class="courses-items">
               {% for course in  courses %}
-
-              <div class="course-item">
-
-                <div>
-                    <img  src='{{ course.thumbnail }}'/>
-                    <div>
-                        <h3>{{ course.title }}</h3>
-                    </div>
-                </div>
-                
-                <div class="course-info">
-                        <div>
-                            <div>
-                                <p><span>{{ course.nbrLessons }} Lessons</span> | <span><span>{{ course.nbrHours }}</span>hours</span></p>
-                                <p>With <span class="tutor">{{ course.tutor_name }}</span></p>
-                            </div>
-                            <img  src='{{ course.tutor_photo }}'/>
-
-                        </div>
-                        
-                       
-                       <div class='detail'>
-                        <p>{{ course.level }}</p>
-                        <p>Free</p>
-                       </div>
-                </div>
-            </div>
-
-              {% endfor %}
-                
+                 {%include 'course/card_course.html.twig' with {course:course} only %}
+              {% endfor %}        
         </div>
-            
-         
+
     </div>
 
     
 {% endblock %}
+
+
