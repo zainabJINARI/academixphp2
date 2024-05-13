@@ -58,7 +58,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->setUsernameFromEmail(); 
         }
         // Set username from email
-        $this->setDefaultProfileImage(); 
+        if($this->getProfileImage()==null){
+            $this->setDefaultProfileImage(); 
+        }
+        
         $this->setDefaultBio();// Set default profile image if not set
         return $this;
     }

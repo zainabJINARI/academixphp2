@@ -64,15 +64,34 @@ crossorigin="anonymous"></script>
     
     <div class='dashboard'>
         <ul class="dashboard-options">
-            <li class="nav-item" id="requestsTutos">
-                <a  href="#requests">Tutors Requests</a>
-            </li>
-            <li class="nav-item" id="manageTutos">
+            {% if is_granted('ROLE_ADMIN') %}
+               <li class="nav-item" id="requestsTutos">
+                 <a  href="#requests">Tutors Requests</a>
+               </li>
+            {% endif %}
+
+            {% if is_granted('ROLE_TUTOR') %}
+               <li class="nav-item" id="requestsTutos">
+                 <a  href="#courses-area">Courses Area</a>
+               </li>
+            {% endif %}
+            
+            {% if is_granted('ROLE_ADMIN') %}
+              <li class="nav-item" id="manageTutos">
                 <a href="#tutors">Manage  Tutors</a>
-            </li>
-            <li class="nav-item" id="managecourses">
-                <a  href="#manageCourses">Manage Courses</a>
-            </li>
+              </li>
+            {% endif %}
+            {% if is_granted('ROLE_TUTOR') %}
+              <li class="nav-item" id="manageTutos">
+                <a href="#requests-area">Requests Area</a>
+              </li>
+            {% endif %}
+
+            {% if is_granted('ROLE_ADMIN') %} 
+              <li class="nav-item">
+                <a  href="">Manage Courses</a>
+              </li>
+            {% endif %}
             <li class="nav-item" id="updateBtn">
                 <a    href="#update">Update Profile</a>
             </li>
@@ -80,11 +99,13 @@ crossorigin="anonymous"></script>
                 <a    href="#delete">Delete Profile</a>
             </li>
         </ul>
+
         <div>
            
             <h2>Welcome <span>{{ app.user.username }}</span> To Academix</h2>
             
-            <div id="requests" class="mycourses">
+            {% if is_granted('ROLE_ADMIN') %}
+               <div id="requests" class="mycourses">
                 <div class="completed-courses requests">
                     <h3>Course Creation Requests</h3>
                     <ul>
@@ -207,6 +228,63 @@ crossorigin="anonymous"></script>
                 </div>
 
             </div>
+            {% endif %}
+
+
+            {% if is_granted('ROLE_TUTOR') %}
+                <div id="courses-area" class="manage-courses-container" >
+                <h3>New Courses</h3>
+                <ul>
+                        <li id="addNewCourse"> <span><i class="fa-solid fa-user-plus"></i></span><span>Create New Course</span></li>
+
+                        <li class="course">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <h4>Introduction de react</h4>    
+                            <div>
+                                
+                            </div>
+                        </li>
+                    </ul>
+
+                <h3>Old Courses</h3>
+
+                  <div class="old-courses-container">
+                     <ul>
+                     <li class="course-info">
+                       <img src="{{ asset('images/courses/image4.png') }}" alt="Image of the course" />
+                        <h4>Introduction to react</h4>
+                        <div>
+                           <p>Level : <span>Beginner</spane></p>
+                          <i class="fa-solid fa-pen-to-square"></i>
+                        </div>
+                     </li>
+                     <li class="course-info">
+                       <img src="{{ asset('images/courses/image4.png') }}" alt="Image of the course" />
+                        <h4>Introduction to react</h4>
+                        <div>
+                           <p>Level : <span>Beginner</spane></p>
+                          <i class="fa-solid fa-pen-to-square"></i>
+                        </div>
+                     </li>
+                     <li class="course-info">
+                       <img src="{{ asset('images/courses/image4.png') }}" alt="Image of the course" />
+                        <h4>Introduction to react</h4>
+                        <div>
+                           <p>Level : <span>Beginner</spane></p>
+                          <i class="fa-solid fa-pen-to-square"></i>
+                        </div>
+                     </li>
+                  </ul>
+                  
+                  </div>
+                
+
+                </div>
+
+            {% endif %}
+            
+
+
             <div class="update-profile" id="update-profile">
                 <h3>Update User</h3>
                 <div class="container updateprofileContainer">
@@ -216,11 +294,10 @@ crossorigin="anonymous"></script>
                        
                     <div class="profile-picture">
                         <img src="{{ app.user.profileImage}}" alt="Image de profil">
-                        <label for="image-upload" id="btnshowinput">
+                        <label for="image-upload">
                             <span>Changer l'image</span>
+                            <input type="file" id="image-upload" accept="image/*">
                         </label>
-                        <input type="text" name="profileImage" id="image-upload" placeholder="url of image" class="input">
-                        
                     </div>
             
                     <div class="form">
@@ -238,7 +315,7 @@ crossorigin="anonymous"></script>
 
                         <div class="form-group">
                             <label for="password">Mot de passe</label>
-                            <input type="password" id="password" name="password" placeholder="********" >
+                            <input type="password" id="password" name="password" placeholder="" >
                         </div>
             
                         <button type="submit">Update Profile</button>
@@ -277,100 +354,6 @@ crossorigin="anonymous"></script>
                     
                 </ul>
             </div>
-            <div id="manageCourseContainer" class="manageCourseContainer">
-                <h3>Manage Courses</h3>
-                <ul>
-                    <li> <span><i class="fa-solid fa-graduation-cap"></i></span><span>Create New Course</span></li>
-                    <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li> <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li> <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li> <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li>
-
-                </ul>
-            </div>
 
         </div>
 
@@ -403,7 +386,7 @@ crossorigin="anonymous"></script>
             <span class="close">&times;</span>
             <p>Are you sure you wanna delete your profile ?</p>
             <div>
-                <a id="confirmBtn" href="/admin/delete-admin">Proceed</a>
+                <a id="confirmBtn" href="">Proceed</a>
             <a id="cancelBtn" href="">Cancel</a>
             </div>
             

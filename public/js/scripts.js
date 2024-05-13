@@ -1,34 +1,53 @@
-var modal = document.getElementById("myModal");
-var deleteBtn = document.getElementById("deleteBtn");
-var confirmBtn = document.getElementById("confirmBtn");
+var mycoursesContainer = document.getElementById("mycourses");
+var updateprofile = document.getElementById("updateprofile");
+var myachievements = document.getElementById("myachievements");
 var cancelBtn = document.getElementById("cancelBtn");
-var closeBtn = document.getElementsByClassName("close")[0];
-
-deleteBtn.addEventListener('click',(e)=>{
-e.preventDefault()
-console.log('hhh')
-modal.style.display = "block";
+var closeBtn = document.getElementById('closepopUp');
+const myModal = document.getElementById("myModal");
+const btnshowinput = document.getElementById('btnshowinput')
+const imageUpload = document.getElementById('image-upload')
+imageUpload.classList.add('hidden')
+btnshowinput.addEventListener('click',()=>{
+    imageUpload.classList.toggle('hidden')
 })
-deleteBtn.onclick = function() {
-    
-   
-}
 
-cancelBtn.onclick = function() {
-    modal.style.display = "none";
-}
+const mycoursesBtn = document.getElementById('mycoursesBtn')
+const myachievementsBtn = document.getElementById('myachievementsBtn')
+const updateprofileBtn = document.getElementById('updateprofileBtn')
+const deleteprofileBtn = document.getElementById('deleteprofileBtn')
 
-closeBtn.onclick = function() {
-    modal.style.display = "none";
-}
 
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
+updateprofile.classList.add('hidden')
+myachievements.classList.add('hidden')
+myModal.classList.add('hidden')
 
-confirmBtn.onclick = function() {
-    alert("Votre compte a été supprimé avec succès.");
-    modal.style.display = "none";
-}
+mycoursesBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    mycoursesContainer.classList.remove('hidden')
+    updateprofile.classList.add('hidden')
+myachievements.classList.add('hidden')
+myModal.classList.add('hidden')
+})
+myachievementsBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    myachievements.classList.remove('hidden')
+    updateprofile.classList.add('hidden')
+    mycoursesContainer.classList.add('hidden')
+myModal.classList.add('hidden')
+})
+updateprofileBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    updateprofile.classList.remove('hidden')
+    mycoursesContainer.classList.add('hidden')
+    myachievements.classList.add('hidden')
+myModal.classList.add('hidden')
+})
+deleteprofileBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    myModal.classList.remove('hidden')
+  
+})
+
+closeBtn.addEventListener('click',()=>{
+    myModal.classList.add('hidden')
+})

@@ -339,7 +339,7 @@ font-size: 1.5rem;
 }
 
 .profile-picture img {
-    max-width: 200px;
+    max-width: 160px;
     width: 100%;
     height: 200px;
     border-radius: 5px;
@@ -374,12 +374,13 @@ font-size: 1.5rem;
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,.input {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
 
 .update-profile button {
     background-color: #BB84E8;
@@ -420,7 +421,8 @@ font-size: 1.5rem;
 
 /* supprit */
 .modal {
-    display: none;
+    display: flex;
+    flex-direction: column;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -545,7 +547,7 @@ font-size: 1.5rem;
     text-align: start;
     height: 100%;
 }
-.manage-tutors-container > ul{
+.manage-tutors-container > ul, .manageCourseContainer ul{
     display: flex;
     flex-direction: row;
     gap: 1.5em;
@@ -555,7 +557,7 @@ font-size: 1.5rem;
 /* .manage-tutors-container > ul>*{
     flex:1;
 } */
-.manage-tutors-container > ul>*:first-child{
+.manage-tutors-container > ul>*:first-child, .manageCourseContainer  > ul>*:first-child {
     color: #BB84E8;
     padding:  1em;
     border: 2px dashed #BB84E8;
@@ -567,7 +569,7 @@ font-size: 1.5rem;
     justify-content: center;
 
 }
-.manage-tutors-container > ul > .tutor{
+.manage-tutors-container > ul > .tutor, .manageCourseContainer  > ul > li  {
     display: flex;
     flex-direction: column;
     padding: 0.5em;
@@ -578,7 +580,34 @@ font-size: 1.5rem;
     
 
 }
-.manage-tutors-container > ul > .tutor img{
+.manageCourseContainer  > ul > li{
+    max-width: 200px;
+    position: relative;
+
+    color: #868383;
+}
+.manageCourseContainer  > ul > li h4{
+    color: #BB84E8;
+    text-align: center;
+    font-size: 1.2rem;
+}
+.manageCourseContainer  > ul > li > div{
+    display: flex;
+    flex-direction: row;
+    margin-top: auto;
+    justify-content: space-between;
+    font-size: 0.8rem;
+}
+.manageCourseContainer  > ul > li > i{
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    transform: rotate(30deg);
+}
+.manageCourseContainer  > ul > li > div > *{
+    margin-bottom: 0;
+}
+.manage-tutors-container > ul > .tutor img, .manageCourseContainer  > ul > li img{
     width: 100%;
     height: 50%;
     
@@ -654,4 +683,18 @@ margin-left: auto;
 cursor: pointer;
 color: #2B2839;
 
+}
+
+
+/* acheivements */
+.my-achievements{
+   display: flex;
+   flex-direction: column;
+   text-align: start;
+
+}
+.manageCourseContainer{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
 }

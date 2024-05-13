@@ -4,12 +4,35 @@ const updateProfile= document.getElementById('update-profile')
 const manageTutos = document.getElementById('manageTutos')
 const requestsTutos = document.getElementById('requestsTutos')
 const manageTutorsContainer = document.getElementById('manageTutorsContainer')
+const btnshowinput = document.getElementById('btnshowinput')
+const imageUpload = document.getElementById('image-upload')
+const manageCourseContainer = document.getElementById('manageCourseContainer')
+const managecourses = document.getElementById('managecourses')
+manageCourseContainer.classList.add('hidden')
+
+
+imageUpload.classList.add('hidden')
+btnshowinput.addEventListener('click',()=>{
+    imageUpload.classList.toggle('hidden')
+})
+managecourses.addEventListener('click',()=>{
+    manageCourseContainer.classList.remove('hidden')
+    updateProfile.classList.add('hidden')
+    managecourses.classList.add('selected')
+    requestsTutos.classList.remove('selected')
+    manageTutos.classList.remove('selected')
+    document.getElementById('updateBtn').classList.remove('selected')
+    containerRequests.classList.add('hidden')
+    manageTutorsContainer.classList.add('hidden')
+})
+var modal = document.getElementById("myModal");
 updateProfile.classList.add('hidden')
 manageTutorsContainer.classList.add('hidden')
 requestsTutos.classList.toggle('selected')
-
+modal.classList.add('hidden')
 document.getElementById('updateBtn').addEventListener('click',(e)=>{
     e.preventDefault()
+    manageCourseContainer.classList.add('hidden')
     updateProfile.classList.remove('hidden')
     document.getElementById('updateBtn').classList.add('selected')
     requestsTutos.classList.remove('selected')
@@ -18,11 +41,14 @@ document.getElementById('updateBtn').addEventListener('click',(e)=>{
     manageTutos.classList.remove('selected')
     manageTutorsContainer.classList.add('hidden')
 
+    managecourses.classList.remove('selected')
 
 })
 
+
 requestsTutos.addEventListener('click',(e)=>{
     e.preventDefault()
+    manageCourseContainer.classList.add('hidden')
     updateProfile.classList.add('hidden')
     requestsTutos.classList.add('selected')
     manageTutos.classList.remove('selected')
@@ -30,17 +56,20 @@ requestsTutos.addEventListener('click',(e)=>{
     console.log('hhhh')
     containerRequests.classList.remove('hidden')
     manageTutorsContainer.classList.add('hidden')
+    managecourses.classList.remove('selected')
 
     
 })
 manageTutos.addEventListener('click',(e)=>{
     e.preventDefault()
+    manageCourseContainer.classList.add('hidden')
     updateProfile.classList.add('hidden')
     containerRequests.classList.add('hidden')
     manageTutorsContainer.classList.remove('hidden')
     manageTutos.classList.add('selected')
     requestsTutos.classList.remove('selected')
     document.getElementById('updateBtn').classList.remove('selected')
+    managecourses.classList.remove('selected')
 
 })
 
@@ -81,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-var modal = document.getElementById("myModal");
+
 var deleteBtn = document.getElementById("deleteBtn");
 var confirmBtn = document.getElementById("confirmBtn");
 var cancelBtn = document.getElementById("cancelBtn");
@@ -90,7 +119,7 @@ var closeBtn = document.getElementsByClassName("close")[0];
 deleteBtn.addEventListener('click',(e)=>{
 e.preventDefault()
 console.log('hhh')
-modal.style.display = "block";
+modal.classList.remove('hidden')
 })
 deleteBtn.onclick = function() {
     
@@ -98,20 +127,20 @@ deleteBtn.onclick = function() {
 }
 
 cancelBtn.onclick = function() {
-    modal.style.display = "none";
+    modal.classList.add('hidden')
 }
 
 closeBtn.onclick = function() {
-    modal.style.display = "none";
+    modal.classList.add('hidden')
 }
 
 window.onclick = function(event) {
     if (event.target == modal) {
-        modal.style.display = "none";
+        modal.classList.add('hidden')
     }
 }
 
 confirmBtn.onclick = function() {
     alert("Votre compte a été supprimé avec succès.");
-    modal.style.display = "none";
+    modal.classList.add('hidden')
 }
