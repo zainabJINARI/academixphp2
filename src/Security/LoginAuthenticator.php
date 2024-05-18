@@ -63,7 +63,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
                     if ($role === 'ROLE_STUDENT') {
                         return new RedirectResponse($this->urlGenerator->generate('dashboard'));
                     } elseif ($role === 'ROLE_TUTOR') {
-                        return new RedirectResponse($this->urlGenerator->generate('all_courses'));
+                        return new RedirectResponse($this->urlGenerator->generate('app_tutor'));
                     } elseif ($role === 'ROLE_ADMIN') {
                         return new RedirectResponse($this->urlGenerator->generate('app_admin'));
                     }

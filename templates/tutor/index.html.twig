@@ -19,13 +19,15 @@ crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}" />
-    <script defer src="{{ asset('js/admin.js') }}"></script>
+    <script defer src="{{ asset('js/tutor.js') }}"></script>
+
 
 {% endblock %}
 
 {% block header %}
 
 <header class="header">
+
     <nav class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand d-flex flex-row align-items-center" href="{{ path('app_home') }}">
             <img src="{{ asset('images/logo.png') }}" alt="academix logo " width="150px">
@@ -58,40 +60,14 @@ crossorigin="anonymous"></script>
 
 {% endblock %}
 {% block body %}
-
-
-
-    
     <div class='dashboard'>
         <ul class="dashboard-options">
-            {% if is_granted('ROLE_ADMIN') %}
-               <li class="nav-item" id="requestsTutos">
-                 <a  href="#requests">Tutors Requests</a>
-               </li>
-            {% endif %}
-
-            {% if is_granted('ROLE_TUTOR') %}
-               <li class="nav-item" id="requestsTutos">
-                 <a  href="#courses-area">Courses Area</a>
-               </li>
-            {% endif %}
-            
-            {% if is_granted('ROLE_ADMIN') %}
-              <li class="nav-item" id="manageTutos">
-                <a href="#tutors">Manage  Tutors</a>
-              </li>
-            {% endif %}
-            {% if is_granted('ROLE_TUTOR') %}
+            <li class="nav-item" id="requestsTutos">
+                <a  href="#courses-area">Courses Area</a>
               <li class="nav-item" id="manageTutos">
                 <a href="#requests-area">Requests Area</a>
               </li>
-            {% endif %}
 
-            {% if is_granted('ROLE_ADMIN') %} 
-              <li class="nav-item">
-                <a  href="">Manage Courses</a>
-              </li>
-            {% endif %}
             <li class="nav-item" id="updateBtn">
                 <a    href="#update">Update Profile</a>
             </li>
@@ -103,136 +79,8 @@ crossorigin="anonymous"></script>
         <div>
            
             <h2>Welcome <span>{{ app.user.username }}</span> To Academix</h2>
-            
-            {% if is_granted('ROLE_ADMIN') %}
-               <div id="requests" class="mycourses">
-                <div class="completed-courses requests">
-                    <h3>Course Creation Requests</h3>
-                    <ul>
-                        <li>
-                            <i class="fa-solid fa-square-plus create"></i>
-                            <div>
-                                <h4>Learn Javascript</h4>
-                                <p>02-02-2024</p>
-                            </div>
-                            
-                            <div>
-                                <p><span>Requested By </span> <span class="bold"> Tom Chant</span></p>
-                                <div>
-                                    <a href=""><i class="fa-solid fa-check"></i></a>
-                                    <a href=""><i class="fa-solid fa-xmark"></i></a>
-                                    <a href=""><i class="fa-solid fa-ellipsis-vertical"></i></a>
-                                </div>
 
-                            </div>
-                            
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-square-plus create"></i>
-                            <div>
-                                <h4>Learn Javascript</h4>
-                                <p>02-02-2024</p>
-                            </div>
-                            
-                            <div>
-                                <p><span>Requested By </span> <span class="bold"> Tom Chant</span></p>
-                                <div>
-                                    <a href=""><i class="fa-solid fa-check"></i></a>
-                                    <a href=""><i class="fa-solid fa-xmark"></i></a>
-                                    <a href=""><i class="fa-solid fa-ellipsis-vertical"></i></a>
-                                </div>
-
-                            </div>
-                            
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-square-plus create"></i>
-                            <div>
-                                <h4>Learn Javascript</h4>
-                                <p>02-02-2024</p>
-                            </div>
-                            
-                            <div>
-                                <p><span>Requested By </span> <span class="bold">Tom Chant</span></p>
-                                <div>
-                                    <a href=""><i class="fa-solid fa-check"></i></a>
-                                    <a href=""><i class="fa-solid fa-xmark"></i></a>
-                                    <a href=""><i class="fa-solid fa-ellipsis-vertical"></i></a>
-                                </div>
-
-                            </div>
-                            
-                        </li>
-
-                    </ul>
-                    
-                </div>
-                <div class="completed-courses requests">
-                    <h3>Course Deletion Requests</h3>
-                    <ul>
-                        <li>
-                            <i class="fa-solid fa-trash delete"></i>
-                            <div>
-                                <h4>Learn Javascript</h4>
-                                <p>02-02-2024</p>
-                            </div>
-                            
-                            <div>
-                                <p><span>Requested By </span> <span>Tom Chant</span></p>
-                                <div>
-                                    <a href=""><i class="fa-solid fa-check"></i></a>
-                                    <a href=""><i class="fa-solid fa-xmark"></i></a>
-                                    <a href=""><i class="fa-solid fa-ellipsis-vertical"></i></a>
-                                </div>
-
-                            </div>
-                            
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-trash delete"></i>
-                            <div>
-                                <h4>Learn Javascript</h4>
-                                <p>02-02-2024</p>
-                            </div>
-                            
-                            <div>
-                                <p><span>Requested By </span> <span>Tom Chant</span></p>
-                                <div>
-                                    <a href=""><i class="fa-solid fa-check"></i></a>
-                                    <a href=""><i class="fa-solid fa-xmark"></i></a>
-                                    <a href=""><i class="fa-solid fa-ellipsis-vertical"></i></a>
-                                </div>
-
-                            </div>
-                            
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-trash delete"></i>
-                            <div>
-                                <h4>Learn Javascript</h4>
-                                <p>02-02-2024</p>
-                            </div>
-                            
-                            <div>
-                                <p><span>Requested By </span> <span>Tom Chant</span></p>
-                                <div>
-                                    <a href=""><i class="fa-solid fa-check"></i></a>
-                                    <a href=""><i class="fa-solid fa-xmark"></i></a>
-                                    <a href=""><i class="fa-solid fa-ellipsis-vertical"></i></a>
-                                </div>
-
-                            </div>
-                            
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-            {% endif %}
-
-
-            {% if is_granted('ROLE_TUTOR') %}
-                <div id="courses-area" class="manage-courses-container" >
+            <div id="courses-area" class="manage-courses-container" >
                 <h3>New Courses</h3>
                 <ul>
                         <li id="addNewCourse"> <span><i class="fa-solid fa-user-plus"></i></span><span>Create New Course</span></li>
@@ -240,10 +88,13 @@ crossorigin="anonymous"></script>
                         <li class="course">
                             <i class="fa-solid fa-circle-check"></i>
                             <h4>Introduction de react</h4>    
-                            <div>
-                                
-                            </div>
                         </li>
+
+                        <li class="course">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <h4>Introduction de vue</h4>    
+                        </li>
+
                     </ul>
 
                 <h3>Old Courses</h3>
@@ -280,118 +131,17 @@ crossorigin="anonymous"></script>
                 
 
                 </div>
-
-            {% endif %}
-            
-
-
-            <div class="update-profile" id="update-profile">
-                <h3>Update User</h3>
-                <div class="container updateprofileContainer">
-                    
-                    <form action="{{ path('update_admin_profile') }}" method="post" enctype="multipart/form-data">
-                        <div hidden>  {{ csrf_token('update_admin_profile') }}</div>
-                       
-                    <div class="profile-picture">
-                        <img src="{{ app.user.profileImage}}" alt="Image de profil">
-                        <label for="image-upload">
-                            <span>Changer l'image</span>
-                            <input type="file" id="image-upload" accept="image/*">
-                        </label>
-                    </div>
-            
-                    <div class="form">
-
-                    
-                        <div class="form-group">
-                            <label for="username">Nom d'utilisateur</label>
-                            <input type="text" id="username" name="username" placeholder="joe shmoe" value="{{app.user.username}}">
-                        </div>
-            
-                        <div class="form-group">
-                            <label for="email">Adresse e-mail</label>
-                            <input type="email" id="email" name="email" placeholder="joeshmoe@gmail.com" value="{{app.user.email}}">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password">Mot de passe</label>
-                            <input type="password" id="password" name="password" placeholder="" >
-                        </div>
-            
-                        <button type="submit">Update Profile</button>
-                    </div>
-                    </form>
-                </div>
-            
-            </div>
-            <div id="manageTutorsContainer" class="manage-tutors-container" >
-                
-                <h3>Manage Tutors</h3>
-                    
-                
-                <ul>
-                    <li id="addNewTutor"> <span><i class="fa-solid fa-user-plus"></i></span><span>Create New Tutor</span></li>
-                    {% for tutor in tutors  %}
-
-                    <li class="tutor">
-                        <img src="{{ tutor.profile }}" alt="">
-                        
-                        <h4>{{ tutor.username}}</h4>
-                        <p>Bio:{{ tutor.bio}} </p>
-
-                       
-                        
-                        <div>
-                            <a href="/admin/delete-tutor/{{tutor.id}}"><i class="fa-solid fa-trash"></i></a>
-                            <a href="#"><i class="fa-regular fa-pen-to-square"></i></a>
-                        </div>
-
-                    </li>
-                    {% endfor %}
-                    
-                  
-                  
-                    
-                </ul>
-            </div>
-
         </div>
 
         
+       
        
             
          
     </div>
 
-    <div id="form-create-tutor" class="form-create-tutor" >
-        
-        <span id="close" class="closebtn"><i class="fa-solid fa-xmark"></i></span>
-        <h3>Create New Tutor</h3>
-        {{ form_errors(registrationForm) }}
+    
 
-        {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-        label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Create Tutor</button>
-        {{ form_end(registrationForm) }}
-    </div>
-
-
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Are you sure you wanna delete your profile ?</p>
-            <div>
-                <a id="confirmBtn" href="">Proceed</a>
-            <a id="cancelBtn" href="">Cancel</a>
-            </div>
-            
-        </div>
-    </div>
    
     
 

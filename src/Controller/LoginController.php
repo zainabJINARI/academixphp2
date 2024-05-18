@@ -21,7 +21,7 @@ class LoginController extends AbstractController
                 if ($role === 'ROLE_STUDENT') {
                     return $this->redirectToRoute('dashboard');
                 } elseif ($role === 'ROLE_TUTOR') {
-                    return $this->redirectToRoute('all_courses');
+                    return $this->redirectToRoute('app_tutor');
                 } elseif ($role === 'ROLE_ADMIN') {
                     return $this->redirectToRoute('app_admin');
                 }

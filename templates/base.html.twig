@@ -73,12 +73,10 @@
                           <a class="nav-link" href="{{ path('app_admin') }}">Dashboard</a>
                       {% elseif 'ROLE_STUDENT' in app.user.roles %}
                           <a class="nav-link" href="{{ path('student_dashboard') }}">Student Dashboard</a>
-                      {% elseif 'ROLE_TUTOR' in app.user.roles %}
-                          <a class="nav-link" href="{{ path('tutor_dashboard') }}">Tutor Dashboard</a>
-                      {% else %}
-                          <a class="nav-link" href="{{ path('default_dashboard') }}">Default Dashboard</a>
                       {% endif %}
+                      
                     </li>
+
                       
                       {% else %}
                       
