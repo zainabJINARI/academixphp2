@@ -27,7 +27,7 @@ class UserController extends AbstractController
                 throw $this->createNotFoundException('Utilisateur  avec  cet email est deja existe');
             }
             $user = new User();
-            $user->setFullname($fullname);
+            $user->setUsername($fullname);
             $user->setEmail($email);
             $user->setPassword($password);
             $user->setRole($role);
