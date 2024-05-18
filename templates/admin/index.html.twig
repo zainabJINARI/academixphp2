@@ -280,94 +280,22 @@ crossorigin="anonymous"></script>
             <div id="manageCourseContainer" class="manageCourseContainer">
                 <h3>Manage Courses</h3>
                 <ul>
-                    <li> <span><i class="fa-solid fa-graduation-cap"></i></span><span>Create New Course</span></li>
+                    <li id="createNewCourse"> <span><i class="fa-solid fa-graduation-cap"></i></span><span>Create New Course</span></li>
+                    {% for course in  courses %}
                     <li>
                         <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
+                        <img src='{{ course.thumbnail }}' alt="" class="border">
+                        <h4>{{ course.title }}</h4>
                         <div>
-                            <p>By : TOM Chant</p>
+                            <p>By : {{ course.tutor_name }}</p>
                             <p>22-20-2024</p>
                         </div>
 
                     </li>
-                    <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li> <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li> <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li> <li>
-                        <i class="fa-solid fa-trash delete"></i>
-                        <img src="{{ asset('images/courses/image 9.png') }}" alt="">
-                        <h4>Front End Career Path</h4>
-                        <div>
-                            <p>By : TOM Chant</p>
-                            <p>22-20-2024</p>
-                        </div>
-
-                    </li>
+                    {% endfor %}   
+                   
+                    
+                     
 
                 </ul>
             </div>
@@ -408,6 +336,29 @@ crossorigin="anonymous"></script>
             </div>
             
         </div>
+    </div>
+    <div class="createCourseForm" id="createCourseForm">
+        <span  class="closebtn" id="closeCourseCreateBtn"><i class="fa-solid fa-xmark"></i></span>
+        <h3>Create New Course</h3>
+        <form action="{{ path('create-course') }}" method="post">
+            <label for="title">Course Title</label>
+            <input type="text" id="title" placeholder="i.e:React Native Course" name="title">
+            <label for="tutor">Course Tutor</label>
+            <select name="tutorid" id="tutor">
+                {% for tutor in tutors  %}
+                    <option value="{{ tutor.id }}">{{ tutor.username }}</option>
+                {% endfor %}
+
+            </select>
+            <label for="category">Course Category</label>
+            <select name="category" id="category">
+                {% for cat in cats.getCategories %}
+                    <option value="{{ cat.name  }}">{{ cat.name }}</option>
+                {% endfor %}
+                
+            </select>
+            <button type="submit" class="btn">Create Course</button>
+        </form>
     </div>
    
     

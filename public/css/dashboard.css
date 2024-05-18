@@ -589,7 +589,7 @@ font-size: 1.5rem;
 .manageCourseContainer  > ul > li{
     max-width: 200px;
     position: relative;
-
+background-color: #F5F5F5;
     color: #868383;
 }
 .manageCourseContainer  > ul > li h4{
@@ -665,7 +665,7 @@ font-size: 1.5rem;
     display: flex;
     flex-direction: column;
     max-width: 160px;
-    background-color: #fff;
+    background-color: #F5F5F5;
 
 }
 
@@ -702,7 +702,7 @@ font-size: 1.5rem;
 
 
 /* form add tutor */
-.form-create-tutor{
+.form-create-tutor,.createCourseForm{
     border-radius: 5;
     border: 1px solid #39045A;
     text-align: center;
@@ -720,17 +720,17 @@ font-size: 1.5rem;
     background-color: #e5d8f0;
 
 }
-.form-create-tutor form > div{
+.form-create-tutor form > div, .createCourseForm form{
     display: flex;
     flex-direction: column;
     text-align: start;
 }
 
-.form-create-tutor h3{
+.form-create-tutor h3 .createCourseForm h3{
     font-size: 1.5rem;
     color: #39045A;
 }
-.form-create-tutor form > button{
+.form-create-tutor form > button ,.createCourseForm form > button{
     color: white;
     background-color: #BB84E8;
     padding: 0.7em;
@@ -745,7 +745,7 @@ font-size: 1.5rem;
     justify-content: flex-start;
 }
 
-.form-create-tutor  .closebtn{
+.form-create-tutor  .closebtn ,.createCourseForm .closebtn{
 margin-left: auto;
 cursor: pointer;
 color: #2B2839;
@@ -766,3 +766,73 @@ color: #2B2839;
      flex-direction: column;
      text-align: start;
  }
+
+.border{
+    border: 1px solid #aaa;
+}
+
+
+/* Form to add  base informations to course */
+.hidden-form{
+    display: none ;
+}
+
+.add-base-infos-course {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    position: fixed;
+    top: 50%;
+    left: 30%;
+    background-color: #F5F5F5;
+    width: 400px;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    padding: 10px;
+}
+.add-base-infos-course * {
+    margin-bottom: 5px;
+}
+
+
+
+.add-base-infos-cours label {
+    font-size: 0.9rem;
+    color: #868383;
+    font-weight: 400;
+}
+
+.add-base-infos-course input {
+   padding: 5px 10px;
+   background-color: #BB84E8;
+   color: white;
+   font-size: 0.8rem;
+   font-weight: 500;
+   outline: none;
+}
+
+
+.add-base-infos-course  select {
+    color: #868383;
+    font-size: 0.9rem;
+}
+
+
+.add-base-infos-course  select option {
+    font-size: 0.8rem;
+    color: #868383;
+
+}
+
+
+.add-base-infos-course button {
+    padding: 8px 20px ;
+    background-color: #A020F0;
+    color: #FFF;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: auto;
+    border: none;
+    border-radius: 10px;
+}

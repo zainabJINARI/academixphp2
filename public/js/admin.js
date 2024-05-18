@@ -8,7 +8,18 @@ const btnshowinput = document.getElementById('btnshowinput')
 const imageUpload = document.getElementById('image-upload')
 const manageCourseContainer = document.getElementById('manageCourseContainer')
 const managecourses = document.getElementById('managecourses')
+const createNewCourse = document.getElementById('createNewCourse')
+const createCourseForm = document.getElementById('createCourseForm')
+const closeCourseCreateBtn = document.getElementById('closeCourseCreateBtn')
 manageCourseContainer.classList.add('hidden')
+createCourseForm.classList.add('hidden')
+createNewCourse.addEventListener('click',()=>{
+    console.log('create new course ')
+    createCourseForm.classList.remove('hidden')
+})
+closeCourseCreateBtn.addEventListener('click',()=>{
+    createCourseForm.classList.add('hidden')
+})
 
 
 imageUpload.classList.add('hidden')

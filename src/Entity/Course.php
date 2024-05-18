@@ -17,17 +17,18 @@ class Course
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column]
+    
+    #[ORM\Column(nullable: true)]
     private ?float $nbrHours = null;
 
     #[ORM\Column(length: 255)]
     private ?string $level = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $thumbnail = null;
+    private ?string $thumbnail  = 'https://training.digitalscholar.in/images/default-course-thumbnail.png'; 
 
     #[ORM\Column(length: 255)]
-    private ?int $nbrLessons = null;
+    private ?int $nbrLessons = 0;
 
     #[ORM\ManyToOne(inversedBy: 'courses')]
     #[ORM\JoinColumn(nullable: false)]
@@ -50,7 +51,7 @@ class Course
 
     public function getNbrLessons(): ?int
     {
-        return $this->nbrLessons;
+        return $this->nbrLessons ?: 0;
     }
     public function getId(): ?int
     {
@@ -71,39 +72,45 @@ class Course
 
     public function getNbrHours(): ?float
     {
-        return $this->nbrHours;
+        return $this->nbrHours ?:0;
     }
 
     public function setNbrHours(float $nbrHours): static
     {
         $this->nbrHours = $nbrHours;
 
-        return $this;
+        return $this ?: 0;
     }
 
     public function getLevel(): ?string
     {
-        return $this->level;
+        return $this->level  ?: 'Beginner';
     }
 
     public function setLevel(string $level): static
     {
-        $this->level = $level;
+        $this->level = $level ?: 'Beginner';
 
         return $this;
     }
 
-    public function getThumbnail(): ?string
-    {
-        return $this->thumbnail;
-    }
+   
 
-    public function setThumbnail(string $thumbnail): static
-    {
-        $this->thumbnail = $thumbnail;
 
-        return $this;
-    }
+public function getThumbnail(): ?string
+{
+   
+    return $this->thumbnail ?: 'https://training.digitalscholar.in/images/default-course-thumbnail.png';
+}
+
+public function setThumbnail(?string $thumbnail): static
+{
+    
+    $this->thumbnail = $thumbnail ?: 'https://training.digitalscholar.in/images/default-course-thumbnail.png';
+
+    return $this;
+}
+
 
     public function getTutor(): ?User
     {

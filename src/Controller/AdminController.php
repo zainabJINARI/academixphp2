@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Course;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\CourseRepository;
@@ -13,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface\UserInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class AdminController extends AbstractController
 {
@@ -175,4 +177,30 @@ class AdminController extends AbstractController
         // Return a JSON response indicating success
         return $this->redirectToRoute('app_home');
     }
+    #[Route('/admin/courses/create-course', name: 'create-course')]
+    public function createCourse(EntityManagerInterface $entityManagerInterface,Request $request): Response
+    {
+        if ($request->isMethod('POST')) {
+            $title = $request->request->get('title');
+            $tutorid = $request->request->get('tutorid');
+
+            $category = $request->request->get('category');
+            $tutor = $entityManagerInterface->getRepository(User::class)->find($tutorid);
+            if (!$tutor) {
+                
+            }
+    
+            $course = new Course();
+            $course->setTitle($title);
+            $course->setTutor($tutor);
+            $course->setcategory($category);
+            $course->setNbrHours(0);
+            $course->setLevel('Beginner');
+            $entityManagerInterface->persist($course);
+            $entityManagerInterface->flush();
+            return new RedirectResponse($this->generateUrl('app_admin'));
+        }
+        return new Response("dh");
+    }
+    
 }
