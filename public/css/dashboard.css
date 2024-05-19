@@ -878,3 +878,74 @@ flex-direction: column;
     flex-direction: column;
     width: 100%;
 }
+
+.pending{
+    text-transform: capitalize;
+    color: #A020F0 !important;
+}
+.rejected{
+    text-transform: capitalize;
+    color: red !important;
+}
+.success{
+    text-transform: capitalize;
+    color: #45a049 !important;
+}
+
+.option-tutor-request{
+    font-size: 0.9rem !important;
+}
+
+/* parties of requests  */
+.request-details {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4; 
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); 
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+
+
+.requests-details-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.requests-details-container i {
+    align-self: flex-end;
+    font-size: 1.2rem;
+    color: #A020F0;
+}
+
+.requests-details-container h4{
+    font-size: 1.4rem;
+    margin: 0;
+    margin-bottom: 10px;
+    color: #735ec9;
+}
+
+
+.requests-details-container p{
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+.requests-details-container p > span {
+    font-weight: bold;
+    color: #868383;
+}
+
+
+.requests-details-container p:last-child {
+   max-width: 400px;
+   color: #868383;
+   padding: 5px 10px ;
+   border: 1px solid #735ec9;
+}

@@ -22,7 +22,6 @@
   integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
   crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}" />
-<link rel="stylesheet" href="{{ asset('css/tutor.css') }}" />
 <script defer src="{{ asset('js/tutor.js') }}"></script>
 
 
@@ -68,9 +67,9 @@
 <div class='dashboard'>
   <ul class="dashboard-options">
     <li class="nav-item" id="requestsTutos">
-      <a href="#courses-area">Courses Area</a>
-    <li class="nav-item" id="manageTutos">
-      <a href="/tutor/all_requests">Requests Area</a>
+      <a href="/app_tutor">Courses Area</a>
+    <li class="nav-item selected" id="manageTutos">
+      <a href="#requests-area" >Requests Area</a>
     </li>
 
     <li class="nav-item" id="updateBtn">
@@ -85,61 +84,71 @@
 
     <h2>Welcome <span>{{ app.user.username }}</span> To Academix</h2>
 
-    <div id="courses-area" class="manage-courses-container">
-      <h3>All Courses</h3>
+    <div  class="mycourses">
+        <div class="completed-courses requests">
+            <h3>Course Creation Requests</h3>
+            <ul>
+                {% if create_request|length==0 %}
 
+                    No requests yet 
+                
+                {% endif %}
+                {% for request in create_request %}
+                    <li id={request.id}>
+                        <i class="fa-solid fa-square-plus create"></i>
+                        <div>
+                            <h4>{{ request.course }}</h4>
+                            <p>{{ request.time }}</p>
+                        </div>
+                        
+                        <div>
+                            <p><span>Status: </span> <span class="bold {{ request.status }}"> {{ request.status }}</span></p>
+                            <div>
+                                <a href="" class='option-tutor-request'> {{ request.status=='pending' ? 'Cancel' : 'Delete' }}</a>
+                                
+                               
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+                
+        
+            </ul>
+            
+        </div>
+        <div class="completed-courses requests">
+            <h3>Course Deletion Requests</h3>
+            <ul>
+                
+                {% for request in  delete_request %}
+                <li>
+                    <i class="fa-solid fa-trash delete"></i>
+                    <div>
+                        <h4>{{ request.course }}</h4>
+                        <p>{{ request.time }}</p>
+                    </div>
+                    
+                    <div>
+                        <p><span>Status: </span> <span class="bold {{ request.status }}">{{ request.status }}</span></p>
+                        <div>
+                            <a href="" class='option-tutor-request'> {{ request.status=='pending' ? 'Cancel' : 'Delete' }}</a>
+                            
+                           
+                        </div>
 
-      <div class="old-courses-container">
-        <ul>
-          <li id="addNewCourse"> <span><i class="fa-solid fa-user-plus"></i></span><span>Create New Course</span></li>
-          {% for course in courses %}
-          <li class="course-info">
-
-            <img src="{{ asset('uploads/thumbnails/' ~ course.thumbnail) }}" alt="Image of the course" />
-            <h4>{{ course.title }}</h4>
-            <div>
-              <p>Level : <span>{{ course.level }}</span></p>
-              <a href="/course/edit/{{ course.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
-              <a href="/course/delete/{{ course.id }}"><i class="fa-solid fa-trash"></i></a>
-
-
-            </div>
-          </li>
-          {% endfor %}
-
-        </ul>
-
-      </div>
-
+                    </div>
+                    
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
 
     </div>
   </div>
 
 
 </div>
-<div id="popup">
-  <form class="new-course-request" id="new-course-request" action="/create-new-course" method="POST">
-    <label for="course-name">Course Name</label>
-    <input id="course-name" type="text" name="course-name" />
 
-    <label for="category-name">Category</label>
-    <select id="category-name" name="category-name">
-      {% for cat in cats.getCategories %}
-      <option value="{{ cat.name }}">{{ cat.name }}</option>
-      {% endfor %}
-    </select>
-
-    <label for="course-description">Description</label>
-    <textarea id="course-description" name="course-description"></textarea>
-
-    {% if 'ROLE_TUTOR' in app.user.roles %}
-    <input type="hidden" id="tutor-id" name="tutor-id" value="{{ app.user.id }}">
-    {% endif %}
-
-    <button type="submit">Send</button>
-  </form>
-
-</div>
 
 
 

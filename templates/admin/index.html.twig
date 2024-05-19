@@ -90,7 +90,7 @@ crossorigin="anonymous"></script>
                     <ul>
                     
                         {% for request in requests %}
-                            <li id={request.id}>
+                            <li>
                                 <i class="fa-solid fa-square-plus create"></i>
                                 <div>
                                     <h4>{{ request.course }}</h4>
@@ -100,12 +100,20 @@ crossorigin="anonymous"></script>
                                 <div>
                                     <p><span>Requested By </span> <span class="bold"> {{ request.tutor }}</span></p>
                                     <div>
-                                        <a href=""><i class="fa-solid fa-check"></i></a>
-                                        <a href=""><i class="fa-solid fa-xmark"></i></a>
-                                        <a href=""><i class="fa-solid fa-ellipsis-vertical"></i></a>
+                                        <a href="/edit-course-status/{{ request.idCourse }}"><i class="fa-solid fa-check"></i></a>
+                                        <a href="/edit-request-status/{{ request.id }}"><i class="fa-solid fa-xmark"></i></a>
+                                        <a href="#"><i class="fa-solid fa-ellipsis-vertical show-request-details"></i></a>
                                     </div>
                                 </div>
                             </li>
+                            <div class="request-details">
+                                <div class="requests-details-container">
+                                      <i class="fa-regular fa-circle-xmark close-details"></i>
+                                      <h4>{{ request.course }}</h4>
+                                      <p>Category <span>{{ request.category }}</span></p>
+                                      <p>{{ request.description }}</p> 
+                                </div>       
+                              </div>
                         {% endfor %}
                         
                 
@@ -115,15 +123,17 @@ crossorigin="anonymous"></script>
                 <div class="completed-courses requests">
                     <h3>Course Deletion Requests</h3>
                     <ul>
+                        
+                        {% for request in requestsDelete %}
                         <li>
                             <i class="fa-solid fa-trash delete"></i>
                             <div>
-                                <h4>Learn Javascript</h4>
-                                <p>02-02-2024</p>
+                                <h4>{{ request.course }}</h4>
+                                <p>{{ request.time }}</p>
                             </div>
                             
                             <div>
-                                <p><span>Requested By </span> <span>Tom Chant</span></p>
+                                <p><span>Requested By </span> <span>{{ request.tutor }}</span></p>
                                 <div>
                                     <a href=""><i class="fa-solid fa-check"></i></a>
                                     <a href=""><i class="fa-solid fa-xmark"></i></a>
@@ -133,42 +143,7 @@ crossorigin="anonymous"></script>
                             </div>
                             
                         </li>
-                        <li>
-                            <i class="fa-solid fa-trash delete"></i>
-                            <div>
-                                <h4>Learn Javascript</h4>
-                                <p>02-02-2024</p>
-                            </div>
-                            
-                            <div>
-                                <p><span>Requested By </span> <span>Tom Chant</span></p>
-                                <div>
-                                    <a href=""><i class="fa-solid fa-check"></i></a>
-                                    <a href=""><i class="fa-solid fa-xmark"></i></a>
-                                    <a href=""><i class="fa-solid fa-ellipsis-vertical"></i></a>
-                                </div>
-
-                            </div>
-                            
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-trash delete"></i>
-                            <div>
-                                <h4>Learn Javascript</h4>
-                                <p>02-02-2024</p>
-                            </div>
-                            
-                            <div>
-                                <p><span>Requested By </span> <span>Tom Chant</span></p>
-                                <div>
-                                    <a href=""><i class="fa-solid fa-check"></i></a>
-                                    <a href=""><i class="fa-solid fa-xmark"></i></a>
-                                    <a href=""><i class="fa-solid fa-ellipsis-vertical"></i></a>
-                                </div>
-
-                            </div>
-                            
-                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
 

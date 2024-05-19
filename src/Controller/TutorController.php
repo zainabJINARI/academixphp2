@@ -13,7 +13,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
  
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Course ;
+use App\Entity\User ;
 use App\Repository\UserRepository ;
+use App\Repository\CourseRepository ;
 use App\Entity\RequestCourse ;
 
 class TutorController extends AbstractController
@@ -133,4 +135,79 @@ class TutorController extends AbstractController
 
         ]);
     }
+    #[Route('/course/delete/{id}', name: 'delete-request')]
+    public function deleteRequest(EntityManagerInterface $entityManager, Security $security, $id): Response
+    {
+
+        $currentUser = $security->getUser();
+        if (!$currentUser || !$currentUser->getUserIdentifier()) {
+            return new JsonResponse(['error' => 'User not found or not authenticated'], 400);
+        }
+        $tutor = $entityManager->getRepository(User::class)->findOneBy(['email' => $currentUser->getUserIdentifier()]);        
+        if (!$tutor) {
+            return new JsonResponse(['error' => 'Tutor not found'], 404);
+        }
+        $requestCourse = new RequestCourse();
+        $requestCourse->setStatus('pending');
+        $requestCourse->setType('Delete');
+        $currentDateTime = new \DateTime();
+        $requestCourse->setTime($currentDateTime);
+        $requestCourse->setIdtutor($tutor->getId());
+        $requestCourse->setCourseId($id);
+        $requestCourse->setDescription('Delete this course');
+        $entityManager->persist($requestCourse);
+        $entityManager->flush();
+        return $this->redirectToRoute('requests_tutor');
+    }
+
+    #[Route('/tutor/all_requests', name: 'requests_tutor')]
+    public function detail_course_tutor(EntityManagerInterface $entityManager, CourseRepository $courseRepository,UserRepository $userRepository,Security $security): Response
+    {
+        $currentUser = $security->getUser();
+        $tutor = $entityManager->getRepository(User::class)->findOneBy(['email' => $currentUser->getUserIdentifier()]);
+
+        
+
+        $requests = $entityManager->getRepository(RequestCourse::class)->findBy(['idtutor' => $tutor->getId()]);
+
+        if (!$requests) {
+            return new JsonResponse(['error' => 'No requests found for this tutor'], 404);
+        }
+
+        $requestsArrayDelete=[];
+        $requestsArrayCreate=[];
+        foreach ($requests as $requestt) {
+            
+            $requestsData= [];
+            $courseName= $courseRepository->find($requestt->getCourseId())->getTitle();
+            
+            $requestData['id'] = $requestt->getId();
+            $requestData['time'] = $requestt->getTime()->format('Y-m-d H:i:s');
+            $requestData['course'] = $courseName;
+            $requestData['id'] = $requestt->getCourseId();
+            $requestData['status'] = $requestt->getStatus();
+            
+
+            
+           if($requestt->getType()=='Create'){
+             $requestsArrayCreate[] = $requestData;
+           }else if($requestt->getType()=='Delete'){
+            $requestsArrayDelete[]=$requestData;
+           }
+        
+
+            
+        }
+        return $this->render('tutor/all_requests.html.twig', [
+            'controller_name' => 'detail_course',
+            'delete_request'=>$requestsArrayDelete,
+            'create_request'=>$requestsArrayCreate,
+           
+
+
+        ]);
+    }
+
+
+
 }
