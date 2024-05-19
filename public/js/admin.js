@@ -11,6 +11,9 @@ const managecourses = document.getElementById('managecourses')
 const createNewCourse = document.getElementById('createNewCourse')
 const createCourseForm = document.getElementById('createCourseForm')
 const closeCourseCreateBtn = document.getElementById('closeCourseCreateBtn')
+const acceptBtn = document.querySelector('accept-request');
+
+
 manageCourseContainer.classList.add('hidden')
 createCourseForm.classList.add('hidden')
 createNewCourse.addEventListener('click',()=>{
@@ -155,3 +158,23 @@ confirmBtn.onclick = function() {
     alert("Votre compte a été supprimé avec succès.");
     modal.classList.add('hidden')
 }
+
+
+
+
+
+//Afficher details section 
+const showDetailsLinks = document.querySelectorAll('.show-request-details');
+const requestDetails = document.querySelector('.request-details');
+const closeDetails = document.querySelector('.close-details');
+
+showDetailsLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            requestDetails.style.display = 'block';
+        });
+});
+
+closeDetails.addEventListener('click', function() {
+        requestDetails.style.display = 'none';
+});

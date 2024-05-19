@@ -93,8 +93,10 @@ class AdminController extends AbstractController
             
             $requestData['id'] = $requestt->getId();
             $requestData['time'] = $requestt->getTime()->format('Y-m-d H:i:s');
+            $requestData['category'] = $courseRepository->find($requestt->getCourseId())->getCategory();
+            $requestData['description'] = $requestt->getDescription();
             $requestData['course'] = $courseName;
-            $requestData['id'] = $requestt->getCourseId();
+            $requestData['idCourse'] = $requestt->getCourseId();
             $tutorId = $requestt->getIdtutor();
 
             if ($tutorId !== null) {
@@ -222,6 +224,7 @@ class AdminController extends AbstractController
         // Return a JSON response indicating success
         return $this->redirectToRoute('app_home');
     }
+
     #[Route('/admin/courses/create-course', name: 'create-course')]
     public function createCourse(EntityManagerInterface $entityManagerInterface,Request $request): Response
     {
@@ -247,5 +250,41 @@ class AdminController extends AbstractController
         }
         return new Response("dh");
     }
+
+
+
+    #[Route('/edit-course-status/{id}', name: 'edit-course-status')]    public function EditStatusCourse(EntityManagerInterface $entityManagerInterface, CourseRepository $courseRepository  ,  Request $request): Response
+    {
+        $id = $request->attributes->get('id');
+        $course = $courseRepository->find($id);
+        if ($course) {
+
+            $course->setActive(true);
+            $entityManagerInterface->flush();
+
+            return new Response("OK");
+        } else {
+                return new Response("Course not found");
+        }
+    }
+
+
+    #[Route('/edit-request-status/{id}', name: 'edit-request-status')]    
+    public function EditStatusRequest(EntityManagerInterface $entityManagerInterface, RequestRepository $requestRepository  ,  Request $request): Response
+    {
+        $id = $request->attributes->get('id');
+        $reqst = $requestRepository->find($id);
+        if ($reqst) {
+
+            $reqst->setStatus('rejected');
+            $entityManagerInterface->flush();
+
+            return new Response("OK");
+        } else {
+                return new Response("Course not found");
+        }
+    }
+
+
     
 }
