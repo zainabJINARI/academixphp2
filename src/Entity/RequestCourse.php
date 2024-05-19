@@ -14,8 +14,9 @@ class RequestCourse
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 10)]
-    private ?string $course = null;
+
+    #[ORM\Column]
+    private ?int $courseid = null;
 
     #[ORM\Column]
     private ?bool $status = null;
@@ -34,14 +35,14 @@ class RequestCourse
         return $this->id;
     }
 
-    public function getCourse(): ?string
+    public function getCourseId(): ?int
     {
-        return $this->course;
+        return $this->courseid;
     }
 
-    public function setCourse(string $course): static
+    public function setCourseId(int $courseid): static
     {
-        $this->course = $course;
+        $this->courseid = $courseid;
 
         return $this;
     }

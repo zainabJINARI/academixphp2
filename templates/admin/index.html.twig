@@ -90,7 +90,7 @@ crossorigin="anonymous"></script>
                     <ul>
                     
                         {% for request in requests %}
-                            <li>
+                            <li id={request.id}>
                                 <i class="fa-solid fa-square-plus create"></i>
                                 <div>
                                     <h4>{{ request.course }}</h4>

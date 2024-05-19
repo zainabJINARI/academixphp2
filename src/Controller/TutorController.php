@@ -74,15 +74,21 @@ class TutorController extends AbstractController
         $request->setTime($currentDateTime);
         $request->setIdtutor($tutorId);
         $request->setDescription($description);
-        $request->setCourse($courseName);
+        
 
 
         $entityManager->persist($course);
+        $entityManager->flush();
         $entityManager->persist($request);
+        $request->setCourseId(intval($course->getId()));
         $entityManager->flush();
 
-        return new Response("Bravo");
+        return new JSONResponse($course->getId());
+
     }
+
+
+    
     #[Route('/course/edit/{id}', name: 'detail_course_tutor')]
     public function edit(Request $request, Course $course, EntityManagerInterface $entityManager, $id): Response
 

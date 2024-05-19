@@ -86,10 +86,11 @@ class AdminController extends AbstractController
 
         foreach ($requests as $requestt) {
             $requestData = [];
-
+            $courseName= $courseRepository->find($requestt->getCourseId())->getTitle();
             $requestData['id'] = $requestt->getId();
             $requestData['time'] = $requestt->getTime()->format('Y-m-d H:i:s');
-            $requestData['course'] = $requestt->getCourse();
+            $requestData['course'] = $courseName;
+            $requestData['id'] = $requestt->getCourseId();
             $tutorId = $requestt->getIdtutor();
 
             if ($tutorId !== null) {
