@@ -558,7 +558,7 @@ font-size: 1.5rem;
 /* .manage-tutors-container > ul>*{
     flex:1;
 } */
-.manage-tutors-container > ul>:first-child , .manage-courses-container > ul>:first-child  , .old-courses-container > ul .course-info,.manage-courses-container > ul > .course  , .manageCourseContainer  > ul>*:first-child{
+.manage-tutors-container > ul>:first-child , .manage-courses-container > ul>:first-child  , .old-courses-container > ul .course-info,.manage-courses-container > ul > .course  , .manageCourseContainer  > ul>*:first-child,#addNewCourse{
     color: #BB84E8;
     padding:  1em;
     border: 2px dashed #BB84E8;
@@ -835,4 +835,46 @@ color: #2B2839;
     margin-left: auto;
     border: none;
     border-radius: 10px;
+}
+
+/* edit course */
+.detail_course_tutor .old-courses-container{
+width: 100%;
+display: flex;
+flex-direction: column;
+}
+.old-courses-container form{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 1em 2em;
+   
+    
+    
+    
+}
+.old-courses-container form  >div:first-child{
+    
+  width:300px;
+    margin-left: auto;
+
+}
+.old-courses-container form .left-part{
+    display: flex;
+    flex-direction: column;
+   flex: 1;
+   justify-self: center;
+ 
+   margin: auto;
+   max-width: 700px;
+}
+.old-courses-container form .left-part  div{
+    
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }

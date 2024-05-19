@@ -21,7 +21,7 @@ class Course
     private ?float $nbrHours = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $level = null;
+    private ?string $level = '';
 
     #[ORM\Column(length: 255)]
     private ?string $thumbnail = 'https://training.digitalscholar.in/images/default-course-thumbnail.png';
@@ -38,6 +38,9 @@ class Course
 
     #[ORM\Column]
     private bool $active = false;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $description = null;
 
     public function getId(): ?int
     {
@@ -123,6 +126,17 @@ class Course
     public function setActive(bool $active): static
     {
         $this->active = $active;
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
         return $this;
     }
 }
