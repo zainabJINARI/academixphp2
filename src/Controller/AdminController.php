@@ -82,11 +82,15 @@ class AdminController extends AbstractController
 
         //Recuperer les requests 
         $requests = $requestRepository->findAll();
-        $requestsData = [];
+        $requestsDataCreate= [];
+        $requestsDataDelete = [];
+
 
         foreach ($requests as $requestt) {
-            $requestData = [];
+            
+            $requestsData= [];
             $courseName= $courseRepository->find($requestt->getCourseId())->getTitle();
+            
             $requestData['id'] = $requestt->getId();
             $requestData['time'] = $requestt->getTime()->format('Y-m-d H:i:s');
             $requestData['course'] = $courseName;
@@ -104,8 +108,14 @@ class AdminController extends AbstractController
             } else {
                 $requestData['tutor'] = 'No Tutor Assigned';
             }
+           if($requestt->getType()=='Create'){
+             $requestsDataCreate[] = $requestData;
+           }else if($requestt->getType()=='Delete'){
+            $requestsDataDelete[]=$requestData;
+           }
+        
 
-            $requestsData[] = $requestData;
+            
         }
 
         
@@ -116,7 +126,8 @@ class AdminController extends AbstractController
             'registrationForm' => $form->createView(),
             'tutors' => $tutorsData,
             'courses'=>$coursesData ,
-            'requests'=> $requestsData
+            'requests'=> $requestsDataCreate,
+            'requestsDelete'=>$requestsDataDelete
         ]);
     }
 

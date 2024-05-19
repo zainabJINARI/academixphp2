@@ -19,7 +19,7 @@ class RequestCourse
     private ?int $courseid = null;
 
     #[ORM\Column]
-    private ?bool $status = null;
+    private ?string $status = 'pending';
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $time = null;
@@ -29,6 +29,11 @@ class RequestCourse
 
     #[ORM\Column]
     private ?int $idtutor = null;
+
+    #[ORM\Column]
+    private ?string $type = null;
+
+    
 
     public function getId(): ?int
     {
@@ -47,14 +52,27 @@ class RequestCourse
         return $this;
     }
 
-    public function isStatus(): ?bool
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    public function setStatus(bool $status): static
+    public function setStatus(string $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }

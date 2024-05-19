@@ -69,7 +69,8 @@ class TutorController extends AbstractController
 
 
         $request = new RequestCourse();
-        $request->setStatus(false);
+        $request->setStatus('pending');
+        $request->setType('Create');
         $currentDateTime = new \DateTime();
         $request->setTime($currentDateTime);
         $request->setIdtutor($tutorId);
