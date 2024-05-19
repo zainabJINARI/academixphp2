@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\CourseRepository;
 use App\Repository\UserRepository;
+use App\Repository\RequestRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class AdminController extends AbstractController
 {
     #[Route('/admin', name: 'app_admin')]
-    public function index(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserRepository $userRepository, CourseRepository $courseRepository): Response
+    public function index(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserRepository $userRepository, CourseRepository $courseRepository , RequestRepository $requestRepository ,  ): Response
     {
 
         $tutors = $userRepository->createQueryBuilder('u')
@@ -29,8 +30,6 @@ class AdminController extends AbstractController
             ->getResult();
         $tutorsData = [];
         foreach ($tutors as $tutor) {
-
-
             $tutorsData[] = [
                 'id' => $tutor->getId(),
                 'username' => $tutor->getUsername(),
@@ -47,6 +46,9 @@ class AdminController extends AbstractController
             ->leftJoin('c.tutor', 'u')
             ->getQuery()
             ->getResult();
+            
+        $coursesData = [];
+    
         foreach ($courses as $course) {
             $coursesData[] = [
                 'id' => $course[0]->getId(),
@@ -76,13 +78,44 @@ class AdminController extends AbstractController
 
             return $this->redirectToRoute('app_admin');
         }
+        
+
+        //Recuperer les requests 
+        $requests = $requestRepository->findAll();
+        $requestsData = [];
+
+        foreach ($requests as $requestt) {
+            $requestData = [];
+
+            $requestData['id'] = $requestt->getId();
+            $requestData['time'] = $requestt->getTime()->format('Y-m-d H:i:s');
+            $requestData['course'] = $requestt->getCourse();
+            $tutorId = $requestt->getIdtutor();
+
+            if ($tutorId !== null) {
+                $tutor = $userRepository->find($tutorId);
+                if ($tutor !== null) {
+                    $tutorName = $tutor->getUsername();
+                    $requestData['tutor'] = $tutorName;
+                } else {
+                    $requestData['tutor'] = 'Unknown Tutor';
+                }
+            } else {
+                $requestData['tutor'] = 'No Tutor Assigned';
+            }
+
+            $requestsData[] = $requestData;
+        }
+
+        
 
 
         return $this->render('admin/index.html.twig', [
             'controller_name' => 'AdminController',
             'registrationForm' => $form->createView(),
             'tutors' => $tutorsData,
-            'courses'=>$coursesData
+            'courses'=>$coursesData ,
+            'requests'=> $requestsData
         ]);
     }
 
