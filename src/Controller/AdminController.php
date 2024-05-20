@@ -81,7 +81,7 @@ class AdminController extends AbstractController
         
 
         //Recuperer les requests 
-        $requests = $requestRepository->findAll();
+        $requests = $requestRepository->findBy(['status'=>'pending']);
         $requestsDataCreate= [];
         $requestsDataDelete = [];
 
