@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Form\CourseType;
+use App\Entity\Lesson ;
+use App\Form\LessonFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,7 +18,9 @@ use App\Entity\Course ;
 use App\Entity\User ;
 use App\Repository\UserRepository ;
 use App\Repository\CourseRepository ;
+use App\Repository\RequestRepository ;
 use App\Entity\RequestCourse ;
+use Cocur\Slugify\Slugify;
 
 class TutorController extends AbstractController
 {
@@ -136,30 +140,41 @@ class TutorController extends AbstractController
         ]);
     }
     #[Route('/course/delete/{id}', name: 'delete-request')]
-    public function deleteRequest(EntityManagerInterface $entityManager, Security $security, $id): Response
+    public function deleteRequest(EntityManagerInterface $entityManager, Security $security, $id , RequestRepository $requestRepository): Response
     {
 
         $currentUser = $security->getUser();
         if (!$currentUser || !$currentUser->getUserIdentifier()) {
             return new JsonResponse(['error' => 'User not found or not authenticated'], 400);
         }
+
         $tutor = $entityManager->getRepository(User::class)->findOneBy(['email' => $currentUser->getUserIdentifier()]);        
         if (!$tutor) {
             return new JsonResponse(['error' => 'Tutor not found'], 404);
         }
         $requestCourse = new RequestCourse();
-        $requestCourse->setStatus('pending');
-        $requestCourse->setType('Delete');
-        $currentDateTime = new \DateTime();
-        $requestCourse->setTime($currentDateTime);
-        $requestCourse->setIdtutor($tutor->getId());
-        $requestCourse->setCourseId($id);
-        $requestCourse->setDescription('Delete this course');
-        $entityManager->persist($requestCourse);
-        $entityManager->flush();
+
+        $isRequested = $requestRepository->findBy(['courseid' => $id]);
+        if(!$isRequested || ($requestCourse  &&  $requestCourse->getType() != 'Delete')){
+            $requestCourse->setStatus('pending');
+            $requestCourse->setType('Delete');
+            $currentDateTime = new \DateTime();
+            $requestCourse->setTime($currentDateTime);
+            $requestCourse->setIdtutor($tutor->getId());
+            $requestCourse->setCourseId($id);
+            $requestCourse->setDescription('Delete this course');
+            $entityManager->persist($requestCourse);
+            $entityManager->flush();
+        }
+        else{
+            return new Response("Deja required a Delete ");
+        }
+        
         return $this->redirectToRoute('requests_tutor');
     }
 
+
+    
     #[Route('/tutor/all_requests', name: 'requests_tutor')]
     public function detail_course_tutor(EntityManagerInterface $entityManager, CourseRepository $courseRepository,UserRepository $userRepository,Security $security): Response
     {
@@ -208,6 +223,50 @@ class TutorController extends AbstractController
         ]);
     }
 
+
+
+    #[Route('/lesson/add', name: 'add_lesson')]
+    public function addLesson(Request $request, EntityManagerInterface $entityManager): Response
+    {
+
+        $lesson = new Lesson();
+        $form = $this->createForm(LessonFormType::class, $lesson);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $name =$form->get('name')->getData();;
+            $duration =$form->get('duration')->getData();;
+            $videoFile = $form->get('video')->getData();
+
+
+            if ($videoFile) {
+                $originalFilename = pathinfo($videoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $slugify = new Slugify();
+
+                // Generate a slug from the original filename
+                $safeFilename = $slugify->slugify($originalFilename);
+                // $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$videoFile->guessExtension();
+                $videoFile->move(
+                        $this->getParameter('video_directory'),
+                        $newFilename
+                );
+                
+
+                $lesson->setUrlvideo($newFilename);
+                $lesson->setName($name);
+                $lesson->setDuration($duration);
+                $entityManager->persist($lesson);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('add_lesson');
+            }
+        }
+
+        return $this->render('tutor/add_lesson.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 
 
 }

@@ -225,13 +225,14 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_home');
     }
 
+    
     #[Route('/admin/courses/create-course', name: 'create-course')]
     public function createCourse(EntityManagerInterface $entityManagerInterface,Request $request): Response
     {
+
         if ($request->isMethod('POST')) {
             $title = $request->request->get('title');
             $tutorid = $request->request->get('tutorid');
-
             $category = $request->request->get('category');
             $tutor = $entityManagerInterface->getRepository(User::class)->find($tutorid);
             if (!$tutor) {
@@ -253,18 +254,25 @@ class AdminController extends AbstractController
 
 
 
-    #[Route('/edit-course-status/{id}', name: 'edit-course-status')]    public function EditStatusCourse(EntityManagerInterface $entityManagerInterface, CourseRepository $courseRepository  ,  Request $request): Response
+    #[Route('/edit-course-status/{id}', name: 'edit-course-status')]    public function EditStatusCourse(EntityManagerInterface $entityManagerInterface, CourseRepository $courseRepository  ,  Request $request , RequestRepository $requestRepository): Response
     {
-        $id = $request->attributes->get('id');
-        $course = $courseRepository->find($id);
-        if ($course) {
+        
+        $id = $request->attributes->get('id'); 
+        $reqst = $requestRepository->find($id);
 
-            $course->setActive(true);
-            $entityManagerInterface->flush();
-
-            return new Response("OK");
-        } else {
+        if ($reqst) { 
+            $courseId = $reqst->getCourseId(); 
+            $course = $courseRepository->find($courseId);
+            if ($course) { 
+                $course->setActive(true); 
+                $reqst->setStatus('accepted');
+                $entityManagerInterface->flush();
+                return new Response($reqst->getStatus());
+            } else {
                 return new Response("Course not found");
+            }
+        } else {
+            return new Response("Request not found");
         }
     }
 

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Lesson{% endblock %}
+
+{% block body %}
+<h1>Add a new Lesson</h1>
+
+{{ form_start(form) }}
+
+    <div class="form-group">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+        {{ form_errors(form.name) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.duration) }}
+        {{ form_widget(form.duration) }}
+        {{ form_errors(form.duration) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.video) }}
+        {{ form_widget(form.video) }}
+        {{ form_errors(form.video) }}
+    </div>
+
+    
+
+    <button type="submit" class="btn btn-primary">Add Lesson</button>
+{{ form_end(form) }}
+{% endblock %}
