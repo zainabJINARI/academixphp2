@@ -1,32 +1,36 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}Add Lesson{% endblock %}
 
-{% block body %}
-<h1>Add a new Lesson</h1>
+{% block  div %}
 
-{{ form_start(form) }}
 
-    <div class="form-group">
-        {{ form_label(form.name) }}
-        {{ form_widget(form.name) }}
-        {{ form_errors(form.name) }}
-    </div>
 
-    <div class="form-group">
-        {{ form_label(form.duration) }}
-        {{ form_widget(form.duration) }}
-        {{ form_errors(form.duration) }}
-    </div>
+                    <span id="btn-close-popup-lesson-module">close</span>
+                    <h4>Create New Lesson</h4>
+                    {{ form_start(formLesson, {'action': path('add_lesson', {'id': idmodule}), 'attr': {'id': 'lessonForm', 'method': 'POST'}}) }}
 
-    <div class="form-group">
-        {{ form_label(form.video) }}
-        {{ form_widget(form.video) }}
-        {{ form_errors(form.video) }}
-    </div>
 
-    
+                    <div class="form-group">
+                        {{ form_label(formLesson.name) }}
+                        {{ form_widget(formLesson.name) }}
+                        {{ form_errors(formLesson.name) }}
+                    </div>
 
-    <button type="submit" class="btn btn-primary">Add Lesson</button>
-{{ form_end(form) }}
+                    <div class="form-group">
+                        {{ form_label(formLesson.duration) }}
+                        {{ form_widget(formLesson.duration) }}
+                        {{ form_errors(formLesson.duration) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_label(formLesson.video) }}
+                        {{ form_widget(formLesson.video) }}
+                        {{ form_errors(formLesson.video) }}
+                    </div>
+
+                   <label for="">Lesson Position</label>
+                    {{ form_widget(formLesson.position) }}
+
+                    <button type="submit" class="add_lesson_btn">Add</button>
+                    {{ form_end(formLesson) }}
+                   
 {% endblock %}

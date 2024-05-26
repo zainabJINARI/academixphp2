@@ -131,9 +131,7 @@
                     <div>
                         <p><span>Status: </span> <span class="bold {{ request.status }}">{{ request.status }}</span></p>
                         <div>
-                            <a href="" class='option-tutor-request'> {{ request.status=='pending' ? 'Cancel' : 'Delete' }}</a>
-                            
-                           
+                            <a href="/tutor/cancel-delete-request/{{ request.idrequest }}" class='option-tutor-request'> {{ request.status=='pending' ? 'Cancel' : 'Delete' }}</a>
                         </div>
 
                     </div>
