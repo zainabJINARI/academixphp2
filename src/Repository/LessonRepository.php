@@ -45,4 +45,38 @@ class LessonRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
+public function incrementOrderAfterLesson($moduleId, $order)
+{
+    return $this->createQueryBuilder('m')
+        ->update(Lesson::class, 'm')
+        ->set('m.order', 'm.order + 1')
+        ->andWhere('m.idModule = :moduleId')
+        ->andWhere('m.order > :order')
+        ->setParameter('moduleId', $moduleId)
+        ->setParameter('order', $order)
+        ->getQuery()
+        ->execute();
+}
+
+public function incrementOrderForModule($moduleId)
+{
+    return $this->createQueryBuilder('m')
+        ->update(Lesson::class, 'm')
+        ->set('m.order', 'm.order + 1')
+        ->andWhere('m.idModule = :moduleId')
+        ->setParameter('moduleId', $moduleId)
+        ->getQuery()
+        ->execute();
+}
+public function getMaxOrderForModule($moduleId)
+{
+    return $this->createQueryBuilder('m')
+        ->select('MAX(m.order) as max_order')
+        ->andWhere('m.idModule = :moduleId')
+        ->setParameter('moduleId', $moduleId)
+        ->getQuery()
+        ->getSingleScalarResult();
+}
 }

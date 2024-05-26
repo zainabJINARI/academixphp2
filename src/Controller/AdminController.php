@@ -135,7 +135,7 @@ class AdminController extends AbstractController
             'requestsDelete'=>$requestsDataDelete
         ]);
     }
-
+    
 
     #[Route('/admin/delete-tutor/{id}', name: 'delete_tutor')]
     public function deleteTutor(EntityManagerInterface $entityManager, $id): Response
@@ -207,7 +207,7 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_admin');
     }
 
-    #[Route('/admin/delete-admin', name: 'delete_tutor')]
+    #[Route('/admin/delete-admin', name: 'delete_admin')]
     public function deleteAdmin(EntityManagerInterface $entityManager): Response
     {
         $currentUser = $this->getUser();
@@ -227,6 +227,8 @@ class AdminController extends AbstractController
         // Return a JSON response indicating success
         return $this->redirectToRoute('app_home');
     }
+
+
     #[Route('/admin/update-tutor/{id}', name: 'update_tutor')]
     public function updateTutor(int $id, EntityManagerInterface $entityManager, Request $request,  UserPasswordHasherInterface $passwordHasher): Response
     {
@@ -333,6 +335,44 @@ class AdminController extends AbstractController
         }
     }
 
+    #[Route('/admin/course/delete/{id}', name: 'delete-course')]
+    public function DeleteCourse(EntityManagerInterface $entityManagerInterface, RequestRepository $requestRepository, CourseRepository $courseRepository, Request $request, $id): Response
+    {
+        // $requestt = $requestRepository->findOneBy(['courseid' => $id, 'type' => 'Delete']);
+        $requestt = $requestRepository->find($id);
+        if ($requestt && $requestt->getType() == 'Delete') {
+            $requestt->setStatus('accepted');
+            
+            $idcour = $requestt->getCourseId() ;
+            $course = $courseRepository->find($idcour);
+            if ($course) {
+                $course->setActive(false);
+                $entityManagerInterface->flush();
+                return $this->redirectToRoute('app_admin');
+            } else {
+                return new Response('Course not found', 404);
+            }
+        } else {
+            return new Response('Request not found', 404);
+        }
+    }
+
+
+
+    #[Route('/admin/course/rejected/{id}', name: 'delete-course')]
+    public function RejectedCourse(EntityManagerInterface $entityManagerInterface, RequestRepository $requestRepository, CourseRepository $courseRepository, Request $request, $id): Response
+    {
+        $requestt = $requestRepository->find($id);
+        if ($requestt && $requestt->getType() == 'Delete') {
+            
+            $requestt->setStatus('rejected');
+            $entityManagerInterface->flush();
+            return $this->redirectToRoute('app_admin');
+            
+        } else {
+            return new Response('Request not found', 404);
+        }
+    }
 
     
 }

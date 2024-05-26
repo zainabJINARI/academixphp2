@@ -30,11 +30,29 @@
 .tutor-course-module > *{
  justify-self: flex-start;
 }
+
 .tutor-course-module .tutor-course-module-lesson{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
+
+.tutor-course-module .tutor-course-module-lesson li:first-child {
+    border: none;
+}
+
+.tutor-course-module .tutor-course-module-lesson li:first-child button{
+       padding: 5px 10px;
+       background-color: transparent;
+       border: 1.2px solid #A020F0;
+       font-size: 0.9rem;
+       font-weight: 500;
+       color: #BB84E8;
+       outline-color: #aaa;
+       border-radius: 5px;
+       margin-left: auto;
+}
+
 .tutor-course-module .tutor-course-module-lesson li{
     display: flex;
     flex-direction: row;
@@ -84,7 +102,7 @@
 }
 
 
-.pop-up-module-create{
+.pop-up-module-create,.pop-up-lesson-create{
     top: 0;
     bottom: 0;
     left: 0;
@@ -105,7 +123,7 @@
     text-align: center;
     color: #BB84E8;
 }
-.pop-up-module-create form{
+.pop-up-module-create form,.pop-up-lesson-create  form{
     display: flex;
     padding: 1em;
     flex-direction: column;

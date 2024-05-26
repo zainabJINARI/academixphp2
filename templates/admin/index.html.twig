@@ -78,9 +78,7 @@ crossorigin="anonymous"></script>
             <li class="nav-item" id="updateBtn">
                 <a    href="#update">Update Profile</a>
             </li>
-            <li class="nav-item" id="deleteBtn">
-                <a    href="#delete">Delete Profile</a>
-            </li>
+          
         </ul>
         <div>
            
@@ -137,14 +135,22 @@ crossorigin="anonymous"></script>
                             <div>
                                 <p><span>Requested By </span> <span>{{ request.tutor }}</span></p>
                                 <div>
-                                    <a href=""><i class="fa-solid fa-check"></i></a>
-                                    <a href=""><i class="fa-solid fa-xmark"></i></a>
-                                    <a href=""><i class="fa-solid fa-ellipsis-vertical"></i></a>
+                                    <a href="admin/course/delete/{{ request.id }}"><i class="fa-solid fa-check"></i></a>
+                                    <a href="/admin/course/rejected/{{ request.id }}"><i class="fa-solid fa-xmark"></i></a>
+                                    <a href="#" class="show-request-description-det"><i class="fa-solid fa-ellipsis-vertical "></i></a>
                                 </div>
 
                             </div>
                             
                         </li>
+                        <div class="request-description-details">
+                            <div class="request-description-details-cont">
+                                <i class="fa-regular fa-circle-xmark close-details"></i>
+                                <h4>{{ request.course }}</h4>
+                                <p>{{ request.description }}</p>
+                            </div>
+                            
+                    </div>
                         {% endfor %}
                     </ul>
                 </div>
@@ -203,12 +209,11 @@ crossorigin="anonymous"></script>
                         <img src="{{ tutor.profile }}" alt="">
                         
                         <h4>{{ tutor.username}}</h4>
-                        <p>Bio:{{ tutor.bio}} </p>
-
-                       
-                        
+                        <p>Bio:{{ tutor.bio}} </p>  
                         <div>
-                            <a href="/admin/delete-tutor/{{tutor.id}}"><i class="fa-solid fa-trash"></i></a>
+
+                           <a href="{{ path('delete_tutor', {id: tutor.id}) }}"><i class="fa-solid fa-trash"></i></a>
+
                             <button onclick="showUpdateForm('{{ tutor.id }}', '{{ tutor.email }}', '')"><i class="fa-regular fa-pen-to-square"></i></button>
                             <!-- <a href="/admin/update-tutor/{{tutor.id}}"><i class="fa-regular fa-pen-to-square"></i></a> -->
                         </div>
@@ -228,7 +233,7 @@ crossorigin="anonymous"></script>
                     {% for course in  courses %}
                     <li>
                         <i class="fa-solid fa-trash delete"></i>
-                        <img src='{{ course.thumbnail }}' alt="" class="border">
+                        <img src="{{ asset('uploads/thumbnails/' ~ course.thumbnail) }}" alt="" class="border">
                         <h4>{{ course.title }}</h4>
                         <div>
                             <p>By : {{ course.tutor_name }}</p>

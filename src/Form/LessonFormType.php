@@ -11,6 +11,12 @@ use Symfony\Component\Validator\Constraints\Positive;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Repository\LessonRepository;
+
+
+
 
 
 class LessonFormType extends AbstractType
@@ -38,6 +44,30 @@ class LessonFormType extends AbstractType
                     ])
                 ],
             ])
+            ->add('position', ChoiceType::class, [
+                'choices' => [
+                    'Add at the beginning' => 'beginning',
+                    'Add at the end' => 'end',
+                    'Add after a specific lesson' => 'after_lesson',
+                ],
+                'expanded' => true,
+                'mapped' => false, // This field is not mapped to an entity property
+                'required' => true,
+            ])
+            ->add('afterLesson', EntityType::class, [
+                'class' => Lesson::class,
+                'choice_label' => 'name',
+                'label' => 'Select a lesson to add after:',
+                'required' => false,
+                'placeholder' => 'Select a lesson',
+                'mapped' => false, // This field is not mapped to an entity property
+                'query_builder' => function (LessonRepository $repository) use ($options) {
+                    return $repository->createQueryBuilder('m')
+                        ->andWhere('m.id = :moduleId')
+                        ->setParameter('moduleId', $options['module_id']);
+                },
+            ]);
+            
         ;
     }
 
@@ -46,5 +76,7 @@ class LessonFormType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Lesson::class,
         ]);
+
+        $resolver->setRequired(['module_id']);
     }
 }

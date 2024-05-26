@@ -1,17 +1,17 @@
 
-const containerRequests = document.getElementById('requests')
-const updateProfile= document.getElementById('update-profile')
-const manageTutos = document.getElementById('manageTutos')
-const requestsTutos = document.getElementById('requestsTutos')
-const manageTutorsContainer = document.getElementById('manageTutorsContainer')
-const btnshowinput = document.getElementById('btnshowinput')
-const imageUpload = document.getElementById('image-upload')
-const manageCourseContainer = document.getElementById('manageCourseContainer')
-const managecourses = document.getElementById('managecourses')
-const createNewCourse = document.getElementById('createNewCourse')
-const createCourseForm = document.getElementById('createCourseForm')
-const closeCourseCreateBtn = document.getElementById('closeCourseCreateBtn')
-const acceptBtn = document.querySelector('accept-request');
+const containerRequests = document.getElementById("requests");
+const updateProfile = document.getElementById("update-profile");
+const manageTutos = document.getElementById("manageTutos");
+const requestsTutos = document.getElementById("requestsTutos");
+const manageTutorsContainer = document.getElementById("manageTutorsContainer");
+const btnshowinput = document.getElementById("btnshowinput");
+const imageUpload = document.getElementById("image-upload");
+const manageCourseContainer = document.getElementById("manageCourseContainer");
+const managecourses = document.getElementById("managecourses");
+const createNewCourse = document.getElementById("createNewCourse");
+const createCourseForm = document.getElementById("createCourseForm");
+const closeCourseCreateBtn = document.getElementById("closeCourseCreateBtn");
+const acceptBtn = document.querySelector("accept-request");
 
 
 manageCourseContainer.classList.add('hidden')
@@ -164,20 +164,40 @@ confirmBtn.onclick = function() {
 
 
 //Afficher details section 
-const showDetailsLinks = document.querySelectorAll('.show-request-details');
-const requestDetails = document.querySelector('.request-details');
-const closeDetails = document.querySelector('.close-details');
+const showDetailsLinks = document.querySelectorAll(".show-request-details");
+const requestDetails = document.querySelector(".request-details");
+const closeDetails = document.querySelectorAll(".close-details");
 
-showDetailsLinks.forEach(link => {
-        link.addEventListener('click', function(event) {
-            event.preventDefault();
-            requestDetails.style.display = 'block';
-        });
+showDetailsLinks.forEach((link) => {
+  link.addEventListener("click", function (event) {
+    event.preventDefault();
+    requestDetails.style.display = "block";
+  });
 });
 
-closeDetails.addEventListener('click', function() {
-        requestDetails.style.display = 'none';
+//Affcher Les details   de deletions request
+const deleterequestions = document.querySelectorAll(
+  ".show-request-description-det"
+);
+const descriptiondetails = document.querySelector(
+  ".request-description-details"
+);
+const closeDescription = document.querySelector(
+  ".close-request-description-det"
+);
+
+deleterequestions.forEach((deletionRequest) => {
+  deletionRequest.addEventListener("click", (event) => {
+    event.preventDefault();
+    descriptiondetails.style.display = "block";
+  });
 });
 
+
+closeDetails.forEach((el) => {
+  el.addEventListener("click", function () {
+    this.parentElement.style.display = "none";
+  });
+});
 
 

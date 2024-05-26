@@ -446,6 +446,7 @@ header {
     min-width: 15em;
     position: relative;
     margin-bottom: 10px;
+    border: 1px solid #daacf7;
 }
 .dropdown-modules * {
     box-sizing: border-box ;

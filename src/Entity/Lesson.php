@@ -25,6 +25,14 @@ class Lesson
     #[ORM\Column]
     private ?bool $isFiniched = false;
 
+
+    #[ORM\Column]
+    private ?int $idModule = null;
+
+
+    #[ORM\Column(name: "lesson_order")]
+    private ?int $order = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,4 +85,31 @@ class Lesson
 
         return $this;
     }
+
+
+
+    public function getIdModule(): ?int
+    {
+        return $this->idModule;
+    }
+
+    public function setIdModule(int $idModule): static
+    {
+        $this->idModule = $idModule;
+        return $this;
+    }
+
+
+    public function getOrder(): ?int
+    {
+        return $this->order;
+    }
+
+    public function setOrder(?int $order): static
+    {
+        $this->order = $order;
+        return $this;
+    }
+
+    
 }

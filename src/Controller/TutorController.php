@@ -64,21 +64,9 @@ class TutorController extends AbstractController
             'courses' => $courses
         ]);
     }
-    // #[Route('/tutor/course/{id}', name: 'detail_course_tutor')]
-    // public function detail_course_tutor($id,EntityManagerInterface $entityManager): Response
-    // {
 
-    //     $course = $entityManager->getRepository(Course::class)->findOneBy(['id' => $id]);
-
-    //     return $this->render('tutor/detail_course_edit.html.twig', [
-    //         'controller_name' => 'detail_course',
-    //         'course'=>$course
-
-
-    //     ]);
-    // }
     #[Route('/create-new-course', name: 'create-new-course')]
-    public function newCourse(EntityManagerInterface $entityManager, Request $request, UserRepository $userRepository): JsonResponse
+    public function newCourse(EntityManagerInterface $entityManager, Request $request, UserRepository $userRepository): Response
     {
         $courseName = $request->request->get('course-name');
         $category = $request->request->get('category-name');
@@ -108,7 +96,9 @@ class TutorController extends AbstractController
         $request->setCourseId(intval($course->getId()));
         $entityManager->flush();
 
-        return new JSONResponse($course->getId());
+        return $this->redirectToRoute('requests_tutor');
+
+       
 
     }
 
@@ -127,17 +117,37 @@ class TutorController extends AbstractController
 
         $modules = $entityManager->getRepository(Module::class)->findBy(['idCourse' => $id]);
         $modulesDataAll = [];
-
+        // Pour chaque module, récupérer les leçons associées
         foreach ($modules as $module) {
-            $modulesData = [];
-            $modulesData['id'] = $module->getId();
-            $modulesData['name'] = $module->getName();
-            $modulesData['nbrLessons'] = $module->getNbrLessons();
-            $modulesData['nbrHours'] = $module->getNbrHours();
-            $modulesData['order'] = $module->getOrder();
-            $modulesDataAll[] = $modulesData;
+            $moduleData = [];
+            $moduleData['id'] = $module->getId();
+            $moduleData['name'] = $module->getName();
+            $moduleData['nbrLessons'] = $module->getNbrLessons();
+            $moduleData['nbrHours'] = $module->getNbrHours();
+            $moduleData['order'] = $module->getOrder();
+
+            // Récupérer les leçons associées au module
+            $lessons = $entityManager->getRepository(Lesson::class)->findBy(['idModule' => $module->getId()]);
+            $lessonsDataAll = [];
+
+            foreach ($lessons as $lesson) {
+                $lessonData = [];
+                // $lessonData['id'] = $lesson->getId();
+                $lessonData['name'] = $lesson->getName();
+                // $lessonData['duration'] = $lesson->getDuration();
+                $lessonData['order'] = $lesson->getOrder();
+                // $lessonData['urlVideo'] = $lesson->getUrlvideo();
+
+                $lessonsDataAll[] = $lessonData;
+            }
+
+            $moduleData['lessons'] = $lessonsDataAll;
+
+            $modulesDataAll[] = $moduleData;
         }
 
+
+        
         $form = $this->createForm(CourseType::class, $course);
         $form->handleRequest($request);
 
@@ -171,11 +181,11 @@ class TutorController extends AbstractController
             throw $this->createNotFoundException('No course found for id ' . $id);
         }
 
-       $module = new Module();
+        $module = new Module();
         $formModule = $this->createForm(ModuleType::class, $module, ['course_id' => $id]);
         $formModule->handleRequest($request);
 
-    if ($formModule->isSubmitted() && $formModule->isValid()) {
+        if ($formModule->isSubmitted() && $formModule->isValid()) {
         $module->setIdCourse($id);
 
         $position = $formModule->get('position')->getData();
@@ -214,7 +224,7 @@ class TutorController extends AbstractController
 
 
     #[Route('/course/delete/{id}', name: 'delete-request')]
-    public function deleteRequest(EntityManagerInterface $entityManager, Security $security, $id , RequestRepository $requestRepository): Response
+    public function deleteRequest(EntityManagerInterface $entityManager, Security $security, $id , RequestRepository $requestRepository , Request $request): Response
     {
 
         $currentUser = $security->getUser();
@@ -226,24 +236,30 @@ class TutorController extends AbstractController
         if (!$tutor) {
             return new JsonResponse(['error' => 'Tutor not found'], 404);
         }
+
         $requestCourse = new RequestCourse();
 
-        $isRequested = $requestRepository->findBy(['courseid' => $id]);
-        if(!$isRequested || ($requestCourse  &&  $requestCourse->getType() != 'Delete')){
+        $isRequested = $requestRepository->findOneBy([
+            'courseid' => $id,
+            'type' => 'Delete'
+        ]);
+
+        $description = $request->request->get('description-content');
+
+        if(!$isRequested){
             $requestCourse->setStatus('pending');
             $requestCourse->setType('Delete');
             $currentDateTime = new \DateTime();
             $requestCourse->setTime($currentDateTime);
             $requestCourse->setIdtutor($tutor->getId());
             $requestCourse->setCourseId($id);
-            $requestCourse->setDescription('Delete this course');
+            $requestCourse->setDescription($description);
             $entityManager->persist($requestCourse);
             $entityManager->flush();
         }
         else{
-            return new Response("Deja required a Delete ");
+            return new Response("Already required to delete");
         }
-        
         return $this->redirectToRoute('requests_tutor');
     }
 
@@ -299,48 +315,7 @@ class TutorController extends AbstractController
 
 
 
-    #[Route('/lesson/add', name: 'add_lesson')]
-    public function addLesson(Request $request, EntityManagerInterface $entityManager): Response
-    {
-
-        $lesson = new Lesson();
-        $form = $this->createForm(LessonFormType::class, $lesson);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $name =$form->get('name')->getData();;
-            $duration =$form->get('duration')->getData();;
-            $videoFile = $form->get('video')->getData();
-
-
-            if ($videoFile) {
-                $originalFilename = pathinfo($videoFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $slugify = new Slugify();
-
-                // Generate a slug from the original filename
-                $safeFilename = $slugify->slugify($originalFilename);
-                // $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$videoFile->guessExtension();
-                $videoFile->move(
-                        $this->getParameter('video_directory'),
-                        $newFilename
-                );
-                
-
-                $lesson->setUrlvideo($newFilename);
-                $lesson->setName($name);
-                $lesson->setDuration($duration);
-                $entityManager->persist($lesson);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('add_lesson');
-            }
-        }
-
-        return $this->render('tutor/add_lesson.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
+   
 
     #[Route('/module/delete/{id}', name: 'delete_module', methods: ['DELETE'])]
     public function deleteModule(int $id, EntityManagerInterface $entityManager, Request $request): JsonResponse
@@ -366,6 +341,66 @@ class TutorController extends AbstractController
         $moduleRepository->decrementOrderAfterModule($courseId, $order);
 
         return new JsonResponse(['success' => 'Module deleted successfully']);
+    }
+
+    #[Route('/course/add/lesson/{id}', name: 'add_lesson')]
+    public function addNewLesson(Request $request, Module $module, EntityManagerInterface $entityManager, $id): Response {
+        
+        $lesson = new Lesson();
+        $formLesson = $this->createForm(LessonFormType::class, $lesson, ['module_id' => $id]);
+        $formLesson->handleRequest($request);
+
+        if ($formLesson->isSubmitted() && $formLesson->isValid()) {
+
+            $name =$formLesson->get('name')->getData();
+            $duration =$formLesson->get('duration')->getData();
+           
+            $position = $formLesson->get('position')->getData();
+            if ($position === 'beginning') {
+                $entityManager->getRepository(Lesson::class)->incrementOrderForModule($id);
+                $lesson->setOrder(1);
+            } elseif ($position === 'end') {
+                $maxOrder = $entityManager->getRepository(Lesson::class)->getMaxOrderForModule($id);
+                $lesson->setOrder($maxOrder + 1);
+            } elseif ($position === 'after_lesson') {
+                $afterLessonId = $formLesson->get('afterLesson')->getData()->getId();
+                $afterLessonOrder = $entityManager->getRepository(Lesson::class)->findOneBy(['id' => $afterLessonId])->getOrder();
+
+                $entityManager->getRepository(Lesson::class)->incrementOrderAfterLesson($id, $afterLessonOrder);
+                $lesson->setOrder($afterLessonOrder + 1);
+            }
+            $videoFile = $formLesson->get('video')->getData();
+
+            if ($videoFile) {
+                $originalFilename = pathinfo($videoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $slugify = new Slugify();
+
+                $safeFilename = $slugify->slugify($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$videoFile->guessExtension();
+                $videoFile->move(
+                        $this->getParameter('video_directory'),
+                        $newFilename
+                );
+                
+                $lesson->setUrlvideo($newFilename);
+                $lesson->setName($name);
+                $lesson->setDuration($duration);
+                $lesson->setIdModule($id);
+
+                $entityManager->persist($lesson);
+                $entityManager->flush();
+                return new JsonResponse(['success' => true]);
+                
+            }  
+        }
+        $formHtml = $this->renderView('tutor/add_lesson.html.twig', [
+            'formLesson' => $formLesson->createView(),
+            'idmodule' => $id ,
+        ]);
+    
+        return new JsonResponse(['formHtml' => $formHtml]);
+        
+     
     }
 
 

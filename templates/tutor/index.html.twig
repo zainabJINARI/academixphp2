@@ -101,7 +101,7 @@
             <div>
               <p>Level : <span>{{ course.level }}</span></p>
               <a href="/course/edit/{{ course.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
-              <a href="/course/delete/{{ course.id }}"><i class="fa-solid fa-trash"></i></a>
+              <a href="#"><i class="fa-solid fa-trash deleteCourse" data-course-id="{{ course.id }}"></i></a>
 
 
             </div>
@@ -114,6 +114,46 @@
 
 
     </div>
+    <div class="update-profile" id="updateprofile">
+      <h3>Update Profile</h3>
+      <div class="container updateprofileContainer">
+          
+          <form action="" method="post" enctype="multipart/form-data">
+              <div hidden>  {{ csrf_token('update_user_profile') }}</div>
+             
+          <div class="profile-picture">
+              <img src="{{ app.user.profileImage ? app.user.profileImage : 'https://www.iprcenter.gov/image-repository/blank-profile-picture.png/@@images/image.png' }}" alt="Image de profil">
+             
+              <label for="image-upload" id="btnshowinput">
+                  <span>Changer l'image</span>
+              </label>
+              <input type="text" name="profileImage" id="image-upload" placeholder="url of image" class="input">
+          </div>
+  
+          <div class="form">
+
+          
+              <div class="form-group">
+                  <label for="username">Username</label>
+                  <input type="text" id="username" name="username" placeholder="joe shmoe" value="{{ app.user.username}}" >
+              </div>
+  
+              <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" placeholder="joeshmoe@gmail.com"  value="{{ app.user.email }}">
+              </div>
+
+              <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" id="password" name="password" placeholder="********" >
+              </div>
+  
+              <button type="submit">Update Profile</button>
+          </div>
+          </form>
+      </div>
+  
+  </div>
   </div>
 
 
@@ -144,6 +184,20 @@
 
 </div>
 
+<div id="myModal" class="modal">
+  <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Are you sure you wanna delete your profile ?</p>
+      <div>
+          <a id="confirmBtn" href="/tutor/delete-account">Proceed</a>
+      <a id="cancelBtn" href="">Cancel</a>
+      </div>
+      
+  </div>
+</div>
+<div class="delete-course-form-container" id="delete-course-form-container" style="display:none;">
+  <i class="fa-regular fa-circle-xmark cancelDeletion"></i>
+</div>
 
 
 
