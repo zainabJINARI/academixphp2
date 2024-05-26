@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
  
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Course ;
@@ -20,6 +21,7 @@ use App\Repository\UserRepository ;
 use App\Repository\CourseRepository ;
 use App\Repository\RequestRepository ;
 use App\Entity\RequestCourse ;
+use Symfony\Component\Security\Csrf\CsrfToken;
 use Cocur\Slugify\Slugify;
 
 
@@ -32,6 +34,14 @@ use App\Entity\Module;
 
 class TutorController extends AbstractController
 {
+    private $csrfTokenManager;
+
+    public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
+    {
+        $this->csrfTokenManager = $csrfTokenManager;
+    }
+
+    
     #[Route('/app_tutor', name: 'app_tutor')]
     public function index(Security $security, EntityManagerInterface $entityManager): Response
     {
@@ -331,6 +341,34 @@ class TutorController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/module/delete/{id}', name: 'delete_module', methods: ['DELETE'])]
+    public function deleteModule(int $id, EntityManagerInterface $entityManager, Request $request): JsonResponse
+    {
+        $token = $request->headers->get('X-CSRF-TOKEN');
+        if (!$this->csrfTokenManager->isTokenValid(new CsrfToken('delete' . $id, $token))) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], 403);
+        }
+
+        $moduleRepository = $entityManager->getRepository(Module::class);
+        $module = $moduleRepository->find($id);
+
+        if (!$module) {
+            return new JsonResponse(['error' => 'Module not found'], 404);
+        }
+
+        $courseId = $module->getIdCourse();
+        $order = $module->getOrder();
+
+        $entityManager->remove($module);
+        $entityManager->flush();
+
+        $moduleRepository->decrementOrderAfterModule($courseId, $order);
+
+        return new JsonResponse(['success' => 'Module deleted successfully']);
+    }
+
+
 
 
 }

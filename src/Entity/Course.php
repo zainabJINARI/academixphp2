@@ -24,7 +24,7 @@ class Course
     private ?string $level = '';
 
     #[ORM\Column(length: 255)]
-    private ?string $thumbnail = 'https://training.digitalscholar.in/images/default-course-thumbnail.png';
+    private ?string $thumbnail = 'default.png';
 
     #[ORM\Column]
     private ?int $nbrLessons = 0;
@@ -82,12 +82,12 @@ class Course
 
     public function getThumbnail(): ?string
     {
-        return $this->thumbnail ?: 'https://training.digitalscholar.in/images/default-course-thumbnail.png';
+        return $this->thumbnail ?: 'default.png';
     }
 
     public function setThumbnail(?string $thumbnail): static
     {
-        $this->thumbnail = $thumbnail ?: 'https://training.digitalscholar.in/images/default-course-thumbnail.png';
+        $this->thumbnail = $thumbnail ?: 'default.png';
         return $this;
     }
 

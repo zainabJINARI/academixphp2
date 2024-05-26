@@ -40,7 +40,7 @@ crossorigin="anonymous"></script>
            
             
             <li class="nav-item">
-              <a class="nav-link" href="#about">Courses</a>
+              <a class="nav-link" href="/allcourses?topic=popular">Courses</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_logout') }}">Log Out</a>
@@ -65,10 +65,10 @@ crossorigin="anonymous"></script>
     <div class='dashboard'>
         <ul class="dashboard-options">
             <li class="nav-item" id="mycoursesBtn">
-                <a  href="{{ path('signup') }}">My Courses</a>
+                <a  href="#">My Courses</a>
             </li>
             <li class="nav-item" id="myachievementsBtn">
-                <a href="{{ path('signup') }}">My Acheivements</a>
+                <a href="#">My Acheivements</a>
             </li>
             <li class="nav-item" id="updateprofileBtn">
                 <a  href="">Update Profile</a>
@@ -78,70 +78,28 @@ crossorigin="anonymous"></script>
             </li>
         </ul>
         <div>
-            <h2>Welcome  <span> Zainab  </span>To Academix </h2>
+            <h2>Welcome  <span> {{ app.user.username}}  </span>To Academix </h2>
             
             <div id="mycourses" class="mycourses">
                 <div class="progress-section">
                     <h3>Continue Your Progress</h3>
                     <ul>
+                        {% for enrollment in studentEnrollments %}
                         <li>
                             <div>
-                                <img  src="{{ asset('images/courses/image 12.png') }}"/>
+                                <img src="{{ asset('uploads/thumbnails/' ~ enrollment.course.thumbnail) }}" alt="{{ enrollment.course.title }}"/>
                                 <div>
-                                    <h4>Front End Career Path</h4>
+                                    <h4>{{ enrollment.course.title }}</h4>
                                 </div>
                             </div>
                             <div class="progressinfo">
-                                <p class="module-reached">Module 11:Advanced React</p>
-                                <p>Authentication setup-sad path(FDCP)</p>
-
-                                <p class="progress-value"><span>83%</span>of course completed</p>
+                                <p class="module-reached">Module Learn js</p>
+                                <p>Learn React</p>
+                                <p class="progress-value"><span>90%</span> of course completed</p>
                             </div>
                         </li>
-                        <li>
-                            <div>
-                                <img  src="{{ asset('images/courses/image 9.png') }}"/>
-                                <div>
-                                    <h4>Front End Career Path</h4>
-                                </div>
-                            </div>
-                            <div class="progressinfo">
-                                <p class="module-reached">Module 11:Advanced React</p>
-                                <p>Authentication setup-sad path(FDCP)</p>
-
-                                <p class="progress-value"><span>83%</span>of course completed</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <img  src="{{ asset('images/courses/image 10.png') }}"/>
-                                <div>
-                                    <h4>Front End Career Path</h4>
-                                </div>
-                            </div>
-                            <div class="progressinfo">
-                                <p class="module-reached">Module 11:Advanced React</p>
-                                <p>Authentication setup-sad path(FDCP)</p>
-
-                                <p class="progress-value"><span>83%</span>of course completed</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <img  src="{{ asset('images/courses/image 11.png') }}"/>
-                                <div>
-                                    <h4>Front End Career Path</h4>
-                                </div>
-                            </div>
-                            <div class="progressinfo">
-                                <p class="module-reached">Module 11:Advanced React</p>
-                                <p>Authentication setup-sad path(FDCP)</p>
-
-                                <p class="progress-value"><span>83%</span>of course completed</p>
-                            </div>
-                        </li>
+                        {% endfor %}
                     </ul>
-                    
                 </div>
                 <div class="completed-courses">
                     <h3>Completed Courses</h3>
@@ -169,11 +127,11 @@ crossorigin="anonymous"></script>
                 <h3>Update User</h3>
                 <div class="container updateprofileContainer">
                     
-                    <form action="" >
-                        <!-- <div hidden>  {{ csrf_token('update_admin_profile') }}</div> -->
+                    <form action="{{ path('update_user_profile') }}" method="post" enctype="multipart/form-data">
+                        <div hidden>  {{ csrf_token('update_user_profile') }}</div>
                        
                     <div class="profile-picture">
-                        <img src="{{ app.user.profileImage }}" alt="Image de profil">
+                        <img src="{{ app.user.profileImage ? app.user.profileImage : 'https://www.iprcenter.gov/image-repository/blank-profile-picture.png/@@images/image.png' }}" alt="Image de profil">
                        
                         <label for="image-upload" id="btnshowinput">
                             <span>Changer l'image</span>
@@ -220,7 +178,7 @@ crossorigin="anonymous"></script>
             <span class="close" id="closepopUp">&times;</span>
             <p>Are you sure you wanna delete your profile ?</p>
             <div>
-                <a id="confirmBtn" href="">Proceed</a>
+                <a id="confirmBtn" href="/user/delete-user">Proceed</a>
             <a id="cancelBtn" href="">Cancel</a>
             </div>
             

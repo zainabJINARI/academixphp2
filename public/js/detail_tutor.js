@@ -62,3 +62,30 @@ showLessonsButtons.forEach(button => {
 
     });
 });
+
+
+
+document.querySelectorAll('.delete-module').forEach(function(button) {
+    button.addEventListener('click', function(event) {
+        event.preventDefault();
+        let moduleId = this.getAttribute('data-id');
+        let csrfToken = this.getAttribute('data-token');
+
+        fetch(`/module/delete/${moduleId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Optionally, refresh the page or remove the module from the DOM
+                location.reload();
+            } else {
+                alert('Error deleting module: ' + data.error);
+            }
+        });
+    });
+});

@@ -81,6 +81,19 @@ public function getMaxOrderForCourse($courseId)
 }
 
 
+public function decrementOrderAfterModule($courseId, $order)
+{
+    return $this->createQueryBuilder('m')
+        ->update(Module::class, 'm')
+        ->set('m.order', 'm.order - 1')
+        ->andWhere('m.idCourse = :courseId')
+        ->andWhere('m.order > :order')
+        ->setParameter('courseId', $courseId)
+        ->setParameter('order', $order)
+        ->getQuery()
+        ->execute();
+}
+
 
 
 }

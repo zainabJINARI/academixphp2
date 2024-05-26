@@ -1,6 +1,6 @@
-<div class="course-item">
+<a class="course-item" href="/courses/{{course.id}}">
                 <div>
-                    <img  src='{{ course.thumbnail }}'/>
+                    <img  src="{{ asset('uploads/thumbnails/' ~ course.thumbnail) }}"/>
                     <div>
                         <h3>{{ course.title }}</h3>
                     </div>
@@ -19,4 +19,4 @@
                             <p>Free</p>
                         </div>
                 </div>
-</div>
+            </a>

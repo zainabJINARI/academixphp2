@@ -5,25 +5,52 @@
 {% block body %}
     <section class="header-course-section">
        <div class="right-container">
-         <h1>Learn react</h1>
+         <h1>{{ course.title}}</h1>
             <div class="course-info-container">
-                <img src="{{ asset('/images/image1.png') }}" width="70px">
+                <img src="{{ tutor.profileImage}}" width="70px">
                 <div class="course-info">
-                    <p>with <span>Bob Ziroll</span></p>
-                    <p>Course level: <span>Intermediate</span> <i class="fa-solid fa-arrow-up-short-wide"></i></p>
+                    <p>with <span>{{tutor.username}}</span></p>
+                    <p>Course level: <span>{{course.level}}</span> <i class="fa-solid fa-arrow-up-short-wide"></i></p>
                 </div>
            </div>
-           <p>The ultimate React 101 - the perfect starting point for any React beginner. 
-               Learn the basics of modern React by solving 140+ interactive coding 
-               challenges and building eight fun projects.</p>
+           <p>{{course.description}}</p>
         </div>
         
         <a href="#" class="go-to-lesson-btn">Go to the Lesson</a>
 
         <div class="left-card">
-            <p>Jump back In</p>
-            <a href="#">Go to the Lesson</a>
-            <p>Leaving course? <span>unenroll</span></p>
+            <p>Jump In</p>
+            
+            {% if app.user %}
+            {% if 'ROLE_STUDENT' in app.user.roles %}
+                <p><strong>Your Enrollments:</strong></p>
+                <ul>
+                    {% for enrollment in studentEnrollments %}
+                        <li>{{ enrollment.course.title }}</li>
+                    {% endfor %}
+                </ul>
+                {% set isEnrolled = false %}
+                {% for enrollment in studentEnrollments %}
+                    {% if enrollment.course.id == course.id %}
+                        {% set isEnrolled = true %}
+                    {% endif %}
+                {% endfor %}
+                {% if isEnrolled %}
+                <a href="" class="btn btn-primary">Continue Progress</a>
+                <p>Leaving course? <span>unenroll</span></p>
+                {% else %}
+                    <a href="/enroll/{{course.id}}" class="btn btn-primary">Enroll</a>
+                {% endif %}
+            {% elseif 'ROLE_TUTOR' in app.user.roles %}
+                <a href="/course/edit/{{course.id}}" class="btn btn-secondary">Go to Course Detail</a>
+            {% else %}
+                <a href="" class="btn btn-warning">Log Out</a>
+            {% endif %}
+        {% else %}
+            <a href="/login" class="btn btn-success">Log in to Enroll</a>
+        {% endif %}
+            
+           
             <h2>Your progress</h2>
             <div class="progress-container">
                 <div class="progress"></div>
@@ -36,10 +63,11 @@
        <div class="right-container">
          <h2>What's inside</h2>
        <p>This course contains <span>177</span> lessons spread across <span>4</span> modules</p>
+       {% for module in modules|sort((a, b) => a.order <=> b.order) %}
         <div class="dropdown-modules">
             <div class="select-module">
                 <i class="fa-solid fa-chevron-right caret"></i>
-                <h3 class="selected-lesson">Build a React info site <span>98%</span></h3>
+                <h3 class="selected-lesson">{{module.name}} <span>98%</span></h3>
                 <div class="module-infos">
                    <p><span>35</span> lessons</p>
                    <p><span>2</span> hours <span>35</span>hours </p>
@@ -62,96 +90,28 @@
                 
             </ul>
         </div>
-        <div class="dropdown-modules">
-            <div class="select-module">
-                <i class="fa-solid fa-chevron-right caret"></i>
-                <h3 class="selected-lesson">Build a React info site <span>98%</span></h3>
-                <div class="module-infos">
-                   <p><span>35</span> lessons</p>
-                   <p><span>2</span> hours <span>35</span>hours </p>
-                </div>   
-            </div>
-
-            <ul class="menu-modules">
-                <li class="lesson">
-                   <i class="fa-solid fa-circle-play"></i>
-                   <h4>Introduction to React</h4>
-                </li>
-                <li class="lesson">
-                   <i class="fa-solid fa-circle-play"></i>
-                   <h4>Introduction to React</h4>
-                </li>
-                <li class="lesson">
-                   <i class="fa-solid fa-circle-play"></i>
-                   <h4>Introduction to React</h4>
-                </li>
-                
-            </ul>
-        </div>
-        <div class="dropdown-modules">
-            <div class="select-module">
-                <i class="fa-solid fa-chevron-right caret"></i>
-                <h3 class="selected-lesson">Build a React info site <span>98%</span></h3>
-                <div class="module-infos">
-                   <p><span>35</span> lessons</p>
-                   <p><span>2</span> hours <span>35</span>hours </p>
-                </div>   
-            </div>
-
-            <ul class="menu-modules">
-                <li class="lesson">
-                   <i class="fa-solid fa-circle-play"></i>
-                   <h4>Introduction to React</h4>
-                </li>
-                <li class="lesson">
-                   <i class="fa-solid fa-circle-play"></i>
-                   <h4>Introduction to React</h4>
-                </li>
-                <li class="lesson">
-                   <i class="fa-solid fa-circle-play"></i>
-                   <h4>Introduction to React</h4>
-                </li>
-                
-            </ul>
-        </div>
+        {% endfor %}
+        
+        
        </div>
     
     </section>
-    <section class="what-u-learn-section">
+    <!-- <section class="what-u-learn-section">
        <div class="right-container">
          <h2>You'll Learn</h2>
-         <ul>
-           <li>
-              <i class="fa-solid fa-book-open"></i>
-              <p>Local setup</p>
-              
-           </li>
-           <li>
-              <i class="fa-solid fa-book-open"></i>
-              <p>JSX</p>
-              
-           </li>
-           <li>
-            <i class="fa-solid fa-book-open"></i>
-            <p>Custom components</p>  
-           </li>
-           <li>
-             <i class="fa-solid fa-book-open"></i>
-             <p>Custom components</p>
-           </li>
-         </ul>
+        <p>{{ course.description}}</p>
        </div> 
     
-    </section>
+    </section> -->
 
     <section class="about-instructor-section">
        <div class="right-container">
            <h2>Meet you teacher</h2>
            <div class="instructor-card">
-              <img src="{{ asset('/images/image1.png') }}" width="150px"/>
+              <img src="{{ tutor.profileImage }}" width="150px"/>
               <div class="instructor-infos-card">
-                 <p>Bob Ziroll</p>
-                 <p>Head of Education at Scrimba. Passionate about learning 📚, helping others achieve their career goals 👩‍💻, tennis 🎾, woodworking 🪑, and my family 👨‍👩‍👦‍👦.</p>
+                 <p>{{tutor.username}}</p>
+                 <p>{{ tutor.bio}}</p>
                  
                 <i class="fa-brands fa-x-twitter"></i>
                 <i class="fa-brands fa-linkedin"></i>

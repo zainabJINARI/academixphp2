@@ -10,8 +10,25 @@ use App\Repository\CourseRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use App\Entity\Course;
+use App\Entity\Module;
+
+use App\Entity\Enrollment;
+
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Security;
+
+
 class CourseController extends AbstractController
 {
+
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     #[Route('/allcourses', name: 'all_courses')]
     public function index(Request $request,
     CourseRepository $courseRepository): Response
@@ -116,11 +133,51 @@ class CourseController extends AbstractController
                 'courses' => $coursesData
             ]);
     }
-
-    #[Route('/course_details', name: 'course_details')]
-    public function details(): Response
+    #[Route('/enroll/{id}', name: 'enroll_course')]
+    public function enrollCourse(int $id, EntityManagerInterface $entityManager): Response
     {
-         return $this->render('course/course_details.html.twig');
+        
+        $user = $this->getUser();
+        $course = $entityManager->getRepository(Course::class)->find($id);
+        if (!$user || !in_array('ROLE_STUDENT', $user->getRoles()) || !$course) {
+            return new Response('Error: Unable to enroll in the course', Response::HTTP_BAD_REQUEST);
+        }
+        $enrollment = new Enrollment();
+        $enrollment->setStudent($user);
+        $enrollment->setCourse($course);
+        $entityManager->persist($enrollment);
+        $entityManager->flush();
+        return $this->redirectToRoute('course_details', ['id' => $id]);
+    }
+
+    #[Route('/courses/{id}', name: 'course_details')]
+    public function details(int $id, EntityManagerInterface $entityManager): Response
+    {
+        $course = $entityManager->getRepository(Course::class)->find($id);
+
+        if (!$course) {
+            throw $this->createNotFoundException('The course does not exist');
+        }
+
+        $tutor = $course->getTutor();
+        $modules = $entityManager->getRepository(Module::class)->findBy(['idCourse' => $id], ['order' => 'ASC']);
+        $enrollmentRepository = $entityManager->getRepository(Enrollment::class);
+        $enrollmentCount = $enrollmentRepository->countStudentsByCourse($id);
+
+        // Check if the current user is a student and fetch their enrollments
+        $studentEnrollments = [];
+        $user = $this->security->getUser();
+        if ($user && in_array('ROLE_STUDENT', $user->getRoles())) {
+            $studentEnrollments = $enrollmentRepository->findCoursesByStudent($user->getUserIdentifier());
+        }
+
+        return $this->render('course/course_details.html.twig', [
+            'course' => $course,
+            'tutor' => $tutor,
+            'modules' => $modules,
+            'enrollmentCount' => $enrollmentCount,
+            'studentEnrollments' => $studentEnrollments,
+        ]);
     }
 
 }
