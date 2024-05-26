@@ -22,6 +22,14 @@ use App\Repository\RequestRepository ;
 use App\Entity\RequestCourse ;
 use Cocur\Slugify\Slugify;
 
+
+
+use App\Form\ModuleType;
+
+use App\Entity\Module;
+
+
+
 class TutorController extends AbstractController
 {
     #[Route('/app_tutor', name: 'app_tutor')]
@@ -105,6 +113,21 @@ class TutorController extends AbstractController
         if (!$course) {
             throw $this->createNotFoundException('No course found for id ' . $id);
         }
+
+
+        $modules = $entityManager->getRepository(Module::class)->findBy(['idCourse' => $id]);
+        $modulesDataAll = [];
+
+        foreach ($modules as $module) {
+            $modulesData = [];
+            $modulesData['id'] = $module->getId();
+            $modulesData['name'] = $module->getName();
+            $modulesData['nbrLessons'] = $module->getNbrLessons();
+            $modulesData['nbrHours'] = $module->getNbrHours();
+            $modulesData['order'] = $module->getOrder();
+            $modulesDataAll[] = $modulesData;
+        }
+
         $form = $this->createForm(CourseType::class, $course);
         $form->handleRequest($request);
 
@@ -133,12 +156,53 @@ class TutorController extends AbstractController
             }
         }
 
+        $course = $entityManager->getRepository(Course::class)->find($id);
+        if (!$course) {
+            throw $this->createNotFoundException('No course found for id ' . $id);
+        }
+
+       $module = new Module();
+        $formModule = $this->createForm(ModuleType::class, $module, ['course_id' => $id]);
+        $formModule->handleRequest($request);
+
+    if ($formModule->isSubmitted() && $formModule->isValid()) {
+        $module->setIdCourse($id);
+
+        $position = $formModule->get('position')->getData();
+        if ($position === 'beginning') {
+            $entityManager->getRepository(Module::class)->incrementOrderForCourse($id);
+            $module->setOrder(1);
+        } elseif ($position === 'end') {
+            $maxOrder = $entityManager->getRepository(Module::class)->getMaxOrderForCourse($id);
+            $module->setOrder($maxOrder + 1);
+        } elseif ($position === 'after_module') {
+            $afterModuleId = $formModule->get('afterModule')->getData()->getId();
+            $afterModuleOrder = $entityManager->getRepository(Module::class)->findOneBy(['id' => $afterModuleId])->getOrder();
+
+            $entityManager->getRepository(Module::class)->incrementOrderAfterModule($id, $afterModuleOrder);
+            $module->setOrder($afterModuleOrder + 1);
+        }
+
+        $entityManager->persist($module);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_tutor');
+    }
+
+
+
         return $this->render('tutor/detail_course_edit.html.twig', [
             'course' => $course,
             'form' => $form->createView(),
+            'modules' => $modulesDataAll,
+            'formModule' => $formModule->createView(),
 
         ]);
     }
+
+
+
+
     #[Route('/course/delete/{id}', name: 'delete-request')]
     public function deleteRequest(EntityManagerInterface $entityManager, Security $security, $id , RequestRepository $requestRepository): Response
     {
@@ -270,3 +334,11 @@ class TutorController extends AbstractController
 
 
 }
+
+
+
+
+
+
+
+
