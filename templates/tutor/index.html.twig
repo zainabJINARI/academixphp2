@@ -23,6 +23,7 @@
   crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/tutor.css') }}" />
+
 <script defer src="{{ asset('js/tutor.js') }}"></script>
 
 
@@ -65,7 +66,7 @@
 
 {% endblock %}
 {% block body %}
-<div class='dashboard'>
+<div class='dashboard tutor-dashboard'>
   <ul class="dashboard-options">
     <li class="nav-item" id="requestsTutos">
       <a href="#courses-area">Courses Area</a>
@@ -117,7 +118,8 @@
 
 
 </div>
-<div id="popup">
+<div id="popup"
+>
   <form class="new-course-request" id="new-course-request" action="/create-new-course" method="POST">
     <label for="course-name">Course Name</label>
     <input id="course-name" type="text" name="course-name" />

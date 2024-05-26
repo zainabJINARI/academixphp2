@@ -949,3 +949,8 @@ flex-direction: column;
    padding: 5px 10px ;
    border: 1px solid #735ec9;
 }
+
+
+.tutor-dashboard{ 
+    background-color: #f5F5F5 !important;
+}

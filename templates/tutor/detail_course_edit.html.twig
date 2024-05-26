@@ -19,8 +19,8 @@ crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}" />
-   
-
+   <link rel="stylesheet" href="{{ asset('css/detail_course_tutor.css') }}">
+   <script defer src="{{ asset('js/detail_tutor.js') }}" ></script>
 
 {% endblock %}
 
@@ -68,10 +68,10 @@ crossorigin="anonymous"></script>
             <li class="nav-item" id="deleteBtn">
                 <a    href="/app_tutor">Back Dashboard</a>
             </li>
-            <li class="nav-item" id="deleteBtn">
+            <li class="nav-item" id="general_course">
                 <a    href="#">General Course </a>
             </li>
-            <li class="nav-item" id="deleteBtn">
+            <li class="nav-item" id="course_ressources_btn">
                 <a    href="#">Course Ressources</a>
             </li>
         </ul>
@@ -109,6 +109,63 @@ crossorigin="anonymous"></script>
 
                 </div>
         </div>
+        <div class="course_ressources" id="course_ressources">
+           
+            <div class="head-course-ressources">
+                <h3>Ressources of '{{ course.title }}'</h3>
+                <a role="button"  href="#" class="add_module_course">Add Module</a>
+
+            </div>
+          
+           
+            <ul class="tutor-course-modules">
+                
+                
+                {% for module in modules|sort((a, b) => a.order <=> b.order) %}
+                <li class="tutor-course-module">
+                    <div class="tutor-course-module-detail">
+                        <i class="fa-solid fa-chevron-right caret show-lessons"></i>
+                        <h4>{{ module.name }}</h4>
+                        <div class="detailed-info">
+                            <p><span>35</span> lessons</p>
+                            <p><span>2</span> hours <span>35</span> hours</p>
+                        </div>
+                    </div>
+                    <ul class="tutor-course-module-lesson hidden">
+                        <li>
+                            <i class="fa-solid fa-circle-play"></i>
+                            <h5>Introduction to React</h5>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-circle-play"></i>
+                            <h5>Introduction to Angular</h5>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-circle-play"></i>
+                            <h5>Introduction to Vue.js</h5>
+                        </li>
+                    </ul>
+                </li>
+            {% endfor %}
+            
+        </ul>
+        </div>
+        <div class="pop-up-module-create" id="pop_up_module_create">
+                    <span id="btn-close-popup-create-module">close</span>
+                    <h4>Create New Course</h4>
+                    
+                    {{ form_start(formModule) }}
+                    <label for="">Module Name</label>
+                    {{ form_widget(formModule.name) }}
+                    <label for="">Module Position</label>
+                    {{ form_widget(formModule.position) }}
+                    <button class="btn">Add Module</button>
+                    {{ form_end(formModule) }}
+                   
+        </div>
+
+        
+        
 
         
        

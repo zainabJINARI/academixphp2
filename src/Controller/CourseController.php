@@ -123,11 +123,6 @@ class CourseController extends AbstractController
          return $this->render('course/course_details.html.twig');
     }
 
-
-
-    
-
-
 }
 
 
