@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BlaController!{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/editprofile.css') }}" />
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block body %}
+    <div class="profile">
+        <div class="profile-img">
+            <img src="{{ asset('images/profile.png') }}" />
+        </div>
+        <div class="profile-name">
+            <h2>Nick Roy</h2>
+        </div>
+        <div class="profile-details">
+            <div>
+                <h4>View Profile</h4>
+            </div>
+            <div id="editProfileLink"> 
+                <h4> Edit Profile</h4>
+            </div>
+            <div>
+                <h4>My Purchase</h4>
+            </div>
+            <div>
+                <h4>Notification</h4>
+            </div>
+            <div>
+                <h4>Privacy & Security</h4>
+            </div>
+           <div>
+                <h4><a href="{{ path('delete') }}">Close Account</a></h4>
+            </div>
+
+        </div>
+    </div>
+
+
+<div class="container">
+    <div class="photo-section">
+      <img src="placeholder.jpg" alt="User Photo" class="user-photo">
+      <input type="file" id="photo-upload" class="photo-upload">
+      <label for="photo-upload" class="upload-icon">&#x1F4F7;</label>
+    </div>
+    <div class="info-section">
+      <div class="input-group">
+        <label for="fullname">Full Name:</label>
+        <input type="text" id="fullname" name="fullname" value="placeholder">
+      </div>
+      <div class="input-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="placeholder">
+      </div>
+      <div class="input-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" value="placeholder">
+      </div>
+      <button class="save-btn">Save</button>
+    </div>
+  </div>
+
+
+ 
+{% endblock %}

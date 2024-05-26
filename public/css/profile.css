@@ -1,0 +1,71 @@
+.footer{
+    padding: 1em;
+    
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    text-align: center;
+    bottom: 0;
+    margin-top: auto;
+    background-color: #ECE6F6;
+
+}
+.footer p{
+    color: #868383;
+    font-weight: 500;
+    font-size: 0.7em;
+    margin: 0.1em;
+}
+
+.footer img{
+    width: 150px;
+    margin: auto;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 60px auto;
+    border-radius: 10px;
+    width: 1200px;
+    margin-left: 10px; 
+    
+  }
+  .profile-img img {
+    width: 150px; 
+    height: auto; 
+    border-radius: 50%; 
+    border: 2px solid #ccc; 
+    margin-bottom: 20px; 
+  }
+  .profile-name h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .profile-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    
+    
+  }
+  
+  .profile-details div {
+    margin-bottom: 20px; 
+  }
+  
+  .profile-details h4 {
+    font-size: 20px; 
+    font-weight: 400; 
+    margin: 0;
+  }
+  
+  .profile-details h4:hover {
+    color: #A020F0; 
+    cursor: pointer; 
+    
+  }
+  
+  

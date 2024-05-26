@@ -16,6 +16,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface\UserInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AdminController extends AbstractController
 {
@@ -35,6 +36,8 @@ class AdminController extends AbstractController
                 'username' => $tutor->getUsername(),
                 'bio' => $tutor->getBio(),
                 'profile' => $tutor->getProfileImage(),
+                'email' =>$tutor->getEmail(),
+
 
             ];
         }
@@ -174,7 +177,7 @@ class AdminController extends AbstractController
         if (!$user) {
             throw $this->createNotFoundException('User not found');
         }
-
+        
         // Retrieve form data from the request
         $username = $request->request->get('username');
         $email = $request->request->get('email');
@@ -224,8 +227,45 @@ class AdminController extends AbstractController
         // Return a JSON response indicating success
         return $this->redirectToRoute('app_home');
     }
+    #[Route('/admin/update-tutor/{id}', name: 'update_tutor')]
+    public function updateTutor(int $id, EntityManagerInterface $entityManager, Request $request,  UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $tutor = $entityManager->getRepository(User::class)->find($id);
+        
+        if (!$tutor) {
+            throw $this->createNotFoundException('Tutor not found');
+        }
 
-    
+        if ($request->isMethod('POST')) {
+            $email = $request->request->get('email');
+            $plainPassword = $request->request->get('password');
+
+            if ($tutor->getEmail() !== $email) {
+                $tutor->setEmail($email);
+            }
+
+            if (!empty($plainPassword)) {
+                $hashedPassword = $passwordHasher->hashPassword($tutor, $plainPassword);
+                $tutor->setPassword($hashedPassword);
+            }
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_admin');
+        }
+
+        return $this->render('admin/index.html.twig', [
+            'tutor' => $tutor,
+        ]);
+
+    }
+
+            
+
+
+
+
+
     #[Route('/admin/courses/create-course', name: 'create-course')]
     public function createCourse(EntityManagerInterface $entityManagerInterface,Request $request): Response
     {

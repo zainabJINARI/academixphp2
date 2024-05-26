@@ -21,6 +21,7 @@ crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}" />
     <script defer src="{{ asset('js/admin.js') }}"></script>
 
+
 {% endblock %}
 
 {% block header %}
@@ -40,7 +41,8 @@ crossorigin="anonymous"></script>
            
             
             <li class="nav-item">
-              <a class="nav-link" href="#about">Courses</a>
+                <a class="nav-link" href="/allcourses?topic=popular">Courses</a>
+              
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_logout') }}">Log Out</a>
@@ -207,12 +209,13 @@ crossorigin="anonymous"></script>
                         
                         <div>
                             <a href="/admin/delete-tutor/{{tutor.id}}"><i class="fa-solid fa-trash"></i></a>
-                            <a href="#"><i class="fa-regular fa-pen-to-square"></i></a>
+                            <button onclick="showUpdateForm('{{ tutor.id }}', '{{ tutor.email }}', '')"><i class="fa-regular fa-pen-to-square"></i></button>
+                            <!-- <a href="/admin/update-tutor/{{tutor.id}}"><i class="fa-regular fa-pen-to-square"></i></a> -->
                         </div>
 
                     </li>
                     {% endfor %}
-                    
+
                   
                   
                     
@@ -266,6 +269,18 @@ crossorigin="anonymous"></script>
         {{ form_end(registrationForm) }}
     </div>
 
+    <div id="updateTutorForm" style="display: none;">
+        <form id="tutorForm" action="" method="post">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+            <input type="hidden" id="tutorId" name="tutorId"> <!-- Hidden field to store tutor ID -->
+            <button type="submit">Update Tutor</button>
+        </form>
+    </div>
+    
+
 
     <div id="myModal" class="modal">
         <div class="modal-content">
@@ -301,6 +316,16 @@ crossorigin="anonymous"></script>
             <button type="submit" class="btn">Create Course</button>
         </form>
     </div>
+    <script>
+        // Function to show the update tutor form as a popup
+        function showUpdateForm(tutorId, email, password) {
+            document.getElementById("email").value = email;
+            document.getElementById('tutorForm').action = '/admin/update-tutor/' + tutorId;
+            document.getElementById("tutorId").value = tutorId;
+            document.getElementById("updateTutorForm").style.display = "block";
+        }
+    </script>
+    
    
     
 

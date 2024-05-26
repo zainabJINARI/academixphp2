@@ -178,3 +178,6 @@ showDetailsLinks.forEach(link => {
 closeDetails.addEventListener('click', function() {
         requestDetails.style.display = 'none';
 });
+
+
+
