@@ -5,13 +5,19 @@ const course_ressources = document.getElementById("course_ressources");
 const courses_area_general = document.getElementById("courses-area");
 const pop_up_module_create = document.getElementById("pop_up_module_create");
 const add_module_course = document.querySelector(".add_module_course");
+const addLessonItems = document.querySelectorAll(".add_lesson");
 const pop_up_lesson_create = document.getElementById("pop_up_lesson_create");
-const addLesson = document.querySelector(".add_lesson");
 
 document
   .getElementById("btn-close-popup-create-module")
   .addEventListener("click", () => {
     pop_up_module_create.classList.add("hidden");
+  });
+
+document
+  .getElementById("btn-close-lesson-module")
+  .addEventListener("click", () => {
+    pop_up_lesson_create.classList.add("hidden");
   });
 
 pop_up_module_create.classList.add("hidden");
@@ -64,47 +70,44 @@ showLessonsButtons.forEach((button) => {
 
 // Add Button
 let moduleid = "";
-addLesson?.addEventListener("click", function () {
-  let xhr = new XMLHttpRequest();
-  moduleid = this.getAttribute("data-module-id");
-  var pop_up_lesson_create = document.getElementById("pop_up_lesson_create");
+addLessonItems.forEach((addLesson) => {
+  addLesson?.addEventListener("click", function () {
+    let xhr = new XMLHttpRequest();
+    moduleid = this.getAttribute("data-module-id");
 
-  xhr.open("GET", `/course/add/lesson/${moduleid}`, true);
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      let formHtml = JSON.parse(xhr.responseText).formHtml;
-      pop_up_lesson_create.innerHTML = formHtml;
-      pop_up_lesson_create.style.display = "block";
-    }
-  };
-  xhr.send();
-
-  
+    xhr.open("GET", `/course/add/lesson/${moduleid}`, true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        let formHtml = JSON.parse(xhr.responseText).formHtml;
+        pop_up_lesson_create.innerHTML += formHtml;
+        pop_up_lesson_create.classList.remove("hidden");
+      }
+    };
+    xhr.send();
+  });
 });
 
+document.querySelectorAll(".delete-module").forEach(function (button) {
+  button.addEventListener("click", function (event) {
+    event.preventDefault();
+    let moduleId = this.getAttribute("data-id");
+    let csrfToken = this.getAttribute("data-token");
 
-
-document.querySelectorAll('.delete-module').forEach(function(button) {
-    button.addEventListener('click', function(event) {
-        event.preventDefault();
-        let moduleId = this.getAttribute('data-id');
-        let csrfToken = this.getAttribute('data-token');
-
-        fetch(`/module/delete/${moduleId}`, {
-            method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': csrfToken,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Optionally, refresh the page or remove the module from the DOM
-                location.reload();
-            } else {
-                alert('Error deleting module: ' + data.error);
-            }
-        });
-    });
+    fetch(`/module/delete/${moduleId}`, {
+      method: "DELETE",
+      headers: {
+        "X-CSRF-TOKEN": csrfToken,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          // Optionally, refresh the page or remove the module from the DOM
+          location.reload();
+        } else {
+          alert("Error deleting module: " + data.error);
+        }
+      });
+  });
 });

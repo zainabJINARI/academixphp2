@@ -1,13 +1,38 @@
+
+
+
 .dashboard{
     display: flex;
     flex-direction: row;
     align-items: stretch;
     background: url('../images/backD.png');
-    background-position: top;
-   
-   
+    background-position: top; 
+}
+
+.tutor-dashboard{ 
+    background-color: #f5F5F5 !important;
+}
+
+
+
+.norequests-yet-container {
+    display: flex;
+    align-items: center;
+}
+
+.norequests-yet {
+    color: rgb(251, 106, 106);
+    font-size: 1rem;
+    font-weight: 300;
+    margin: 0 0 0 10px;
     
 }
+
+.fa-circle-exclamation  {
+    color: rgb(251, 106, 106);
+}
+
+
 
 
 
@@ -241,6 +266,32 @@ font-size: 1.5rem;
     
 }
 
+
+.accounts-requests {
+  margin-top: 40px;
+}
+
+
+.accounts-requests h3 {
+    border-radius: 5px ;
+    padding: 5px 10px;
+    background-color: #a020f065;
+    color: white;
+    text-shadow: none;
+}
+
+
+.norequest {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgb(254, 131, 131);
+}
+
+.fa-user {
+    color: white;
+    font-size: 1.3rem;
+    
+}
 
 .container {
     display: flex;
@@ -951,9 +1002,7 @@ flex-direction: column;
 }
 
 
-.tutor-dashboard{ 
-    background-color: #f5F5F5 !important;
-}
+
 
 
 .request-description-details-cont {

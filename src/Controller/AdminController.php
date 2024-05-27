@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Course;
+use App\Entity\RequestAccount;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\CourseRepository;
+use App\Repository\RequestAccountRepository;
 use App\Repository\UserRepository;
 use App\Repository\RequestRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,7 +23,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AdminController extends AbstractController
 {
     #[Route('/admin', name: 'app_admin')]
-    public function index(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserRepository $userRepository, CourseRepository $courseRepository , RequestRepository $requestRepository ,  ): Response
+    public function index(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserRepository $userRepository, CourseRepository $courseRepository , RequestRepository $requestRepository ,  RequestAccountRepository $requestAccountRepository ): Response
     {
 
         $tutors = $userRepository->createQueryBuilder('u')
@@ -37,8 +39,6 @@ class AdminController extends AbstractController
                 'bio' => $tutor->getBio(),
                 'profile' => $tutor->getProfileImage(),
                 'email' =>$tutor->getEmail(),
-
-
             ];
         }
         $user = new User();
@@ -56,7 +56,6 @@ class AdminController extends AbstractController
             $coursesData[] = [
                 'id' => $course[0]->getId(),
                 'title' => $course[0]->getTitle(),
-
                 'nbrLessons' => $course[0]->getNbrLessons(),
                 'thumbnail' => $course[0]->getThumbnail(),
 
@@ -119,11 +118,30 @@ class AdminController extends AbstractController
             $requestsDataDelete[]=$requestData;
            }
         
-
-            
         }
 
-        
+
+
+        // Récupérer les requêtes
+        $requestsAccounts = $requestAccountRepository->findBy(['status' => 'pending']);
+        $requestsDataAccount = [];
+
+        foreach ($requestsAccounts as $requestac) {
+            $requestsAcData = [];
+            $requestsAcData['id'] = $requestac->getId();
+            $requestsAcData['time'] = $requestac->getTime()->format('Y-m-d H:i:s');
+
+            $owner = $userRepository->find($requestac->getOwner());
+            if ($owner) {
+                $requestsAcData['tutorName'] = $owner->getUsername();
+            } else {
+                $requestsAcData['tutorName'] = 'Unknown';
+            }
+
+            $requestsDataAccount[] = $requestsAcData;
+        }
+
+
 
 
         return $this->render('admin/index.html.twig', [
@@ -132,7 +150,8 @@ class AdminController extends AbstractController
             'tutors' => $tutorsData,
             'courses'=>$coursesData ,
             'requests'=> $requestsDataCreate,
-            'requestsDelete'=>$requestsDataDelete
+            'requestsDelete'=>$requestsDataDelete ,
+            'requestsAccounts'=>$requestsDataAccount
         ]);
     }
     
@@ -373,6 +392,58 @@ class AdminController extends AbstractController
             return new Response('Request not found', 404);
         }
     }
+
+
+    //admin/account/delete/
+
+
+    #[Route('/admin/account/rejected/{id}', name: 'reject-account')]
+    public function RejectedDeleteAccount(EntityManagerInterface $entityManagerInterface, RequestAccountRepository $requestAccountRepository ,  Request $request, $id): Response
+    {
+     
+        $requestAccount = $requestAccountRepository->find($id);
+        if ($requestAccount) {
+            $requestAccount->setStatus('rejected');
+            $entityManagerInterface->persist($requestAccount);
+            $entityManagerInterface->flush();
+            
+            return new Response("Request rejected successfully.");
+        } else {
+            return new Response("This request does not exist.", Response::HTTP_NOT_FOUND);
+        }
+    }
+
+
+
+
+    #[Route('/admin/account/delete/{id}', name: 'delete-account')]
+public function AcceptDeleteAccount(
+    EntityManagerInterface $entityManager, 
+    RequestAccountRepository $requestAccountRepository, 
+    UserRepository $userRepository, 
+    int $id
+): Response {
+    $requestAccount = $requestAccountRepository->find($id);
+
+    if ($requestAccount) {
+        $requestAccount->setStatus('accepted');
+        $user = $userRepository->find($requestAccount->getOwner());
+
+        if ($user) {
+            $entityManager->remove($user);
+            $entityManager->persist($requestAccount);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'User deleted successfully.');
+            return $this->redirectToRoute('app_admin'); 
+        } else {
+            return new Response("This User does not exist.", Response::HTTP_NOT_FOUND);
+        }
+    } else {
+        return new Response("This request does not exist.", Response::HTTP_NOT_FOUND);
+    }
+}
+
 
     
 }

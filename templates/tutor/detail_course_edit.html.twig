@@ -90,9 +90,7 @@
         <div id="courses-area" class="manage-courses-container detail_course_tutor">
             <h3>{{ course.title }}</h3>
 
-
             <div class="old-courses-container">
-
 
                 {{ form_start(form) }}
                 <div>
@@ -149,6 +147,8 @@
                             <li>
                                 <i class="fa-solid fa-circle-play"></i>
                                 <h5>{{ lesson.name }}</h5>
+
+                                <a href="/lesson/delete/{{ lesson.id }}" class="deletelesson" ><i class="fa-solid fa-trash "></i></a>
                             </li>
                             {% endfor %}
                         </ul>
@@ -170,9 +170,13 @@
             {{ form_end(formModule) }}
 
         </div>
-        <div class="pop-up-lesson-create" id="pop_up_lesson_create" style="display:none;">
+
+
+        <div class="pop-up-lesson-create hidden" id="pop_up_lesson_create" >
+         <span id="btn-close-lesson-module">close</span>
                   
         </div>
+
 
 
 

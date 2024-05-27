@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\RequestAccount;
 use App\Form\CourseType;
 use App\Entity\Lesson ;
 use App\Form\LessonFormType;
@@ -20,6 +21,7 @@ use App\Entity\User ;
 use App\Repository\UserRepository ;
 use App\Repository\CourseRepository ;
 use App\Repository\RequestRepository ;
+use App\Repository\LessonRepository ;
 use App\Entity\RequestCourse ;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Cocur\Slugify\Slugify;
@@ -65,6 +67,56 @@ class TutorController extends AbstractController
         ]);
     }
 
+
+    #[Route('/tutor/update-profile', name: 'update_tutor_profile')]
+    public function updateTutorProfile(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        // Get the current user
+        $currentUser = $this->getUser();
+
+        // Get the current user's email
+        $email = $currentUser->getUserIdentifier();
+
+        // Fetch the user entity from the database based on the email
+        $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
+        
+        // Retrieve form data from the request
+        $username = $request->request->get('username');
+        $email = $request->request->get('email');
+        $password = $request->request->get('password');
+        $profileImage = $request->request->get('profileImage');
+
+
+        // Update user properties
+        $user->setUsername($username);
+        $user->setEmail($email);
+
+        // Check if a new password is provided and update it
+        if (!empty($password)) {
+            // Hash the password (replace this with your actual password hashing logic)
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $user->setPassword($hashedPassword);
+        }
+        if (!empty($profileImage)) {
+            $user->setProfileImage($profileImage);
+        }
+
+        // Handle profile picture upload (if applicable)
+        // Persist changes to the database
+        $entityManager->flush();
+
+        // Redirect back to the admin page or wherever you want
+        return $this->redirectToRoute('app_tutor');
+    }
+
+
+
+
+
     #[Route('/create-new-course', name: 'create-new-course')]
     public function newCourse(EntityManagerInterface $entityManager, Request $request, UserRepository $userRepository): Response
     {
@@ -104,6 +156,7 @@ class TutorController extends AbstractController
 
 
     
+
     #[Route('/course/edit/{id}', name: 'detail_course_tutor')]
     public function edit(Request $request, Course $course, EntityManagerInterface $entityManager, $id): Response
 
@@ -132,7 +185,7 @@ class TutorController extends AbstractController
 
             foreach ($lessons as $lesson) {
                 $lessonData = [];
-                // $lessonData['id'] = $lesson->getId();
+                $lessonData['id'] = $lesson->getId();
                 $lessonData['name'] = $lesson->getName();
                 // $lessonData['duration'] = $lesson->getDuration();
                 $lessonData['order'] = $lesson->getOrder();
@@ -223,6 +276,7 @@ class TutorController extends AbstractController
 
 
 
+
     #[Route('/course/delete/{id}', name: 'delete-request')]
     public function deleteRequest(EntityManagerInterface $entityManager, Security $security, $id , RequestRepository $requestRepository , Request $request): Response
     {
@@ -275,10 +329,6 @@ class TutorController extends AbstractController
 
         $requests = $entityManager->getRepository(RequestCourse::class)->findBy(['idtutor' => $tutor->getId()]);
 
-        if (!$requests) {
-            return new JsonResponse(['error' => 'No requests found for this tutor'], 404);
-        }
-
         $requestsArrayDelete=[];
         $requestsArrayCreate=[];
         foreach ($requests as $requestt) {
@@ -286,12 +336,11 @@ class TutorController extends AbstractController
             $requestsData= [];
             $courseName= $courseRepository->find($requestt->getCourseId())->getTitle();
             
-            $requestData['id'] = $requestt->getId();
+            $requestData['idrequest'] = $requestt->getId();
             $requestData['time'] = $requestt->getTime()->format('Y-m-d H:i:s');
             $requestData['course'] = $courseName;
             $requestData['id'] = $requestt->getCourseId();
             $requestData['status'] = $requestt->getStatus();
-            
 
             
            if($requestt->getType()=='Create'){
@@ -307,9 +356,6 @@ class TutorController extends AbstractController
             'controller_name' => 'detail_course',
             'delete_request'=>$requestsArrayDelete,
             'create_request'=>$requestsArrayCreate,
-           
-
-
         ]);
     }
 
@@ -342,6 +388,7 @@ class TutorController extends AbstractController
 
         return new JsonResponse(['success' => 'Module deleted successfully']);
     }
+
 
     #[Route('/course/add/lesson/{id}', name: 'add_lesson')]
     public function addNewLesson(Request $request, Module $module, EntityManagerInterface $entityManager, $id): Response {
@@ -389,8 +436,8 @@ class TutorController extends AbstractController
 
                 $entityManager->persist($lesson);
                 $entityManager->flush();
-                return new JsonResponse(['success' => true]);
-                
+
+                return $this->redirectToRoute('app_tutor');                
             }  
         }
         $formHtml = $this->renderView('tutor/add_lesson.html.twig', [
@@ -402,6 +449,82 @@ class TutorController extends AbstractController
         
      
     }
+
+
+
+
+
+    #[Route('/tutor/delete-account', name: 'delete_account')]
+    public function DeleteAccount(EntityManagerInterface $entityManager,Security $security): Response {
+        $currentUser = $security->getUser();
+        $tutor = $entityManager->getRepository(User::class)->findOneBy(['email' => $currentUser->getUserIdentifier()]);
+        $owner = $tutor->getId() ;
+        if($owner) {
+            $requestAccount = new RequestAccount();
+            $requestAccount->setOwner($owner);
+            $requestAccount->setStatus('pending');
+            $currentDateTime = new \DateTime();
+            $requestAccount->setTime($currentDateTime);
+            $entityManager->persist($requestAccount);
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('app_tutor');
+
+        }else {
+             return new Response('Il a un erreur ou niveau de user');
+        }
+        
+        
+
+    }
+
+
+
+
+    #[Route('/tutor/cancel-delete-request/{id}', name: 'delete-cancel-request')]
+    public function deleteCancel(EntityManagerInterface $entityManager,  $id , RequestRepository $requestRepository ): Response
+    {
+        $requestt = $requestRepository->find($id);
+
+        if($requestt) {
+            $entityManager->remove($requestt);
+            $entityManager->flush();
+        } else {
+            return new Response("The delete request was not found.", Response::HTTP_NOT_FOUND);
+        }
+
+        return new Response("The delete request has been successfully canceled.", Response::HTTP_OK);
+    }
+
+
+
+   
+
+
+    #[Route('/lesson/delete/{id}', name: 'delete_lesson')]
+    public function deleteLesson(EntityManagerInterface $entityManager,  $id , LessonRepository $lessonRepository ): Response
+    {
+        $lesson = $lessonRepository->find($id);
+
+        if ($lesson) {
+            $lessons = $lessonRepository->findLessonsWithOrderGreaterThan($lesson->getOrder());
+            if (count($lessons) > 0) {
+                foreach ($lessons as $ls) {
+                    $ls->setOrder($ls->getOrder() - 1);
+                }
+            }
+            $entityManager->remove($lesson);
+            $entityManager->flush();
+        }else {
+            return new Response('This lesson not exists');
+        }
+
+
+        return $this->redirectToRoute('app_tutor');
+    }
+
+
+   
 
 
 

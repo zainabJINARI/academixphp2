@@ -29,10 +29,13 @@
 
 {% endblock %}
 
+
+
+
+
 {% block header %}
-
+{% if app.user is defined and app.user %}
 <header class="header">
-
   <nav class="navbar navbar-expand-lg navbar-light">
     <a class="navbar-brand d-flex flex-row align-items-center" href="{{ path('app_home') }}">
       <img src="{{ asset('images/logo.png') }}" alt="academix logo " width="150px">
@@ -63,10 +66,15 @@
     </div>
   </nav>
 </header>
+{% endif %}
+
 
 {% endblock %}
 {% block body %}
-<div class='dashboard tutor-dashboard'>
+
+{% if app.user is defined and app.user %}
+
+<div class='dashboard tutor-dashboard' >
   <ul class="dashboard-options">
     <li class="nav-item" id="requestsTutos">
       <a href="#courses-area">Courses Area</a>
@@ -102,8 +110,6 @@
               <p>Level : <span>{{ course.level }}</span></p>
               <a href="/course/edit/{{ course.id }}"><i class="fa-solid fa-pen-to-square"></i></a>
               <a href="#"><i class="fa-solid fa-trash deleteCourse" data-course-id="{{ course.id }}"></i></a>
-
-
             </div>
           </li>
           {% endfor %}
@@ -117,11 +123,11 @@
     <div class="update-profile" id="updateprofile">
       <h3>Update Profile</h3>
       <div class="container updateprofileContainer">
-          
-          <form action="" method="post" enctype="multipart/form-data">
+          <form action="{{ path('update_tutor_profile') }} "method="post" enctype="multipart/form-data">
               <div hidden>  {{ csrf_token('update_user_profile') }}</div>
              
           <div class="profile-picture">
+
               <img src="{{ app.user.profileImage ? app.user.profileImage : 'https://www.iprcenter.gov/image-repository/blank-profile-picture.png/@@images/image.png' }}" alt="Image de profil">
              
               <label for="image-upload" id="btnshowinput">
@@ -129,27 +135,23 @@
               </label>
               <input type="text" name="profileImage" id="image-upload" placeholder="url of image" class="input">
           </div>
-  
           <div class="form">
-
-          
-              <div class="form-group">
-                  <label for="username">Username</label>
-                  <input type="text" id="username" name="username" placeholder="joe shmoe" value="{{ app.user.username}}" >
-              </div>
-  
-              <div class="form-group">
-                  <label for="email">Email</label>
-                  <input type="email" id="email" name="email" placeholder="joeshmoe@gmail.com"  value="{{ app.user.email }}">
-              </div>
-
-              <div class="form-group">
-                  <label for="password">Password</label>
-                  <input type="password" id="password" name="password" placeholder="********" >
-              </div>
-  
-              <button type="submit">Update Profile</button>
+                  <div class="form-group">
+                      <label for="username">Username</label>
+                      <input type="text" id="username" name="username" placeholder="joe shmoe" value="{{ app.user.username}}" >
+                  </div>
+                  <div class="form-group">
+                      <label for="email">Email</label>
+                      <input type="email" id="email" name="email" placeholder="joeshmoe@gmail.com"  value="{{ app.user.email }}">
+                  </div>
+                  <div class="form-group">
+                      <label for="password">Password</label>
+                      <input type="password" id="password" name="password" placeholder="********" >
+                  </div>
+      
+                  <button type="submit">Update Profile</button>            
           </div>
+
           </form>
       </div>
   
@@ -159,8 +161,7 @@
 
 </div>
 
-<div id="popup"
->
+<div id="popup">
   <form class="new-course-request" id="new-course-request" action="/create-new-course" method="POST">
     <label for="course-name">Course Name</label>
     <input id="course-name" type="text" name="course-name" />
@@ -190,7 +191,7 @@
       <p>Are you sure you wanna delete your profile ?</p>
       <div>
           <a id="confirmBtn" href="/tutor/delete-account">Proceed</a>
-      <a id="cancelBtn" href="">Cancel</a>
+           <a id="cancelBtn" href="">Cancel</a>
       </div>
       
   </div>
@@ -200,9 +201,17 @@
 </div>
 
 
+{% else %}
+     
+    <div class="access-denied-message">
+        <img src="{{ asset('images/404.png') }}"  />
+        <p>You don't have access to this account anymore 😵</p>
+    </div>
+
+    {% block footer %}
+    {%  endblock %}
 
 
-
-
+{% endif %}
 
 {% endblock %}

@@ -15,7 +15,6 @@ document.getElementById("addNewCourse").addEventListener("click", function () {
 
 deleteBtn.addEventListener('click', (e) => {
     e.preventDefault()
-    console.log('hhh')
     modal.classList.remove('hidden')
 })
 

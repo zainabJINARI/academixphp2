@@ -40,8 +40,25 @@
     font-weight: bold;
 }
 
+.access-denied-message {
+     margin-top: 10%;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+}
 
-/* CSS CODE OF DELETION REQUEST */
+.access-denied-message img {
+    width: 200px;
+    margin-bottom: 30px ;
+}
+
+.access-denied-message > p {
+    font-size: 1.4rem;
+    color: #6e6e6e;
+    text-shadow: 2px 7px 5px rgba(0,0,0,0.3), 
+    0px -4px 10px rgba(255,255,255,0.3);
+
+}
 
 
 

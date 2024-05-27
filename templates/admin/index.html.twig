@@ -62,8 +62,6 @@ crossorigin="anonymous"></script>
 {% block body %}
 
 
-
-    
     <div class='dashboard'>
         <ul class="dashboard-options">
             <li class="nav-item" id="requestsTutos">
@@ -88,7 +86,7 @@ crossorigin="anonymous"></script>
                 <div class="completed-courses requests">
                     <h3>Course Creation Requests</h3>
                     <ul>
-                    
+                        {% if requests %}
                         {% for request in requests %}
                             <li>
                                 <i class="fa-solid fa-square-plus create"></i>
@@ -115,6 +113,9 @@ crossorigin="anonymous"></script>
                                 </div>       
                               </div>
                         {% endfor %}
+                        {% else %}
+                            <p class="norequest">No create courses requests</p>
+                        {% endif %}  
                         
                 
                     </ul>
@@ -123,7 +124,7 @@ crossorigin="anonymous"></script>
                 <div class="completed-courses requests">
                     <h3>Course Deletion Requests</h3>
                     <ul>
-                        
+                        {% if requestsDelete %}
                         {% for request in requestsDelete %}
                         <li>
                             <i class="fa-solid fa-trash delete"></i>
@@ -152,6 +153,40 @@ crossorigin="anonymous"></script>
                             
                     </div>
                         {% endfor %}
+                    {% else %}
+                            <p class="norequest">No delete courses requests</p>
+                    {% endif %}    
+                    </ul>
+                </div>
+
+
+
+
+                <div class="completed-courses requests accounts-requests">
+                    <h3><i class="fa-solid fa-user"></i> Accounts  Deletion Requests</h3>
+                    <ul>
+                        {% if requestsAccounts %}
+                            {% for requestac in requestsAccounts %}
+                                <li>
+                                    <i class="fa-solid fa-trash delete"></i>
+                                    <div>
+                                        <p><span>Requested By </span> <strong>{{ requestac.tutorName }}</strong> </p>
+                                        <p> {{ requestac.time }} </p>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <a href="admin/account/delete/{{ requestac.id }}"><i class="fa-solid fa-check"></i></a>
+                                            <a href="/admin/account/rejected/{{ requestac.id }}"><i class="fa-solid fa-xmark"></i></a>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <p class="norequest">No delete accounts requests</p>
+                        {% endif %}
+
+
+                        
                     </ul>
                 </div>
 
@@ -173,7 +208,6 @@ crossorigin="anonymous"></script>
                     </div>
             
                     <div class="form">
-
                     
                         <div class="form-group">
                             <label for="username">Nom d'utilisateur</label>
@@ -192,6 +226,7 @@ crossorigin="anonymous"></script>
             
                         <button type="submit">Update Profile</button>
                     </div>
+
                     </form>
                 </div>
             

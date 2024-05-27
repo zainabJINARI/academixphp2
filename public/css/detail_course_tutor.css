@@ -43,12 +43,12 @@
 
 .tutor-course-module .tutor-course-module-lesson li:first-child button{
        padding: 5px 10px;
-       background-color: transparent;
+       background-color: #A020F0;
        border: 1.2px solid #A020F0;
        font-size: 0.9rem;
        font-weight: 500;
-       color: #BB84E8;
-       outline-color: #aaa;
+       color: white;
+       outline: 2px solid #aaa;
        border-radius: 5px;
        margin-left: auto;
 }
@@ -70,6 +70,13 @@
     font-size: 0.9rem;
     margin-left: 0.5em;
     font-weight: 400;
+}
+
+
+.tutor-course-module .tutor-course-module-lesson li  .deletelesson {
+    color: rgb(250, 113, 113);
+    font-size: 0.7rem;
+    margin-left: auto;
 }
 
 .tutor-course-module-detail{
@@ -102,12 +109,12 @@
 }
 
 
-.pop-up-module-create,.pop-up-lesson-create{
+.pop-up-module-create , .pop-up-lesson-create{
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    margin: 10% auto 15%;
+    margin: 3% auto 15%;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -147,4 +154,153 @@
     margin-left: auto;
     text-transform: capitalize;
     font-size: 0.8rem;
+}
+
+
+/* 
+Create New Lesson Form Design */
+
+.pop-up-lesson-create {
+    background-color: white;
+    max-height: max-content;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    padding-top: 20px; 
+    overflow: auto; 
+}
+
+.pop-up-lesson-create span {
+    float: right; 
+    margin-top: -10px; 
+    margin-right: 5px; 
+    color: #aaa;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+
+.pop-up-lesson-create  span:hover {
+    color: #BB84E8;
+}
+
+.pop-up-lesson-create > form #lesson_form_position {
+    display: flex;
+    align-items: center;
+}
+
+
+.pop-up-lesson-create > form  #lesson_form_position > label {
+    margin-left: 5px;
+}
+
+.pop-up-lesson-create > form  #lesson_form_position > input {
+    margin: 0 0 0 15px;
+}
+
+
+.pop-up-lesson-create > form button {
+    margin: 10px 0;
+}
+
+
+.pop-up-lesson-create > form div:last-child
+{
+    background-color: #BB84E8;
+}
+.pop-up-lesson-create h4 {
+     color: #A020F0;
+     font-weight: 600;
+     text-align: center;
+
+}
+
+
+.pop-up-lesson-create form  {
+    background-color: transparent;
+}
+
+
+.pop-up-lesson-create form  input {
+    border: 1.5px solid #A020F0;
+    border-radius: 5px;
+    outline-color: #A020F0;
+    color: #6e6e6e;
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+
+.pop-up-lesson-create select {
+    padding: 5px 10px;
+    color: #6e6e6e;
+    font-size: 0.9rem;
+    border-color: #A020F0;
+    margin-left: 10px;
+}
+
+
+.pop-up-lesson-create form  button {
+      background-color: #A020F0;
+      border-radius: 5px;
+      color: white;
+      font-size: bold;
+      font-weight: 900 ;
+      border: none;
+      outline: #aaa;
+      cursor: pointer;
+      padding: 8px 0;
+}
+
+.pop-up-lesson-create form  button:hover {
+     background-color: #BB84E8;
+}
+
+
+
+.left-part {
+    padding: 10px;
+
+}
+
+
+.left-part  div {
+    margin-bottom: 10px;
+}
+.left-part  div > input {
+    padding: 5px 10px;
+    border: 1px solid #A020F0;
+    border-radius: 5px;
+    outline: 1px solid #aaa ;
+    color: #BB84E8;
+    font-size: 0.9rem;
+    font-weight: 600;
+    background-color: white;
+}
+
+
+.left-part  div > label {
+    font-size: 1.1rem;
+    color: #6e6e6e;
+    font-weight: 500;
+}
+
+
+.left-part  div > select {
+    border: 1px solid hsl(277, 87%, 53%);
+    border-radius: 5px;
+    color: #6e6e6e;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 6px 12px; 
+}
+
+
+.left-part button {
+    background-color: #A020F0;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.left-part button:hover {
+    background-color: #BB84E8;
 }

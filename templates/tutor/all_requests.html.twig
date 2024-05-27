@@ -44,7 +44,6 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav ml-auto">
 
-
         <li class="nav-item">
           <a class="nav-link" href="#about">Courses</a>
         </li>
@@ -88,9 +87,11 @@
         <div class="completed-courses requests">
             <h3>Course Creation Requests</h3>
             <ul>
-                {% if create_request|length==0 %}
-
-                    No requests yet 
+                {% if delete_request|length==0 %}
+                    <div class="norequests-yet-container">
+                       <i class="fa-solid fa-circle-exclamation"></i>
+                       <p class="norequests-yet">No requests yet </p>
+                    </div>
                 
                 {% endif %}
                 {% for request in create_request %}
@@ -104,9 +105,7 @@
                         <div>
                             <p><span>Status: </span> <span class="bold {{ request.status }}"> {{ request.status }}</span></p>
                             <div>
-                                <a href="" class='option-tutor-request'> {{ request.status=='pending' ? 'Cancel' : 'Delete' }}</a>
-                                
-                               
+                                <a href="/tutor/cancel-delete-request/{{ request.idrequest }}" class='option-tutor-request'> {{ request.status=='pending' ? 'Cancel' : 'Delete' }}</a>
                             </div>
                         </div>
                     </li>
@@ -119,7 +118,13 @@
         <div class="completed-courses requests">
             <h3>Course Deletion Requests</h3>
             <ul>
+                {% if create_request|length==0 %}
+                    <div class="norequests-yet-container">
+                       <i class="fa-solid fa-circle-exclamation"></i>
+                       <p class="norequests-yet">No requests yet </p>
+                    </div>
                 
+                {% endif %}
                 {% for request in  delete_request %}
                 <li>
                     <i class="fa-solid fa-trash delete"></i>
