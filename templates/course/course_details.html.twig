@@ -3,100 +3,97 @@
 {% block title %}Hello CourseDetailController!{% endblock %}
 
 {% block body %}
-    <section class="header-course-section">
-       <div class="right-container">
-         <h1>{{ course.title}}</h1>
-            <div class="course-info-container">
-                <img src="{{ tutor.profileImage}}" width="70px">
-                <div class="course-info">
-                    <p>with <span>{{tutor.username}}</span></p>
-                    <p>Course level: <span>{{course.level}}</span> <i class="fa-solid fa-arrow-up-short-wide"></i></p>
-                </div>
-           </div>
-           <p>{{course.description}}</p>
+<section class="header-course-section">
+    <div class="right-container">
+        <h1>{{ course.title}}</h1>
+        <div class="course-info-container">
+            <img src="{{ tutor.profileImage}}" width="70px">
+            <div class="course-info">
+                <p>with <span>{{tutor.username}}</span></p>
+                <p>Course level: <span>{{course.level}}</span> <i class="fa-solid fa-arrow-up-short-wide"></i></p>
+            </div>
         </div>
-        
-        <a href="#" class="go-to-lesson-btn">Go to the Lesson</a>
+        <p>{{course.description}}</p>
+    </div>
 
-        <div class="left-card">
-            <p>Jump In</p>
-            
-            {% if app.user %}
-            {% if 'ROLE_STUDENT' in app.user.roles %}
-                <p><strong>Your Enrollments:</strong></p>
-                <ul>
-                    {% for enrollment in studentEnrollments %}
-                        <li>{{ enrollment.course.title }}</li>
+    <a href="#" class="go-to-lesson-btn">Go to the Lesson</a>
+
+    <div class="left-card">
+        <p>Jump In</p>
+
+        {% if app.user %}
+        {% if 'ROLE_STUDENT' in app.user.roles %}
+        {% set isEnrolled = studentEnrollment is not null %}
+        {% if isEnrolled %}
+        {% if isCourseCompleted %}
+        <a href="#" class="btn btn-success">Claim Your Certificate</a>
+        {% else %}
+        <a href="#" class="btn btn-primary">Continue Progress</a>
+        <p>Leaving course? <span>Unenroll</span></p>
+        {% endif %}
+        <h2>Your progress</h2>
+        <div class="progress-container">
+            <div class="progress" data-progress="{{ progressPercentage }}"></div>
+        </div>
+        <p>You are <span>{{ progressPercentage }}%</span> on your way</p>
+        {% else %}
+        <a href="/enroll/{{ course.id }}" class="btn btn-primary">Enroll</a>
+        {% endif %}
+        {% elseif 'ROLE_TUTOR' in app.user.roles %}
+        <a href="/course/edit/{{ course.id }}" class="btn btn-secondary">Go to Course Detail</a>
+        {% else %}
+        <a href="#" class="btn btn-warning">Log Out</a>
+        {% endif %}
+        {% else %}
+        <a href="/login" class="btn btn-success">Log in to Enroll</a>
+        {% endif %}
+
+
+    </div>
+
+</section>
+<section class="modules-section">
+    <div class="right-container">
+        <h2>What's inside</h2>
+        <p>This course contains <span>177</span> lessons spread across <span>4</span> modules</p>
+
+        {% for module in modules|sort((a, b) => a.order <=> b.order) %}
+            <div class="dropdown-modules">
+                <div class="select-module">
+                    <i class="fa-solid fa-chevron-right caret"></i>
+                    <h3 class="selected-lesson">{{module.name}} {% if app.user and studentEnrollment %}<span>{{
+                            moduleProgressData[module.id]['progress'] }}%</span>{% endif %}</h3>
+                    <div class="module-infos">
+                        <p><span>{{ lessonsByModule[module.id]|length }}</span> lessons</p>
+                        <p><span>2</span> hours <span>35</span>hours </p>
+                    </div>
+                </div>
+
+                <ul class="menu-modules">
+
+                    {% for lesson in lessonsByModule[module.id] %}
+                    {% if app.user and studentEnrollment %}
+                    {% set completionStatus = lessonCompletionStatus[module.id][lesson.id] ?? false %}
+                    {% set lessonClass = completionStatus ? 'completed-lesson' : '' %}
+                    {% else %}
+                    {% set lessonClass = '' %}
+                    {% endif %}
+                    <li class="lesson  {{ lessonClass }}">
+                        <i class="fa-solid fa-circle-play"></i>
+                        <h4>{{ lesson.name }}</h4>
+                    </li>
                     {% endfor %}
                 </ul>
-                {% set isEnrolled = false %}
-                {% for enrollment in studentEnrollments %}
-                    {% if enrollment.course.id == course.id %}
-                        {% set isEnrolled = true %}
-                    {% endif %}
-                {% endfor %}
-                {% if isEnrolled %}
-                <a href="" class="btn btn-primary">Continue Progress</a>
-                <p>Leaving course? <span>unenroll</span></p>
-                {% else %}
-                    <a href="/enroll/{{course.id}}" class="btn btn-primary">Enroll</a>
-                {% endif %}
-            {% elseif 'ROLE_TUTOR' in app.user.roles %}
-                <a href="/course/edit/{{course.id}}" class="btn btn-secondary">Go to Course Detail</a>
-            {% else %}
-                <a href="" class="btn btn-warning">Log Out</a>
-            {% endif %}
-        {% else %}
-            <a href="/login" class="btn btn-success">Log in to Enroll</a>
-        {% endif %}
-            
-           
-            <h2>Your progress</h2>
-            <div class="progress-container">
-                <div class="progress"></div>
-            </div>
-            <p>You are <span>78%</span> on your way</p>
-        </div>    
-
-    </section>
-    <section class="modules-section">
-       <div class="right-container">
-         <h2>What's inside</h2>
-       <p>This course contains <span>177</span> lessons spread across <span>4</span> modules</p>
-       {% for module in modules|sort((a, b) => a.order <=> b.order) %}
-        <div class="dropdown-modules">
-            <div class="select-module">
-                <i class="fa-solid fa-chevron-right caret"></i>
-                <h3 class="selected-lesson">{{module.name}} <span>98%</span></h3>
-                <div class="module-infos">
-                   <p><span>35</span> lessons</p>
-                   <p><span>2</span> hours <span>35</span>hours </p>
-                </div>   
             </div>
 
-            <ul class="menu-modules">
-                <li class="lesson">
-                   <i class="fa-solid fa-circle-play"></i>
-                   <h4>Introduction to React</h4>
-                </li>
-                <li class="lesson">
-                   <i class="fa-solid fa-circle-play"></i>
-                   <h4>Introduction to React</h4>
-                </li>
-                <li class="lesson">
-                   <i class="fa-solid fa-circle-play"></i>
-                   <h4>Introduction to React</h4>
-                </li>
-                
-            </ul>
-        </div>
-        {% endfor %}
-        
-        
-       </div>
-    
-    </section>
-    <!-- <section class="what-u-learn-section">
+
+            {% endfor %}
+
+
+    </div>
+
+</section>
+<!-- <section class="what-u-learn-section">
        <div class="right-container">
          <h2>You'll Learn</h2>
         <p>{{ course.description}}</p>
@@ -104,36 +101,42 @@
     
     </section> -->
 
-    <section class="about-instructor-section">
-       <div class="right-container">
-           <h2>Meet you teacher</h2>
-           <div class="instructor-card">
-              <img src="{{ tutor.profileImage }}" width="150px"/>
-              <div class="instructor-infos-card">
-                 <p>{{tutor.username}}</p>
-                 <p>{{ tutor.bio}}</p>
-                 
+<section class="about-instructor-section">
+    <div class="right-container">
+        <h2>Meet you teacher</h2>
+        <div class="instructor-card">
+            <img src="{{ tutor.profileImage }}" width="150px" />
+            <div class="instructor-infos-card">
+                <p>{{tutor.username}}</p>
+                <p>{{ tutor.bio}}</p>
+
                 <i class="fa-brands fa-x-twitter"></i>
                 <i class="fa-brands fa-linkedin"></i>
-                 
-              </div>
-           </div>
-       </div>
-    
-    </section>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script>
-         $(window).scroll(function () {
-             if($(window).scrollTop()) {
-                 $('.header').addClass("white-header");
-             } else {
-                 $('.header').removeClass("white-header");
-             }
-         });
-    </script>
+            </div>
+        </div>
+    </div>
 
-    
+</section>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script>
+    $(window).scroll(function () {
+        if ($(window).scrollTop()) {
+            $('.header').addClass("white-header");
+        } else {
+            $('.header').removeClass("white-header");
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const progressBar = document.querySelector('.progress');
+        const progress = progressBar.getAttribute('data-progress');
+        progressBar.style.width = progress + '%';
+    });
+</script>
+
+
 </html>
 
 {% endblock %}

@@ -21,6 +21,23 @@ class Enrollment
     #[ORM\JoinColumn(nullable: false)]
     private ?Course $course = null;
 
+
+    #[ORM\OneToOne(targetEntity: CourseProgress::class)]
+    #[ORM\JoinColumn(nullable: true)] // Adjust as needed based on your business logic
+    private ?CourseProgress $courseProgress = null; 
+
+
+    public function getCourseProgress(): ?CourseProgress
+    {
+        return $this->courseProgress;
+    }
+
+    public function setCourseProgress(?CourseProgress $courseProgress): self
+    {
+        $this->courseProgress = $courseProgress;
+        return $this;
+    }
+    
     #[ORM\Column(type: 'integer')]
     private int $progress = 0;
 

@@ -7,7 +7,7 @@ namespace App\Repository;
 use App\Entity\Enrollment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\ORM\Query\Expr\Join;
+
 
 /**
  * @extends ServiceEntityRepository<Enrollment>
@@ -72,5 +72,17 @@ class EnrollmentRepository extends ServiceEntityRepository
             ->setParameter('courseId', $courseId)
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+
+    public function findEnrollmentByUserAndCourse($userId, $courseId): ?Enrollment
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.student = :userId')
+            ->setParameter('userId', $userId)
+            ->andWhere('e.course = :courseId')
+            ->setParameter('courseId', $courseId)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

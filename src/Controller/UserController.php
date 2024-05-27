@@ -23,20 +23,14 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
 
-        // Check if the user is authenticated and has the ROLE_STUDENT role
         if (!$user || !in_array('ROLE_STUDENT', $user->getRoles())) {
-            // Handle unauthorized access, redirect to login page, or display an error
-            // For simplicity, let's return a basic response for now
+          
             return new Response('Unauthorized access', Response::HTTP_UNAUTHORIZED);
         }
 
-        // Get the enrollment repository
+       
         $enrollmentRepository = $entityManager->getRepository(Enrollment::class);
-
-        // Find all courses in which the student is enrolled
         $studentEnrollments = $enrollmentRepository->findCoursesByStudent($user->getUserIdentifier());
-
-        // Pass the enrolled courses to the dashboard template
         return $this->render('user/dashboard.html.twig', [
             'studentEnrollments' => $studentEnrollments,
         ]);

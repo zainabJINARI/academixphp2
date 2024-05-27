@@ -399,7 +399,6 @@ header {
 
 .left-card .progress-container .progress {
     height:8px;
-    width:20%;
     background-color: #A020F0;
     border-radius: 20px 0 0 20px;
 }
@@ -676,3 +675,8 @@ header {
 
 
 
+
+
+.completed-lesson{
+    background-color: #bcedbf !important;
+}

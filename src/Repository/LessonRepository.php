@@ -79,4 +79,28 @@ public function getMaxOrderForModule($moduleId)
         ->getQuery()
         ->getSingleScalarResult();
 }
+
+      /**
+     * Get all modules associated with a course.
+     *
+     * @param int $courseId The ID of the course
+     * @return array The modules associated with the course
+     */
+    public function getLessons(int $courseId): array
+    {
+        return $this->createQueryBuilder('l')
+            ->where('l.idModule = :idModule')
+            ->setParameter('idModule', $courseId)
+            ->getQuery()
+            ->getResult();
+    }
+    public function findLessonsWithOrderGreaterThan($order)
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.order > :order')
+            ->setParameter('order', $order)
+            ->orderBy('l.order', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

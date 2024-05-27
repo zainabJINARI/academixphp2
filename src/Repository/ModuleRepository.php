@@ -96,4 +96,20 @@ public function decrementOrderAfterModule($courseId, $order)
 
 
 
+     /**
+     * Get all modules associated with a course.
+     *
+     * @param int $courseId The ID of the course
+     * @return array The modules associated with the course
+     */
+    public function getModules(int $courseId): array
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.idCourse = :idCourse')
+            ->setParameter('idCourse', $courseId)
+            ->getQuery()
+            ->getResult();
+    }
+
+
 }
