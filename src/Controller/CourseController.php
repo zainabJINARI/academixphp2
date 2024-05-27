@@ -285,7 +285,7 @@ class CourseController extends AbstractController
                         // Fetch the LessonProgress entity for the given lesson and course progress
                         $lessonProgress = $entityManager->getRepository(LessonProgress::class)->findOneBy([
                             'lesson' => $lesson,
-                            
+
                         ]);
 
                         // Check if the lesson has been completed
@@ -322,21 +322,67 @@ class CourseController extends AbstractController
     }
 
     #[Route('/courses/{course}/lessons/{id}', name: 'lesson_details')]
-    public function lgetLesson(int $course,int $id,EntityManagerInterface $entityManager):Response
+    public function getLesson(int $course, int $id, EntityManagerInterface $entityManager): Response
     {
-        $lessons = $entityManager->getRepository(Lesson::class)->findOneBy(['id' =>$id]);
+        $lesson = $entityManager->getRepository(Lesson::class)->findOneBy(['id' => $id]);
 
+        if (!$lesson) {
+            throw $this->createNotFoundException('The lesson does not exist');
+        }
 
-        return $this->render('course/lesson.html.twig', [
-            'course' => $course,
-            'lesson'=>$lessons
+        $user = $this->security->getUser();
 
-           
+        if ($user && in_array('ROLE_STUDENT', $user->getRoles())) {
+            $student = $entityManager->getRepository(User::class)->findOneBy(['email' => $user->getUserIdentifier()]);
+            $enrollment = $entityManager->getRepository(Enrollment::class)->findOneBy(['student' => $student, 'course' => $course]);
 
-        ]);
+            if ($enrollment) {
+                return $this->render('course/lesson.html.twig', [
+                    'course' => $course,
+                    'lesson' => $lesson
+                ]);
+            }
+        }
 
+        return $this->json(['message' => 'Please enroll first'], 403);
     }
 
+    #[Route('/courses/{course}/lessons/{id}/next', name: 'next_lesson')]
+    public function nextLesson(int $course, int $id, EntityManagerInterface $entityManager): Response{
+        $lesson = $entityManager->getRepository(Lesson::class)->findOneBy(['id' => $id]);
+
+        if (!$lesson) {
+            throw $this->createNotFoundException('The lesson does not exist');
+        }
+
+        $user = $this->security->getUser();
+
+        if ($user && in_array('ROLE_STUDENT', $user->getRoles())) {
+            $student = $entityManager->getRepository(User::class)->findOneBy(['email' => $user->getUserIdentifier()]);
+            $lesson = $entityManager->getRepository(Lesson::class)->findOneBy(['id' => $id]);
+            $enrollment = $entityManager->getRepository(Enrollment::class)->findOneBy(['student' => $student, 'course' => $course]);
+
+            if ($enrollment) {
+                $progressLesson = $entityManager->getRepository(LessonProgress::class)->findOneBy(['lesson' => $lesson,'student'=>$student]);
+                $progressLesson->setCompleted(true);
+                $progressLesson->getModuleProgress()->setCompletedLessons($progressLesson->getModuleProgress()->getCompletedLessons()+1);
+                $entityManager->persist($progressLesson);
+                $entityManager->persist($progressLesson->getModuleProgress());
+
+
+                if( $progressLesson->getModuleProgress()->getCompletedLessons()== $progressLesson->getModuleProgress()->getTotalLessons()){
+                    $progressLesson->getModuleProgress()->setCompleted(true);
+                    $courseProgress=  $progressLesson->getModuleProgress()->getCourseProgress();
+                    if($courseProgress->getTotalModules()==$courseProgress->getCompletedModules()){
+                        $courseProgress->setCompleted(true);
+                    }
+                }
+                
+            }
+        }
+
+
+    }
 
     // #[Route('/courses/{id}', name: 'course_details')]
     // public function details(int $id, EntityManagerInterface $entityManager, Security $security): Response
