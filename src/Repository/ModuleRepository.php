@@ -102,11 +102,12 @@ public function decrementOrderAfterModule($courseId, $order)
      * @param int $courseId The ID of the course
      * @return array The modules associated with the course
      */
-    public function getModules(int $courseId): array
+    public function getModules(int $courseId)
     {
         return $this->createQueryBuilder('m')
-            ->where('m.idCourse = :idCourse')
-            ->setParameter('idCourse', $courseId)
+            ->where('m.idCourse = :courseId')
+            ->setParameter('courseId', $courseId)
+            ->orderBy('m.order', 'ASC') // Make sure this attribute exists in your entity
             ->getQuery()
             ->getResult();
     }

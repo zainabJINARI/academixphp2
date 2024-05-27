@@ -321,6 +321,23 @@ class CourseController extends AbstractController
         ]);
     }
 
+    #[Route('/courses/{course}/lessons/{id}', name: 'lesson_details')]
+    public function lgetLesson(int $course,int $id,EntityManagerInterface $entityManager):Response
+    {
+        $lessons = $entityManager->getRepository(Lesson::class)->findOneBy(['id' =>$id]);
+
+
+        return $this->render('course/lesson.html.twig', [
+            'course' => $course,
+            'lesson'=>$lessons
+
+           
+
+        ]);
+
+    }
+
+
     // #[Route('/courses/{id}', name: 'course_details')]
     // public function details(int $id, EntityManagerInterface $entityManager, Security $security): Response
     // {

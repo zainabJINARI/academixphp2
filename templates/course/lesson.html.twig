@@ -4,18 +4,14 @@
 
 {% block body %}
 
-{% block head %}
 
-<link rel="stylesheet" href="{{ asset('css/lesson.css') }}" />
-
-{% endblock %}
 
     <div class="container">
         <main>
             <div class="video-container">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/668nUCeBHyY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe  src="{{ asset('uploads/videos/' ~ lesson.urlvideo) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
-            <div class="video-title">Leçon 1 : Introduction à Java</div>
+            <div class="video-title">{{ lesson.name }}</div>
             <button class="next-button">Suivant</button>
         </main>
     </div>

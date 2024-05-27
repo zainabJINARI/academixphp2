@@ -78,8 +78,9 @@
                     {% else %}
                     {% set lessonClass = '' %}
                     {% endif %}
-                    <li class="lesson  {{ lessonClass }}">
-                        <i class="fa-solid fa-circle-play"></i>
+                    <li class="lesson  {{ lessonClass }}" >
+                        
+                        <a href="/courses/{{ course.id}}/lessons/{{lesson.id }}"><i class="fa-solid fa-circle-play"></i></a>
                         <h4>{{ lesson.name }}</h4>
                     </li>
                     {% endfor %}

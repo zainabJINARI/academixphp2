@@ -86,11 +86,12 @@ public function getMaxOrderForModule($moduleId)
      * @param int $courseId The ID of the course
      * @return array The modules associated with the course
      */
-    public function getLessons(int $courseId): array
+    public function getLessons(int $moduleId): array
     {
         return $this->createQueryBuilder('l')
             ->where('l.idModule = :idModule')
-            ->setParameter('idModule', $courseId)
+            ->setParameter('idModule', $moduleId)
+            ->orderBy('l.order', 'ASC') // Make sure this attribute exists in your entity
             ->getQuery()
             ->getResult();
     }
