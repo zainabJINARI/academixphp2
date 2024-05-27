@@ -309,7 +309,9 @@ crossorigin="anonymous"></script>
         {{ form_end(registrationForm) }}
     </div>
 
-    <div id="updateTutorForm" style="display: none;">
+    <div id="updateTutorForm" class="form-create-tutor hidden">
+        <span id="closeUpdate" class="closebtn"><i class="fa-solid fa-xmark"></i></span>
+        <h3>Update Tutor</h3>
         <form id="tutorForm" action="" method="post">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
@@ -359,11 +361,19 @@ crossorigin="anonymous"></script>
     <script>
         // Function to show the update tutor form as a popup
         function showUpdateForm(tutorId, email, password) {
-            document.getElementById("email").value = email;
-            document.getElementById('tutorForm').action = '/admin/update-tutor/' + tutorId;
-            document.getElementById("tutorId").value = tutorId;
-            document.getElementById("updateTutorForm").style.display = "block";
+        const updateTutorForm = document.getElementById('updateTutorForm');
+        updateTutorForm.classList.toggle('hidden');
+        document.getElementById("email").value = email;
+        document.getElementById('tutorForm').action = '/admin/update-tutor/' + tutorId;
+        document.getElementById("tutorId").value = tutorId;
+        dashboard.style.opacity = updateTutorForm.classList.contains('hidden') ? '1' : '0.5';
         }
+
+        const closeUpdateBtn = document.getElementById('closeUpdate');
+        closeUpdateBtn.addEventListener('click', () => {
+            document.getElementById('updateTutorForm').classList.add('hidden');
+            dashboard.style.opacity = '1';
+            });
     </script>
     
    

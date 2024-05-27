@@ -1,64 +1,215 @@
-#popup , #delete-course-form-container {
+#popup {
     display: none;
     position: fixed;
-    top: 20%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     z-index: 2;
+    background-color: #e5d8f0;
+    max-width: 500px;
+    width: 90%;
 }
 
-.new-course-request , .delete-course-form {
+.new-course-request {
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start; /* Modifier pour aligner les éléments à gauche */
+    position: relative;
 }
 
-.new-course-request label  , .delete-course-form label{
-    margin-bottom: 5px;
+.new-course-request h3 {
+    text-align: center;
 
 }
-.new-course-request input {
-    padding: 5px 10px;
-    border: 1px solid #A020F0;
+
+.new-course-request .left-aligned {
+    width: 100%; /* Assure que les éléments occupent toute la largeur */
+}
+
+.new-course-request label {
+    font-size: 1rem;
+    color: #39045A;
+    margin-top: 0.5em;
+}
+
+.new-course-request input,
+.new-course-request select,
+.new-course-request textarea {
+    width: 100%;
+    padding: 0.5em;
+    margin-top: 0.3em;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    outline: 0;
-    margin-bottom: 10px;
 }
 
+.new-course-request textarea {
+    resize: vertical;
+}
 
 .new-course-request button {
+    color: white;
+    background-color: #BB84E8;
+    padding: 0.7em;
     border: none;
     border-radius: 5px;
-    padding: 5px 10px;
-    background-color: #A020F0;
+    width: 100%;
+    margin-top: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.new-course-request button:hover {
+    background-color: #a864d9;
+}
+
+/* Bouton de fermeture */
+.new-course-request .closebtn {
+    position: absolute;
+    top: 10px;
+    right: 30px; 
+    cursor: pointer;
+    color: #2B2839;
+    align-items: center;
+}
+
+
+/update profile/
+/* Style général pour la mise à jour du profil */
+.update-profile form{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 2em;
+}
+#update-profile {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: start;
+}
+.update-profile h3{
+    margin-right: auto;
+}
+
+.update-profile .container {
+    
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+    padding: 2em 1em;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.profile-picture {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture img {
+    max-width: 160px;
+    width: 100%;
+    height: 200px;
+    border-radius: 5px;
+}
+
+.profile-picture label {
+    display: block;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.profile-picture input[type="file"] {
+    display: none;
+}
+.form {
+    flex: 1;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+}
+
+
+.form-group {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea , .input{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.update-profile button {
+    background-color: #BB84E8;
     color: white;
-    font-size: 16px;
-    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin: auto;
+}
+
+.update-profile button:hover {
+    background-color: #BB84E8;
+}
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.profile-picture span{
+    color: #BB84E8;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    
+    font-size: 1rem;
+    border: 1px solid #BB84E8;
+    padding: 0.5em 1em;
+}
+@media (min-width: 768px) {
+    .container {
+        width: 800px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr 2fr;
+    }
 }
 
 .access-denied-message {
-     margin-top: 10%;
-     display: flex;
-     flex-direction: column;
-     align-items: center;
+    margin-top: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .access-denied-message img {
-    width: 200px;
-    margin-bottom: 30px ;
+   width: 200px;
+   margin-bottom: 30px ;
 }
 
 .access-denied-message > p {
-    font-size: 1.4rem;
-    color: #6e6e6e;
-    text-shadow: 2px 7px 5px rgba(0,0,0,0.3), 
-    0px -4px 10px rgba(255,255,255,0.3);
+   font-size: 1.4rem;
+   color: #6e6e6e;
+   text-shadow: 2px 7px 5px rgba(0,0,0,0.3), 
+   0px -4px 10px rgba(255,255,255,0.3);
 
 }
-
-
-
