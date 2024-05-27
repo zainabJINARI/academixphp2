@@ -64,12 +64,12 @@ showLessonsButtons.forEach((button) => {
 
 // Add Button
 let moduleid = "";
-addLesson.addEventListener("click", function () {
-  var xhr = new XMLHttpRequest();
+addLesson?.addEventListener("click", function () {
+  let xhr = new XMLHttpRequest();
   moduleid = this.getAttribute("data-module-id");
   var pop_up_lesson_create = document.getElementById("pop_up_lesson_create");
 
-  xhr.open("GET", /course/add/lesson/${moduleid}, true);
+  xhr.open("GET", `/course/add/lesson/${moduleid}`, true);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
       let formHtml = JSON.parse(xhr.responseText).formHtml;
@@ -79,11 +79,7 @@ addLesson.addEventListener("click", function () {
   };
   xhr.send();
 
-  document.querySelector(".add_lesson_btn").addEventListener("click",  (event) => {
-      event.preventDefault();
-    alert("I'm clicked !")
-      
-    });
+  
 });
 
 
