@@ -71,7 +71,7 @@
 
                 <ul class="menu-modules">
 
-                    {% for lesson in lessonsByModule[module.id] %}
+                    {% for lesson in lessonsByModule[module.id]|sort((a, b) => a.order <=> b.order) %}
                     {% if app.user and studentEnrollment %}
                     {% set completionStatus = lessonCompletionStatus[module.id][lesson.id] ?? false %}
                     {% set lessonClass = completionStatus ? 'completed-lesson' : '' %}
@@ -80,7 +80,7 @@
                     {% endif %}
                     <li class="lesson  {{ lessonClass }}" >
                         
-                        <a href="/courses/{{ course.id}}/lessons/{{lesson.id }}"><i class="fa-solid fa-circle-play"></i></a>
+                        <a href="/courses/{{ course.id}}/module/{{ module.id}}/lessons/{{lesson.order }}"><i class="fa-solid fa-circle-play"></i></a>
                         <h4>{{ lesson.name }}</h4>
                     </li>
                     {% endfor %}

@@ -13,7 +13,7 @@
             </div>
             <div class="video-title">{{ lesson.name }}</div>
             <a href="" class="next-button">Back</a>
-            <a href="" class="next-button">Suivant</a>
+            <a href="{{ app.request.pathinfo ~ '/next' }}" class="next-button">Suivant</a>
             
         </main>
     </div>

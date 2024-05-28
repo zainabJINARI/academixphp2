@@ -31,7 +31,6 @@ crossorigin="anonymous"></script>
             <img src="{{ asset('images/logo.png') }}" alt="GuildsPro Logo" width="150px">
            
         </a>
-        
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -90,11 +89,13 @@ crossorigin="anonymous"></script>
                                 <img src="{{ asset('uploads/thumbnails/' ~ enrollment.course.thumbnail) }}" alt="{{ enrollment.course.title }}"/>
                                 <div>
                                     <h4>{{ enrollment.course.title }}</h4>
+                                    
                                 </div>
                             </div>
+
                             <div class="progressinfo">
                                 <p class="module-reached">Module Learn js</p>
-                                <p>Learn React</p>
+                                <p>{{ enrollment.course.title }}</p>
                                 <p class="progress-value"><span>90%</span> of course completed</p>
                             </div>
                         </li>

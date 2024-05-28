@@ -321,10 +321,12 @@ class CourseController extends AbstractController
         ]);
     }
 
-    #[Route('/courses/{course}/lessons/{id}', name: 'lesson_details')]
-    public function getLesson(int $course, int $id, EntityManagerInterface $entityManager): Response
+    
+
+    #[Route('/courses/{course}/module/{module}/lessons/{order}', name: 'lesson_details')]
+    public function getLesson(int $course, int $module , int $order,  EntityManagerInterface $entityManager): Response
     {
-        $lesson = $entityManager->getRepository(Lesson::class)->findOneBy(['id' => $id]);
+        $lesson = $entityManager->getRepository(Lesson::class)->findOneBy(['order' => $order , 'idModule'=>$module]);
 
         if (!$lesson) {
             throw $this->createNotFoundException('The lesson does not exist');
@@ -347,9 +349,10 @@ class CourseController extends AbstractController
         return $this->json(['message' => 'Please enroll first'], 403);
     }
 
-    #[Route('/courses/{course}/lessons/{id}/next', name: 'next_lesson')]
-    public function nextLesson(int $course, int $id, EntityManagerInterface $entityManager): Response{
-        $lesson = $entityManager->getRepository(Lesson::class)->findOneBy(['id' => $id]);
+    #[Route('/courses/{course}/module/{module}/lessons/{order}/next', name: 'next_lesson')]
+    public function nextLesson(int $course , int $module , int $order, EntityManagerInterface $entityManager): Response{
+        
+        $lesson = $entityManager->getRepository(Lesson::class)->findOneBy(['order' => $order , 'idModule'=>$module]);
 
         if (!$lesson) {
             throw $this->createNotFoundException('The lesson does not exist');
@@ -359,26 +362,50 @@ class CourseController extends AbstractController
 
         if ($user && in_array('ROLE_STUDENT', $user->getRoles())) {
             $student = $entityManager->getRepository(User::class)->findOneBy(['email' => $user->getUserIdentifier()]);
-            $lesson = $entityManager->getRepository(Lesson::class)->findOneBy(['id' => $id]);
             $enrollment = $entityManager->getRepository(Enrollment::class)->findOneBy(['student' => $student, 'course' => $course]);
 
             if ($enrollment) {
                 $progressLesson = $entityManager->getRepository(LessonProgress::class)->findOneBy(['lesson' => $lesson,'student'=>$student]);
                 $progressLesson->setCompleted(true);
                 $progressLesson->getModuleProgress()->setCompletedLessons($progressLesson->getModuleProgress()->getCompletedLessons()+1);
-                $entityManager->persist($progressLesson);
-                $entityManager->persist($progressLesson->getModuleProgress());
-
+                
 
                 if( $progressLesson->getModuleProgress()->getCompletedLessons()== $progressLesson->getModuleProgress()->getTotalLessons()){
                     $progressLesson->getModuleProgress()->setCompleted(true);
                     $courseProgress=  $progressLesson->getModuleProgress()->getCourseProgress();
-                    if($courseProgress->getTotalModules()==$courseProgress->getCompletedModules()){
+                    $courseProgress->setCompletedModules($courseProgress->getCompletedModules()+1); 
+                    $entityManager->persist($courseProgress);
+                    $entityManager->flush();
+
+                    if($courseProgress->getTotalModules() == $courseProgress->getCompletedModules()){
                         $courseProgress->setCompleted(true);
+                        $entityManager->persist($progressLesson);
+                        $entityManager->persist($courseProgress);
+                        $entityManager->persist($progressLesson->getModuleProgress());
+                        $entityManager->flush();
+                        return new Response('Bravo Hanane hhh');
+                    }else {
+                       
+                        $entityManager->persist($progressLesson);
+                        $entityManager->persist($progressLesson->getModuleProgress());
+                        $entityManager->flush();
+
+                        $currentModule =  $entityManager->getRepository(Module::class)->findOneBy(['id' => $module]);
+                        $nextModule =  $entityManager->getRepository(Module::class)->findOneBy(['order' => $currentModule->getOrder()+1 , 'idCourse'=> $course]);
+
+                        return $this->redirectToRoute('lesson_details', ['course'=>$course , 'module'=>  $nextModule->getId() , 'order' => 1 ]);
                     }
+
+                }else {
+                    $entityManager->persist($progressLesson);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('lesson_details', ['order' => $lesson->getOrder()+1 , 'course'=>$course , 'module'=>$module]);
                 }
                 
             }
+
+            return $this->redirectToRoute('lesson_details', ['order' => $lesson->getOrder()+1 , 'course'=>$course , 'module'=>$module]);
+
         }
 
 

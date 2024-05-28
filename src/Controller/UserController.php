@@ -31,10 +31,17 @@ class UserController extends AbstractController
        
         $enrollmentRepository = $entityManager->getRepository(Enrollment::class);
         $studentEnrollments = $enrollmentRepository->findCoursesByStudent($user->getUserIdentifier());
+
+        
         return $this->render('user/dashboard.html.twig', [
             'studentEnrollments' => $studentEnrollments,
         ]);
     }
+
+
+
+
+
     #[Route('/user/update-profile', name: 'update_user_profile', methods: ['POST'])]
     public function updateUserProfile(Request $request, EntityManagerInterface $entityManager): Response
     {
