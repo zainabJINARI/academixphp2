@@ -28,7 +28,7 @@
         {% if isCourseCompleted %}
         <a href="#" class="btn btn-success">Claim Your Certificate</a>
         {% else %}
-        <a href="#" class="btn btn-primary">Continue Progress</a>
+        <a href="/where-to-go/{{course.id}}"  id="where-to-go"  class="btn btn-primary" >Continue Progress</a>
         <p>Leaving course? <span>Unenroll</span></p>
         {% endif %}
         <h2>Your progress</h2>
@@ -135,6 +135,9 @@
         const progress = progressBar.getAttribute('data-progress');
         progressBar.style.width = progress + '%';
     });
+
+
+    
 </script>
 
 

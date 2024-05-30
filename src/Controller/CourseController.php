@@ -7,6 +7,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CourseRepository;
+use App\Repository\CourseProgressRepository ;
+use App\Repository\ModuleProgressRepository ;
+use App\Repository\LessonProgressRepository ;
 use Symfony\Component\HttpFoundation\Request;
 
 use App\Entity\Course;
@@ -410,6 +413,196 @@ class CourseController extends AbstractController
 
 
     }
+
+
+
+    #[Route('/where-to-go/{courseId}', name: 'where_to_go', methods: ['GET'])]
+    public function whereToGo(
+        int $courseId , // Correction du nom du paramètre
+        CourseProgressRepository $courseProgressRepository,
+        ModuleProgressRepository $moduleProgressRepository,
+        LessonProgressRepository $lessonProgressRepository,
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+
+        $user = $this->security->getUser();
+        
+        // Vérifier si l'utilisateur est connecté
+        if (!$user) {
+            return new JsonResponse(['error' => 'User not authenticated'], Response::HTTP_UNAUTHORIZED);
+        }
+        
+        $student = $entityManager->getRepository(User::class)->findOneBy(['email' => $user->getUserIdentifier()]);
+        
+        // Vérifier si l'utilisateur existe
+        if (!$student) {
+            return new JsonResponse(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+        
+
+        $courseProgress = $courseProgressRepository->findOneBy([
+            'id' => $courseId, 
+            'student' => $student
+        ]);
+
+
+        if (!$courseProgress) {
+            return new JsonResponse(['error' => 'Course progress not found'], Response::HTTP_NOT_FOUND);
+        }
+    
+        $moduleProgress = $moduleProgressRepository->findOneBy([
+            'courseProgress' => $courseProgress ,
+            'student' => $student,
+            'completed' => false
+        ], ['id' => 'ASC']);
+    
+        if (!$moduleProgress) {
+            return new JsonResponse(['error' => 'Module progress not found'], Response::HTTP_NOT_FOUND);
+        }
+
+
+        $lessonProgress = $lessonProgressRepository->findOneBy([
+            'moduleProgress' => $moduleProgress,
+            'student' => $student,
+            'completed' => false
+        ], ['id' => 'DESC']);
+    
+        if (!$lessonProgress) {
+            return new JsonResponse(['error' => 'Lesson progress not found'], Response::HTTP_NOT_FOUND);
+        }
+    
+        return new Response($lessonProgress->getId());
+
+        // return $this->redirectToRoute('lesson_details', ['order' => $lessonProgress->getId() , 'course'=>$courseId , 'module'=>$moduleProgress->getId()]);
+        
+        
+    }
+
+
+ 
+
+    // #[Route('/where-to-go/{courseId}', name: 'where_to_go', methods: ['GET'])]
+    // public function getCourseProgress(
+    //     int $courseId,  // Correction du nom du paramètre
+    //     CourseProgressRepository $courseProgressRepository,
+    //     ModuleProgressRepository $moduleProgressRepository,
+    //     LessonProgressRepository $lessonProgressRepository,
+    //     EntityManagerInterface $entityManager
+    // ): JsonResponse {
+    
+    //     $user = $this->security->getUser();
+        
+    //     // Vérifier si l'utilisateur est connecté
+    //     if (!$user) {
+    //         return new JsonResponse(['error' => 'User not authenticated'], Response::HTTP_UNAUTHORIZED);
+    //     }
+        
+    //     $student = $entityManager->getRepository(User::class)->findOneBy(['email' => $user->getUserIdentifier()]);
+        
+    //     // Vérifier si l'utilisateur existe
+    //     if (!$student) {
+    //         return new JsonResponse(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
+    //     }
+        
+    //     $userId = $student->getId();
+    
+    //     $courseProgress = $courseProgressRepository->findOneBy([
+    //         'id' => $courseId,  // Utiliser $courseId au lieu de $idCourse
+    //         'student' => $userId
+    //     ]);
+    
+    //     if (!$courseProgress) {
+    //         return new JsonResponse(['error' => 'Course progress not found'], Response::HTTP_NOT_FOUND);
+    //     }
+    
+    //     $moduleProgress = $moduleProgressRepository->findOneBy([
+    //         'courseProgress' => $courseProgress,
+    //         'student' => $userId,
+    //         'completed' => false
+    //     ], ['id' => 'ASC']);
+    
+    //     if (!$moduleProgress) {
+    //         return new JsonResponse(['error' => 'Module progress not found'], Response::HTTP_NOT_FOUND);
+    //     }
+
+
+    //     $lessonProgress = $lessonProgressRepository->findOneBy([
+    //         'moduleProgress' => $moduleProgress,
+    //         'student' => $userId,
+    //         'completed' => false
+    //     ], ['id' => 'DESC']);
+    
+    //     if (!$lessonProgress) {
+    //         return new JsonResponse(['error' => 'Lesson progress not found'], Response::HTTP_NOT_FOUND);
+    //     }
+    
+    //     $progressData = [
+    //         'moduleId' => $moduleProgress->getId(),
+    //         'lessonId' => $lessonProgress->getId(),
+    //     ];
+    
+    //     return new JsonResponse($progressData);
+    // }      
+    
+
+
+
+
+
+    // #[Route('/course/{courseId}')]
+    // public function getCourseProgress(
+    //     int $courseId, 
+    //     CourseProgressRepository $courseProgressRepository,
+    //     ModuleProgressRepository $moduleProgressRepository,
+    //     LessonProgressRepository $lessonProgressRepository
+    // ): JsonResponse {
+
+    //     $user = $this->security->getUser();
+    //     $userId = $user->getId();
+
+    //     $courseProgress = $courseProgressRepository->findOneBy([
+    //         'course' => $courseId,
+    //         'student' => $userId
+    //     ]);
+
+    //     if (!$courseProgress) {
+    //         return new JsonResponse(['error' => 'Course progress not found'], Response::HTTP_NOT_FOUND);
+    //     }
+
+
+    //     $moduleProgress = $moduleProgressRepository->findOneBy([
+    //         'courseProgress' => $courseProgress,
+    //         'student' => $userId,
+    //         'completed' => false
+    //     ], ['id' => 'ASC']); // Order by id ascending to get the first one
+
+    //     if (!$moduleProgress) {
+    //         return new JsonResponse(['error' => 'Module progress not found'], Response::HTTP_NOT_FOUND);
+    //     }
+
+
+    //     $lessonProgress = $lessonProgressRepository->findOneBy([
+    //         'moduleProgress' => $moduleProgress,
+    //         'student' => $userId , 
+    //         'completed' => false
+    //     ], ['id' => 'DESC']); // Assuming id order correlates with progress
+
+    //     if (!$lessonProgress) {
+    //         return new JsonResponse(['error' => 'Lesson progress not found'], Response::HTTP_NOT_FOUND);
+    //     }
+
+    //     $progressData = [
+    //         'moduleId' => $lessonProgress->getId(),
+    //         'lessonId' => $moduleProgress->getId(),
+           
+            
+    //     ];
+
+    //     return new JsonResponse($progressData);
+
+
+    // }
 
     // #[Route('/courses/{id}', name: 'course_details')]
     // public function details(int $id, EntityManagerInterface $entityManager, Security $security): Response
