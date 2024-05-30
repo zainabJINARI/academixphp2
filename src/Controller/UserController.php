@@ -2,16 +2,21 @@
 
 namespace App\Controller;
 
+use App\Entity\CourseProgress;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface ;
-use App\Repository\ProductRepository ;
+use App\Repository\ModuleProgressRepository ;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Repository\LessonProgressRepository ;
+
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Module;
+use App\Entity\ModuleProgress;
 use App\Entity\User; 
 use App\Entity\Enrollment;
-use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+
 
 
 class UserController extends AbstractController
@@ -19,7 +24,7 @@ class UserController extends AbstractController
     
 
     #[Route('/dashboard', name: 'dashboard' , methods:['GET'])]
-    public function dashboard(Request $request , EntityManagerInterface $entityManager): Response
+    public function dashboard(Request $request , EntityManagerInterface $entityManager, ModuleProgressRepository $moduleProgressRepository,LessonProgressRepository $lessonProgressRepository,): Response
     {
         $user = $this->getUser();
 
@@ -32,9 +37,75 @@ class UserController extends AbstractController
         $enrollmentRepository = $entityManager->getRepository(Enrollment::class);
         $studentEnrollments = $enrollmentRepository->findCoursesByStudent($user->getUserIdentifier());
 
+        $completedCourses=[];
+        $coursesInProgress=[];
+        foreach ($studentEnrollments as $studentEnrollment) {
+            $courseProgress = $entityManager->getRepository(CourseProgress::class)->findOneBy([
+                'course' => $studentEnrollment->getCourse(),
+                'student' => $studentEnrollment->getStudent()
+            ]);
+    
+            if ($courseProgress->isCompleted()) {
+                $completedCourses[] = $studentEnrollment->getCourse();
+            } else {
+                $inProgressCourse = $studentEnrollment->getCourse();
+                $moduleProgress = $moduleProgressRepository->findOneBy([
+                    'courseProgress' => $courseProgress ,
+                    'student' =>  $studentEnrollment->getStudent(),
+                    'completed' => false
+                ], ['module' => 'ASC']);
+            
+                if (!$moduleProgress) {
+                    return new JsonResponse(['error' => 'Module progress not found'], Response::HTTP_NOT_FOUND);
+                }
+        
+                
+                $lessonProgress = $lessonProgressRepository->findOneBy([
+                    'moduleProgress' => $moduleProgress,
+                    'student' =>  $studentEnrollment->getStudent(),
+                    'completed' => false
+                ], ['id' => 'DESC']);
+            
+                if (!$lessonProgress) {
+                    return new JsonResponse(['error' => 'Lesson progress not found'], Response::HTTP_NOT_FOUND);
+                }
+                $modules = $entityManager->getRepository(Module::class)->getModules( $studentEnrollment->getCourse()->getId());
+                $totalLessons = 0;
+                $completedLessons = 0;
+
+            $progressPercentage=0;
+            foreach ($modules as $module) {
+                $totalLessons += $entityManager->getRepository(ModuleProgress::class)->findOneBy(['module'=>$module])->getTotalLessons();
+                $completedLessons += $entityManager->getRepository(ModuleProgress::class)->findOneBy(['module'=>$module])->getCompletedLessons();
+            }
+            
+
+            if ($totalLessons > 0) {
+                $progressPercentage = ($completedLessons / $totalLessons) * 100;
+            } else {
+                $progressPercentage = 0; // Handle the case where there are no lessons
+            }
+
+            $progressPercentage = floor($progressPercentage);
+    
+                $coursesInProgress[] = [
+                    'course' => $inProgressCourse,
+                    'stoppedModule' => $moduleProgress->getModule()->getName(),
+                    'stoppedLesson' => $lessonProgress->getLesson()->getName(),
+                    'totalProgress'=>$progressPercentage,
+                    
+                ];
+            }
+        }
+    
+    
+
         
         return $this->render('user/dashboard.html.twig', [
             'studentEnrollments' => $studentEnrollments,
+            'completedCourses'=>$completedCourses,
+            'coursesInProgress'=>$coursesInProgress
+
         ]);
     }
 

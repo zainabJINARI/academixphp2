@@ -2,9 +2,46 @@
 
 var modal = document.getElementById("myModal");
 var deleteBtn = document.getElementById("deleteBtn");
-const updateProfile= document.getElementById('update-profile')
 var cancelBtn = document.getElementById("cancelBtn");
 var closeBtn = document.getElementsByClassName("close")[0];
+
+
+// update profile section
+
+const updateProfile= document.getElementById('updateprofile')
+const updateProfileBtn = document.getElementById('updateBtn')
+const courseAreaBtn = document.getElementById('requestsTutos')
+const courseArea = document.getElementById('courses-area')
+
+updateProfile.classList.add('hidden')
+
+updateProfileBtn.addEventListener('click',()=>{
+  updateProfile.classList.remove('hidden')
+  courseArea.classList.add('hidden')
+  courseAreaBtn.classList.remove('selected')
+  updateProfileBtn.classList.add('selected')
+
+})
+
+// courses sectionbtnshowinput
+
+
+
+courseAreaBtn.classList.add('selected')
+
+courseAreaBtn.addEventListener('click',()=>{
+  updateProfile.classList.add('hidden')
+  courseArea.classList.remove('hidden')
+  courseAreaBtn.classList.add('selected')
+  updateProfileBtn.classList.remove('selected')
+})
+
+document.getElementById('btnshowinput').addEventListener('click',()=>{
+  document.getElementById('image-upload').classList.toggle('hidden')
+})
+
+
+
 modal.classList.add('hidden')
 const deletionItems = document.querySelectorAll(".deleteCourse");
 const deletionForm = document.querySelector("#delete-course-form-container");

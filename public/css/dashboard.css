@@ -10,6 +10,7 @@
 }
 
 .tutor-dashboard{ 
+    background: url('../images/back3.png');
     background-color: #f5F5F5 !important;
 }
 
@@ -588,6 +589,9 @@ font-size: 1.5rem;
 }
 .selected{
     background-color: #39045A !important;
+}
+.height{
+    height: 100% !important;
 }
 
 .manage-tutors-container , .manage-courses-container {

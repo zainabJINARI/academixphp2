@@ -22,7 +22,6 @@
   integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
   crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}" />
-<script defer src="{{ asset('js/tutor.js') }}"></script>
 
 
 {% endblock %}
@@ -63,7 +62,7 @@
 
 {% endblock %}
 {% block body %}
-<div class='dashboard'>
+<div class='dashboard tutor-dashboard height'>
   <ul class="dashboard-options">
     <li class="nav-item" id="requestsTutos">
       <a href="/app_tutor">Courses Area</a>
@@ -87,7 +86,7 @@
         <div class="completed-courses requests">
             <h3>Course Creation Requests</h3>
             <ul>
-                {% if delete_request|length==0 %}
+                {% if create_request|length==0 %}
                     <div class="norequests-yet-container">
                        <i class="fa-solid fa-circle-exclamation"></i>
                        <p class="norequests-yet">No requests yet </p>
@@ -118,7 +117,7 @@
         <div class="completed-courses requests">
             <h3>Course Deletion Requests</h3>
             <ul>
-                {% if create_request|length==0 %}
+                {% if delete_request|length==0 %}
                     <div class="norequests-yet-container">
                        <i class="fa-solid fa-circle-exclamation"></i>
                        <p class="norequests-yet">No requests yet </p>

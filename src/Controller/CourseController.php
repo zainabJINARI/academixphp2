@@ -265,7 +265,7 @@ class CourseController extends AbstractController
                     if ($moduleProgress->getModule()->getId() === $module->getId()) {
                         $completedLessons = $moduleProgress->getCompletedLessons();
                         $totalLessons = $moduleProgressData[$module->getId()]['totalLessons'];
-                        $progress = $totalLessons > 0 ? ($completedLessons / $totalLessons) * 100 : 0;
+                        $progress = $totalLessons > 0 ? floor(($completedLessons / $totalLessons) * 100) : 0;
 
                         $moduleProgressData[$module->getId()] = [
                             'completedLessons' => $completedLessons,
@@ -300,10 +300,24 @@ class CourseController extends AbstractController
             }
 
 
-            // Calculate progress percentage
-            if ($courseProgress->getTotalModules() > 0) {
-                $progressPercentage = ($courseProgress->getCompletedModules() / $courseProgress->getTotalModules()) * 100;
+            $modules = $entityManager->getRepository(Module::class)->getModules($course->getId());
+            $totalLessons = 0;
+            $completedLessons = 0;
+
+            $progressPercentage=0;
+            foreach ($modules as $module) {
+                $totalLessons += $entityManager->getRepository(ModuleProgress::class)->findOneBy(['module'=>$module])->getTotalLessons();
+                $completedLessons += $entityManager->getRepository(ModuleProgress::class)->findOneBy(['module'=>$module])->getCompletedLessons();
             }
+            
+
+            if ($totalLessons > 0) {
+                $progressPercentage = ($completedLessons / $totalLessons) * 100;
+            } else {
+                $progressPercentage = 0; // Handle the case where there are no lessons
+            }
+
+            $progressPercentage = floor($progressPercentage);
 
             // Check if the course is completed
             $isCourseCompleted = $courseProgress->isCompleted();
@@ -485,6 +499,55 @@ class CourseController extends AbstractController
         return $this->redirectToRoute('lesson_details', ['order' => $lessonProgress->getLesson()->getOrder(), 'course'=>$courseId , 'module'=>$moduleProgress->getModule()->getId()]);
         
         
+    }
+
+    #[Route('/get-certificat/{id}', name: 'get-certificat')]
+    public function getCertificat(
+        int $id ,
+        EntityManagerInterface $entityManager
+       
+    ): Response {
+
+        $student = $this->security->getUser();
+
+        if (!$student) {
+            return new JsonResponse(['error' => 'User not authenticated'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        // Find the CourseProgress entity
+        $courseProgress = $entityManager->getRepository(CourseProgress::class)->findOneBy([
+            'course' => $entityManager->getRepository(Course::class)->find($id),
+            'student' => $student
+        ]);
+
+        if (!$courseProgress) {
+            return new JsonResponse(['error' => 'Course progress not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $course = $courseProgress->getCourse();
+
+        // Create a new Certificat entity
+        $certificat = new Certificat();
+        $certificat->setStudent($student);
+        $certificat->setCourse($course);
+        $certificat->setDate(new \DateTime());
+
+        // Save the Certificat entity
+        $entityManager->persist($certificat);
+        $entityManager->flush();
+
+        $identifier = $student->getUserIdentifier();
+        $actueluser = $entityManager->getRepository(User::class)->findOneBy(['email' => $identifier]);
+        
+
+
+
+        //Pass the data to the template
+        return $this->render('course/certificat.html.twig', [
+            'student' => $actueluser->getUsername(),
+            'course' => $course->getTitle(),
+            'date' => $certificat->getDate()->format('d F Y'),
+        ]);
     }
 
 

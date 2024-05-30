@@ -83,20 +83,20 @@ crossorigin="anonymous"></script>
                 <div class="progress-section">
                     <h3>Continue Your Progress</h3>
                     <ul>
-                        {% for enrollment in studentEnrollments %}
+                        {% for courseInProgress in coursesInProgress %}
                         <li>
-                            <div>
-                                <img src="{{ asset('uploads/thumbnails/' ~ enrollment.course.thumbnail) }}" alt="{{ enrollment.course.title }}"/>
+                            <a href="/where-to-go/{{ courseInProgress['course'].id}}">
+                                <img src="{{ asset('uploads/thumbnails/' ~ courseInProgress['course'].thumbnail) }}" />
                                 <div>
-                                    <h4>{{ enrollment.course.title }}</h4>
+                                    <h4>{{ courseInProgress['course'].title }}</h4>
                                     
                                 </div>
-                            </div>
+                            </a>
 
                             <div class="progressinfo">
-                                <p class="module-reached">Module Learn js</p>
-                                <p>{{ enrollment.course.title }}</p>
-                                <p class="progress-value"><span>90%</span> of course completed</p>
+                                <p class="module-reached">{{ courseInProgress['stoppedModule'] }}</p>
+                                <p>{{ courseInProgress['stoppedLesson'] }}</p>
+                                <p class="progress-value"><span>{{ courseInProgress['totalProgress'] }}%</span> of course completed</p>
                             </div>
                         </li>
                         {% endfor %}
@@ -105,21 +105,14 @@ crossorigin="anonymous"></script>
                 <div class="completed-courses">
                     <h3>Completed Courses</h3>
                     <ul>
+                        {% for completedCourse in completedCourses  %}
                         <li>
                             <i class="fa-solid fa-crown"></i>
-                            <h4>Learn Javascript</h4>
-                            <p><span>209 Lessons</span> |<span>10 hours</span> |<span>5555 Students</span><progress  value="100" max="100"> 100% </progress>100%</p>
+                            <h4>{{ completedCourse.title }}</h4>
+                            <p><span>{{ completedCourse.nbrLessons }} Lessons</span> |<span>10 hours</span> <progress  value="100" max="100"> 100% </progress>100%</p>
                         </li>
-                        <li>
-                            <i class="fa-solid fa-crown"></i>
-                            <h4>Learn Javascript</h4>
-                            <p><span>209 Lessons</span> |<span>10 hours</span> |<span>5555 Students</span><progress  value="100" max="100"> 100% </progress>100%</p>
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-crown"></i>
-                            <h4>Learn Javascript</h4>
-                            <p><span>209 Lessons</span> |<span>10 hours</span> |<span>5555 Students</span> <progress  value="100" max="100"> 100% </progress>100%</p>
-                        </li>
+                        {% endfor %}
+                       
                     </ul>
                 </div>
 
