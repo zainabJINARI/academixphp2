@@ -360,7 +360,7 @@ class CourseController extends AbstractController
         $lesson = $entityManager->getRepository(Lesson::class)->findOneBy(['order' => $order , 'idModule'=>$module]);
 
         if (!$lesson) {
-            throw $this->createNotFoundException('The lesson does not exist');
+            return $this->redirectToRoute('course_details', ['id' => $course]);
         }
 
         $user = $this->security->getUser();
@@ -482,7 +482,7 @@ class CourseController extends AbstractController
 
        
 
-        return $this->redirectToRoute('lesson_details', ['order' => $lessonProgress->getLesson()->getOrder(), 'course'=>$courseId , 'module'=>$moduleProgress->getModule()->getOrder()]);
+        return $this->redirectToRoute('lesson_details', ['order' => $lessonProgress->getLesson()->getOrder(), 'course'=>$courseId , 'module'=>$moduleProgress->getModule()->getId()]);
         
         
     }
