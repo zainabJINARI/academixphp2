@@ -352,6 +352,8 @@ class CourseController extends AbstractController
         return $this->json(['message' => 'Please enroll first'], 403);
     }
 
+
+
     #[Route('/courses/{course}/module/{module}/lessons/{order}/next', name: 'next_lesson')]
     public function nextLesson(int $course , int $module , int $order, EntityManagerInterface $entityManager): Response{
         
@@ -370,13 +372,18 @@ class CourseController extends AbstractController
             if ($enrollment) {
                 $progressLesson = $entityManager->getRepository(LessonProgress::class)->findOneBy(['lesson' => $lesson,'student'=>$student]);
                 $progressLesson->setCompleted(true);
-                $progressLesson->getModuleProgress()->setCompletedLessons($progressLesson->getModuleProgress()->getCompletedLessons()+1);
+                if($progressLesson->getModuleProgress()->getCompletedLessons() < $progressLesson->getModuleProgress()->getTotalLessons() ){
+                    $progressLesson->getModuleProgress()->setCompletedLessons($progressLesson->getModuleProgress()->getCompletedLessons()+1);
+                }
                 
 
                 if( $progressLesson->getModuleProgress()->getCompletedLessons()== $progressLesson->getModuleProgress()->getTotalLessons()){
+
                     $progressLesson->getModuleProgress()->setCompleted(true);
                     $courseProgress=  $progressLesson->getModuleProgress()->getCourseProgress();
-                    $courseProgress->setCompletedModules($courseProgress->getCompletedModules()+1); 
+                    if($courseProgress->getCompletedModules()< $courseProgress->getTotalModules()){
+                        $courseProgress->setCompletedModules($courseProgress->getCompletedModules()+1); 
+                    }
                     $entityManager->persist($courseProgress);
                     $entityManager->flush();
 
@@ -442,7 +449,7 @@ class CourseController extends AbstractController
         
 
         $courseProgress = $courseProgressRepository->findOneBy([
-            'id' => $courseId, 
+            'course' => $courseId, 
             'student' => $student
         ]);
 
@@ -451,17 +458,18 @@ class CourseController extends AbstractController
             return new JsonResponse(['error' => 'Course progress not found'], Response::HTTP_NOT_FOUND);
         }
     
+       
         $moduleProgress = $moduleProgressRepository->findOneBy([
             'courseProgress' => $courseProgress ,
             'student' => $student,
             'completed' => false
-        ], ['id' => 'ASC']);
+        ], ['module' => 'ASC']);
     
         if (!$moduleProgress) {
             return new JsonResponse(['error' => 'Module progress not found'], Response::HTTP_NOT_FOUND);
         }
 
-
+        
         $lessonProgress = $lessonProgressRepository->findOneBy([
             'moduleProgress' => $moduleProgress,
             'student' => $student,
@@ -471,10 +479,10 @@ class CourseController extends AbstractController
         if (!$lessonProgress) {
             return new JsonResponse(['error' => 'Lesson progress not found'], Response::HTTP_NOT_FOUND);
         }
-    
-        return new Response($lessonProgress->getId());
 
-        // return $this->redirectToRoute('lesson_details', ['order' => $lessonProgress->getId() , 'course'=>$courseId , 'module'=>$moduleProgress->getId()]);
+       
+
+        return $this->redirectToRoute('lesson_details', ['order' => $lessonProgress->getLesson()->getOrder(), 'course'=>$courseId , 'module'=>$moduleProgress->getModule()->getOrder()]);
         
         
     }
