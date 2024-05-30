@@ -1,0 +1,57 @@
+{% block head %}
+    <link rel="stylesheet" href="{{ asset('css/certificate.css') }}" />
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}
+
+{% block body %}
+<div class="certificate" id="certificate">
+  <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo-title">
+  <div class="name"> {{ student }} <br><small class="small">{{ date }}</small></div>
+  <div class="description">
+      The course was successfully completed :<br>
+      <strong class="strong"> {{ course }} !</strong>
+  </div>
+</div>
+<button id="downloadButton" class="move">Télécharger le certificat</button>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    html2canvas(document.getElementById('certificate'))
+    .then(function(canvas) {
+        var myImage = canvas.toDataURL("image/png");
+
+        // Créer un nouvel objet FormData
+        var formData = new FormData();
+        // Ajouter l'image encodée base64 au FormData avec le nom de champ "certificate"
+        formData.append('certificate', myImage);
+
+        // Envoi de la requête POST avec les données du formulaire
+        return fetch('/generate-pdf', {
+            method: 'POST',
+            body: formData
+        });
+    })
+    .then(function(response) {
+        // Vérifier si la réponse est OK
+        if (!response.ok) {
+            throw new Error('Une erreur est survenue lors de la génération du PDF');
+        }
+        // Retourner le contenu de la réponse en tant que blob
+        return response.blob();
+    })
+    .then(function(blob) {
+        // Créer un lien pour télécharger le fichier PDF
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'certificat.pdf';
+        // Cliquez sur le lien pour déclencher le téléchargement
+        link.click();
+    })
+    .catch(function(error) {
+        console.log('Erreur lors du téléchargement du PDF:', error);
+    });
+});
+
+
+</script>
+{% endblock %}

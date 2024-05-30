@@ -26,7 +26,7 @@
         {% set isEnrolled = studentEnrollment is not null %}
         {% if isEnrolled %}
         {% if isCourseCompleted %}
-        <a href="#" class="btn btn-success">Claim Your Certificate</a>
+        <a href="/get-certificat/{{course.id}}" class="btn btn-success">Claim Your Certificate</a>
         {% else %}
         <a href="/where-to-go/{{course.id}}"  id="where-to-go"  class="btn btn-primary" >Continue Progress</a>
         <p>Leaving course? <span>Unenroll</span></p>

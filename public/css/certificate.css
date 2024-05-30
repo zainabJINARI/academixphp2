@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.certificate {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 800px; /* Increase the width */
+    height: 600px;
+    padding: 20px; /* Increase the padding */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    background: url('image4.png') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;   
+    
+}
+.certificate::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('logo.png') no-repeat center center / contain; 
+    opacity: 0.1; 
+    border-radius: 10px;
+}
+.logo-title {
+    width: 200px;
+    margin-bottom: 20px; 
+}
+.name {
+    font-size: 35px; 
+    margin: 20px 0;
+    font-style: bold;
+}
+.name small{
+    color: #BB84E8;
+    font-size: 20px; 
+} 
+.description {
+    font-size: 20px; 
+    margin: 20px 0;
+}
+.description strong{
+    color: #BB84E8;
+    font-size: 30px; 
+}
+.signature {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: left;
+}
+.signature div {
+    text-align: left;
+
+}
+.signature img {
+    height: 50px;
+    opacity: 0.5;
+}
+.move {
+    background-color: #BB84E8; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block; /* Change from inline-block to block */
+    margin: 20px auto; /* Centers the button horizontally */
+    font-size: 16px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.move:hover {
+    background-color: white;
+    color: black;
+    border: 2px solid #BB84E8;
+}
