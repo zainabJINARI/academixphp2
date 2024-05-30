@@ -11,6 +11,7 @@ use App\Repository\CourseProgressRepository ;
 use App\Repository\ModuleProgressRepository ;
 use App\Repository\LessonProgressRepository ;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Certificat ;
 
 use App\Entity\Course;
 use App\Entity\User;
@@ -407,7 +408,8 @@ class CourseController extends AbstractController
                         $entityManager->persist($courseProgress);
                         $entityManager->persist($progressLesson->getModuleProgress());
                         $entityManager->flush();
-                        return new Response('Bravo Hanane hhh');
+                        return $this->redirectToRoute('course_details', ['id' =>$course] );
+                        
                     }else {
                        
                         $entityManager->persist($progressLesson);
